@@ -92,10 +92,6 @@
 {
     [super viewDidLoad];
     
-    UIImageView *shadowImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"leftside_shadow_bg"]];
-    shadowImageView.frame = CGRectMake(-10, 0, 10, self.view.frame.size.height);
-    [self.view addSubview:shadowImageView];
-    
     UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(paningGestureReceive:)];
     [recognizer setDelegate:self];
     [recognizer delaysTouchesBegan];
