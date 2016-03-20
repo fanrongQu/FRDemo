@@ -8,8 +8,11 @@
 #import <UIKit/UIKit.h>
 
 @interface FRNavigationController : UINavigationController
+{
+    CGFloat startBackViewX;
+}
 
-
-
+// 默认为特效开启
+@property (nonatomic, assign) BOOL canDragBack;
 
 @end

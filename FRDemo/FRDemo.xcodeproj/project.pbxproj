@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BCED04E1C9E7A14002946BB /* FRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCED04D1C9E7A14002946BB /* FRNavigationController.m */; };
 		3BFF4B891C99288800B4E4F7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4B881C99288800B4E4F7 /* main.m */; };
 		3BFF4B8C1C99288800B4E4F7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4B8B1C99288800B4E4F7 /* AppDelegate.m */; };
 		3BFF4B8F1C99288800B4E4F7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4B8E1C99288800B4E4F7 /* ViewController.m */; };
@@ -22,7 +23,6 @@
 		3BFF4BD81C9928B500B4E4F7 /* NSString+FR.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BC31C9928B500B4E4F7 /* NSString+FR.m */; };
 		3BFF4BD91C9928B500B4E4F7 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BC51C9928B500B4E4F7 /* UIImage+Extension.m */; };
 		3BFF4BDA1C9928B500B4E4F7 /* UIBarButtonItem+FR.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BC91C9928B500B4E4F7 /* UIBarButtonItem+FR.m */; };
-		3BFF4BDB1C9928B500B4E4F7 /* FRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BCB1C9928B500B4E4F7 /* FRNavigationController.m */; };
 		3BFF4BDC1C9928B500B4E4F7 /* navigationbar_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF4BCC1C9928B500B4E4F7 /* navigationbar_back@2x.png */; };
 		3BFF4BDD1C9928B500B4E4F7 /* FRFormData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BCF1C9928B500B4E4F7 /* FRFormData.m */; };
 		3BFF4BDE1C9928B500B4E4F7 /* FRNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BD11C9928B500B4E4F7 /* FRNetworking.m */; };
@@ -47,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3BCED04C1C9E7A14002946BB /* FRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNavigationController.h; sourceTree = "<group>"; };
+		3BCED04D1C9E7A14002946BB /* FRNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNavigationController.m; sourceTree = "<group>"; };
 		3BFF4B841C99288800B4E4F7 /* FRDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BFF4B881C99288800B4E4F7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3BFF4B8A1C99288800B4E4F7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -75,8 +77,6 @@
 		3BFF4BC51C9928B500B4E4F7 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
 		3BFF4BC81C9928B500B4E4F7 /* UIBarButtonItem+FR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+FR.h"; sourceTree = "<group>"; };
 		3BFF4BC91C9928B500B4E4F7 /* UIBarButtonItem+FR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+FR.m"; sourceTree = "<group>"; };
-		3BFF4BCA1C9928B500B4E4F7 /* FRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNavigationController.h; sourceTree = "<group>"; };
-		3BFF4BCB1C9928B500B4E4F7 /* FRNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNavigationController.m; sourceTree = "<group>"; };
 		3BFF4BCC1C9928B500B4E4F7 /* navigationbar_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigationbar_back@2x.png"; sourceTree = "<group>"; };
 		3BFF4BCE1C9928B500B4E4F7 /* FRFormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRFormData.h; sourceTree = "<group>"; };
 		3BFF4BCF1C9928B500B4E4F7 /* FRFormData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRFormData.m; sourceTree = "<group>"; };
@@ -221,8 +221,8 @@
 			isa = PBXGroup;
 			children = (
 				3BFF4BC71C9928B500B4E4F7 /* Category */,
-				3BFF4BCA1C9928B500B4E4F7 /* FRNavigationController.h */,
-				3BFF4BCB1C9928B500B4E4F7 /* FRNavigationController.m */,
+				3BCED04C1C9E7A14002946BB /* FRNavigationController.h */,
+				3BCED04D1C9E7A14002946BB /* FRNavigationController.m */,
 				3BFF4BCC1C9928B500B4E4F7 /* navigationbar_back@2x.png */,
 			);
 			path = FRNavigationController;
@@ -442,7 +442,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BFF4BDE1C9928B500B4E4F7 /* FRNetworking.m in Sources */,
-				3BFF4BDB1C9928B500B4E4F7 /* FRNavigationController.m in Sources */,
 				3BFF4BDA1C9928B500B4E4F7 /* UIBarButtonItem+FR.m in Sources */,
 				3BFF4B8F1C99288800B4E4F7 /* ViewController.m in Sources */,
 				3BFF4BD91C9928B500B4E4F7 /* UIImage+Extension.m in Sources */,
@@ -451,6 +450,7 @@
 				3BFF4BD51C9928B500B4E4F7 /* MBProgressHUD+FR.m in Sources */,
 				3BFF4B8C1C99288800B4E4F7 /* AppDelegate.m in Sources */,
 				3BFF4BD71C9928B500B4E4F7 /* NSDate+FR.m in Sources */,
+				3BCED04E1C9E7A14002946BB /* FRNavigationController.m in Sources */,
 				3BFF4B891C99288800B4E4F7 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
