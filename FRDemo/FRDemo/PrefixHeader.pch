@@ -36,22 +36,29 @@
 #import "SettingMacro.h"
 
 
-#import <AFNetworking.h>        //Github排名第一的第三方网络请求类库，封装了系统的NSURLSession+NSOperation
+#import "AFNetworking.h"        //Github排名第一的第三方网络请求类库，封装了系统的NSURLSession+NSOperation
 
-#import <UIKit+AFNetworking.h>      //对UIKit类添加类拓展，让诸如UIButton, UIImageView等拥有了网络加载图片的功能
+#import "UIKit+AFNetworking.h"      //对UIKit类添加类拓展，让诸如UIButton, UIImageView等拥有了网络加载图片的功能
 
-/* 改变系统的target+selector模式为 block模式。 带来紧凑的代码风格，高效率的回调执行 */
-#import <BlocksKit.h>
-#import <BlocksKit+MessageUI.h>
-#import <BlocksKit+UIKit.h>
+/**
+ *  Github开源的一个应用于iOS和OS开发的响应式编程、函数式编程框架，简称RAC
+ *
+ *  常见用法：代替代理、代替KVO、代替通知、监听事件、监听文本框文字变化、处理当界面有多次请求时，需要都获取到数据时，才能展示界面等
+ *
+ *  参考技术博客： http://www.jianshu.com/p/87ef6720a096
+ *               http://www.jianshu.com/p/e10e5ca413b7
+ *               http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part1
+ *               http://www.jianshu.com/p/4b99ddce3bae
+ */
+#import "ReactiveCocoa.h"
 /* --------------------------- */
 
-#import <MJRefresh.h>    //优秀的滚动视图头部和脚步刷新效果
-#import <MJExtension.h>     //优秀的Json解析类库
+#import "MJRefresh.h"    //优秀的滚动视图头部和脚步刷新效果
+#import "MJExtension.h"     //优秀的Json解析类库
 
 #import <FMDB/FMDB.h>       //第三方对数据库的操作类库，是对系统Sqlite3的封装。 使用SQL语句操作数据库
 
-#import <CocoaLumberjack.h> //优秀的替换NSLog的第三方，更加省资源，并且可以定义打印级别
+#import "CocoaLumberjack.h" //优秀的替换NSLog的第三方，更加省资源，并且可以定义打印级别
 #ifdef DEBUG
 static const int ddLogLevel = DDLogLevelVerbose;
 #else
@@ -62,25 +69,25 @@ static const int ddLogLevel = DDLogLevelError;
 #import "GCDAsyncUdpSocket.h" // for UDP
 //#import <CocoaAsyncSocket.h>  //第三方socket通讯类库， 对系统CFNetwork类库进行了封装
 
-#import <MBProgressHUD.h>       //实现安卓toast风格提示，弹出提示框架
+#import "MBProgressHUD.h"       //实现安卓toast风格提示，弹出提示框架
 
 //#import <SVProgressHUD.h>     //与MBProgressHUD功能相似，虽然Github排名靠前，但是个人偏爱上者
 //#import <UIImageView+WebCache.h>  //让UIKit框架拥有网络功能，功能与UIKit+AFNetwork一致，效率快0.02秒(据说)。 个人喜欢用AF提供的
 
-#import <Masonry.h>         //超好用的链式书写AutoLayout的第三方类库，好用的根本停不下来
+#import "Masonry.h"         //超好用的链式书写AutoLayout的第三方类库，好用的根本停不下来
 
-#import <FBShimmeringView.h>        //漂亮的闪光效果
-#import <FBShimmeringLayer.h>       //漂亮的闪光效果
+#import "FBShimmeringView.h"        //漂亮的闪光效果
+#import "FBShimmeringLayer.h"       //漂亮的闪光效果
 
 //#import <AsyncDisplayKit/AsyncDisplayKit.h> //能够提高UI的流畅性并缩短响应时间, 线程安全，能够把UI的耗时操作放到非主线程执行
 
-#import <FlatUIKit.h>               //扁平化风格
+#import "FlatUIKit.h"               //扁平化风格
 
-#import <RESideMenu.h>          //QQ的左侧菜单风格
+#import "RESideMenu.h"          //QQ的左侧菜单风格
 
-#import <SWTableViewCell.h>     //Cell滑动，出现多个功能按钮
+#import "SWTableViewCell.h"     //Cell滑动，出现多个功能按钮
 
-#import <MWPhotoBrowser.h>      //图片浏览器
+#import "MWPhotoBrowser.h"      //图片浏览器
 
 
 #endif /* PrefixHeader_pch */

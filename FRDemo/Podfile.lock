@@ -20,21 +20,6 @@ PODS:
   - AsyncDisplayKit/PINRemoteImage (1.9.7):
     - AsyncDisplayKit/ASDealloc2MainObject
     - PINRemoteImage/iOS (>= 2)
-  - BlocksKit (2.2.5):
-    - BlocksKit/All (= 2.2.5)
-  - BlocksKit/All (2.2.5):
-    - BlocksKit/Core
-    - BlocksKit/DynamicDelegate
-    - BlocksKit/MessageUI
-    - BlocksKit/UIKit
-  - BlocksKit/Core (2.2.5)
-  - BlocksKit/DynamicDelegate (2.2.5)
-  - BlocksKit/MessageUI (2.2.5):
-    - BlocksKit/Core
-    - BlocksKit/DynamicDelegate
-  - BlocksKit/UIKit (2.2.5):
-    - BlocksKit/Core
-    - BlocksKit/DynamicDelegate
   - CocoaAsyncSocket (7.4.3):
     - CocoaAsyncSocket/All (= 7.4.3)
   - CocoaAsyncSocket/All (7.4.3):
@@ -69,7 +54,19 @@ PODS:
     - PINCache (>= 2.1)
   - PINRemoteImage/iOS (2.1):
     - PINRemoteImage/Core
+  - ReactiveCocoa (4.1.0):
+    - ReactiveCocoa/UI (= 4.1.0)
+    - Result (~> 2.0)
+  - ReactiveCocoa/Core (4.1.0):
+    - ReactiveCocoa/no-arc
+    - Result (~> 2.0)
+  - ReactiveCocoa/no-arc (4.1.0):
+    - Result (~> 2.0)
+  - ReactiveCocoa/UI (4.1.0):
+    - ReactiveCocoa/Core
+    - Result (~> 2.0)
   - RESideMenu (4.0.7)
+  - Result (2.0.0)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -82,7 +79,6 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.0.0)
   - AsyncDisplayKit
-  - BlocksKit
   - CocoaAsyncSocket
   - CocoaLumberjack
   - FlatUIKit
@@ -93,6 +89,7 @@ DEPENDENCIES:
   - MJRefresh
   - MLTransition
   - MWPhotoBrowser
+  - ReactiveCocoa (~> 4.1.0)
   - RESideMenu
   - SDWebImage
   - Shimmer
@@ -104,7 +101,6 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   AsyncDisplayKit: eb762d3bfd3896b2901909ebc24b54c97f32d43c
-  BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
@@ -118,7 +114,9 @@ SPEC CHECKSUMS:
   MWPhotoBrowser: ba0d0c09ffda3a7ea10093518738c502c1c7141c
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: e8367ac3f5c234712f1d8c274462ec834d649940
+  ReactiveCocoa: d70004d7a366a7b8e87e60ce2347182c77701949
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
+  Result: 9e75e1111c774c6ac594e14907b15057053a7959
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
@@ -126,4 +124,6 @@ SPEC CHECKSUMS:
   TPKeyboardAvoiding: e5ce146b313de063957bfa75a13f1e9b0ff18ab7
   WMPageController: 3b6d2aa2ddcd53f2cbc2319f2473f27b4ea4fe89
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 7827a51bdc57faab89979a55fedea7807c4750c8
+
+COCOAPODS: 1.0.1
