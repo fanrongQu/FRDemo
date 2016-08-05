@@ -7,14 +7,18 @@
 //
 
 #import "FRNetworking.h"
-#import <AFNetworking.h>
+#import "AFNetworking.h"
 
 
 static AFHTTPSessionManager *manager = nil;
 
 @implementation FRNetworking
 
-
+/**
+ *  创建一个AFHTTPSessionManager网络请求管理者
+ *
+ *  @return AFHTTPSessionManager对象
+ */
 + (AFHTTPSessionManager *)shareSessionManager{
 
     static dispatch_once_t onceToken;
@@ -27,6 +31,21 @@ static AFHTTPSessionManager *manager = nil;
     return manager;
 }
 
+
+#pragma mark - 判断网络状态
++ (void)networkReachability:(void (^)(AFNetworkReachabilityStatus status))block {
+    // 检测网络状态
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        if (block) {
+            block(status);
+        }
+    }];
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+}
+
+
+
+#pragma mark - GET异步请求网络数据
 /**
  Creates and runs an `NSURLSessionDataTask` with a `GET` request.
  
@@ -43,24 +62,41 @@ static AFHTTPSessionManager *manager = nil;
                 progress:(void (^)(NSProgress *downloadProgress)) progress
                  success:(void (^)(id responseObject))success
                  failure:(void (^)(NSError *error))failure{
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/json",nil];
-    [manager GET:URLString parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    NSString *url = [URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"url = %@ \n\nparameters = %@",url,parameters);
+    [[self shareSessionManager] GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         if (progress) {
             progress(downloadProgress);
         }
     }  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(responseObject);
-        }
+            NSLog(@"responseObject = %@",responseObject);        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+            NSLog(@"error = %@",error);
+        }
+    }];
+}
+
++ (void)getWithURLString:(NSString *)URLString
+              parameters:(NSDictionary *)parameters
+                 success:(void (^)(id responseObject))success
+                 failure:(void (^)(NSError *error))failure {
+    [self getWithURLString:URLString parameters:parameters progress:^(NSProgress *downloadProgress) {
+    } success:^(id responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSError *error) {
         if (failure) {
             failure(error);
         }
     }];
 }
 
+#pragma mark - POST异步请求网络数据
 /**
  Creates and runs an `NSURLSessionDataTask` with a `POST` request.
  
@@ -78,7 +114,9 @@ static AFHTTPSessionManager *manager = nil;
                  success:(void (^)(id responseObject))success
                  failure:(void (^)(NSError *error))failure{
     
-    [[self shareSessionManager] POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSString *url = [URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"url = %@ \n\nparameters = %@",url,parameters);
+    [[self shareSessionManager] POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         if (progress) {
             progress(uploadProgress);
         }
@@ -94,6 +132,24 @@ static AFHTTPSessionManager *manager = nil;
 }
 
 
++ (void)postWithURLString:(NSString *)URLString
+               parameters:(NSDictionary *)parameters
+                  success:(void (^)(id responseObject))success
+                  failure:(void (^)(NSError *error))failure {
+    [self postWithURLString:URLString parameters:parameters progress:^(NSProgress *downloadProgress) {
+        
+    } success:^(id responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
+#pragma mark - POST异步上传网络数据
 /**
  Creates and runs an `NSURLSessionDataTask` with a multipart `POST` request.
  
@@ -108,13 +164,15 @@ static AFHTTPSessionManager *manager = nil;
  */
 + (void)postWithURLString:(NSString *)URLString
                parameters:(NSDictionary *)parameters
-constructingBodyWithBlock:(FRFormData *)frFormDate
+constructingBodyWithBlock:(FRFormData *)formDate
                  progress:(void (^)(NSProgress *downloadProgress)) progress
                   success:(void (^)(id responseObject))success
                   failure:(void (^)(NSError *error))failure{
-   
-    [[self shareSessionManager] POST:URLString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        [formData appendPartWithFileData:frFormDate.data name:frFormDate.name fileName:frFormDate.fileName mimeType:frFormDate.mimeType];
+    
+    NSString *url = [URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"url = %@ \n\nparameters = %@ \n\ndata = %@\n\nname = %@\n\nfileName = %@\n\nmimeType = %@",url,parameters,formDate.data,formDate.name,formDate.fileName,formDate.mimeType);
+    [[self shareSessionManager] POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        [formData appendPartWithFileData:formDate.data name:formDate.name fileName:formDate.fileName mimeType:formDate.mimeType];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         if (progress) {
             progress(uploadProgress);
@@ -129,6 +187,25 @@ constructingBodyWithBlock:(FRFormData *)frFormDate
         }
     }];
 }
+
++ (void)postWithURLString:(NSString *)URLString
+               parameters:(NSDictionary *)parameters
+constructingBodyWithBlock:(FRFormData *)frFormDate
+                  success:(void (^)(id responseObject))success
+                  failure:(void (^)(NSError *error))failure {
+    [self postWithURLString:URLString parameters:parameters constructingBodyWithBlock:frFormDate progress:^(NSProgress *downloadProgress) {
+        
+    } success:^(id responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
 
 @end
 
