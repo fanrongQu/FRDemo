@@ -15,9 +15,19 @@
 		3B6E99491D54384B0012BDF7 /* FRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E99401D54384B0012BDF7 /* FRTabBar.m */; };
 		3B6E994A1D54384B0012BDF7 /* FRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E99421D54384B0012BDF7 /* FRTabBarController.m */; };
 		3B6E994B1D54384B0012BDF7 /* FRTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E99441D54384B0012BDF7 /* FRTabBarItem.m */; };
+		3BB4F1671D5C7F740066AE69 /* AllianceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB4F1611D5C7F740066AE69 /* AllianceViewController.m */; };
+		3BB4F1681D5C7F740066AE69 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB4F1631D5C7F740066AE69 /* SearchViewController.m */; };
+		3BB4F1691D5C7F740066AE69 /* PositionBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB4F1661D5C7F740066AE69 /* PositionBtn.m */; };
+		3BB4F16C1D5C806D0066AE69 /* FRPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB4F16B1D5C806D0066AE69 /* FRPlist.m */; };
+		3BB4F16F1D5C81120066AE69 /* 搜索@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB4F16D1D5C81120066AE69 /* 搜索@2x.png */; };
+		3BB4F1701D5C81120066AE69 /* 下拉箭头@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB4F16E1D5C81120066AE69 /* 下拉箭头@2x.png */; };
+		3BCA98D41D54A8F70081F484 /* AppDelegate+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCA98CF1D54A8F70081F484 /* AppDelegate+Category.m */; };
+		3BCA98D51D54A8F70081F484 /* NSData+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCA98D11D54A8F70081F484 /* NSData+Category.m */; };
+		3BCA98D61D54A8F70081F484 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCA98D31D54A8F70081F484 /* UIView+Frame.m */; };
+		3BCA98E01D54AC210081F484 /* PersonalIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCA98DD1D54AC210081F484 /* PersonalIconViewController.m */; };
+		3BCA98E11D54AC210081F484 /* RootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCA98DF1D54AC210081F484 /* RootTableViewController.m */; };
 		3BFF4B891C99288800B4E4F7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4B881C99288800B4E4F7 /* main.m */; };
 		3BFF4B8C1C99288800B4E4F7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4B8B1C99288800B4E4F7 /* AppDelegate.m */; };
-		3BFF4B8F1C99288800B4E4F7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4B8E1C99288800B4E4F7 /* ViewController.m */; };
 		3BFF4B921C99288800B4E4F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF4B901C99288800B4E4F7 /* Main.storyboard */; };
 		3BFF4B941C99288800B4E4F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF4B931C99288800B4E4F7 /* Assets.xcassets */; };
 		3BFF4B971C99288800B4E4F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF4B951C99288800B4E4F7 /* LaunchScreen.storyboard */; };
@@ -68,12 +78,30 @@
 		3B6E99421D54384B0012BDF7 /* FRTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTabBarController.m; sourceTree = "<group>"; };
 		3B6E99431D54384B0012BDF7 /* FRTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRTabBarItem.h; sourceTree = "<group>"; };
 		3B6E99441D54384B0012BDF7 /* FRTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTabBarItem.m; sourceTree = "<group>"; };
+		3BB4F1601D5C7F740066AE69 /* AllianceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllianceViewController.h; sourceTree = "<group>"; };
+		3BB4F1611D5C7F740066AE69 /* AllianceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllianceViewController.m; sourceTree = "<group>"; };
+		3BB4F1621D5C7F740066AE69 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		3BB4F1631D5C7F740066AE69 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		3BB4F1651D5C7F740066AE69 /* PositionBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionBtn.h; sourceTree = "<group>"; };
+		3BB4F1661D5C7F740066AE69 /* PositionBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PositionBtn.m; sourceTree = "<group>"; };
+		3BB4F16A1D5C806D0066AE69 /* FRPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRPlist.h; sourceTree = "<group>"; };
+		3BB4F16B1D5C806D0066AE69 /* FRPlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRPlist.m; sourceTree = "<group>"; };
+		3BB4F16D1D5C81120066AE69 /* 搜索@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "搜索@2x.png"; sourceTree = "<group>"; };
+		3BB4F16E1D5C81120066AE69 /* 下拉箭头@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "下拉箭头@2x.png"; sourceTree = "<group>"; };
+		3BCA98CE1D54A8F70081F484 /* AppDelegate+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+Category.h"; sourceTree = "<group>"; };
+		3BCA98CF1D54A8F70081F484 /* AppDelegate+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+Category.m"; sourceTree = "<group>"; };
+		3BCA98D01D54A8F70081F484 /* NSData+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Category.h"; sourceTree = "<group>"; };
+		3BCA98D11D54A8F70081F484 /* NSData+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Category.m"; sourceTree = "<group>"; };
+		3BCA98D21D54A8F70081F484 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
+		3BCA98D31D54A8F70081F484 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		3BCA98DC1D54AC210081F484 /* PersonalIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalIconViewController.h; sourceTree = "<group>"; };
+		3BCA98DD1D54AC210081F484 /* PersonalIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalIconViewController.m; sourceTree = "<group>"; };
+		3BCA98DE1D54AC210081F484 /* RootTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootTableViewController.h; sourceTree = "<group>"; };
+		3BCA98DF1D54AC210081F484 /* RootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTableViewController.m; sourceTree = "<group>"; };
 		3BFF4B841C99288800B4E4F7 /* FRDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BFF4B881C99288800B4E4F7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3BFF4B8A1C99288800B4E4F7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3BFF4B8B1C99288800B4E4F7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		3BFF4B8D1C99288800B4E4F7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		3BFF4B8E1C99288800B4E4F7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		3BFF4B911C99288800B4E4F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3BFF4B931C99288800B4E4F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BFF4B961C99288800B4E4F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -157,6 +185,59 @@
 			path = FRTabBarController;
 			sourceTree = "<group>";
 		};
+		3BB4F15E1D5C7F480066AE69 /* SearchView(搜索) */ = {
+			isa = PBXGroup;
+			children = (
+				3BB4F15F1D5C7F740066AE69 /* Controller */,
+				3BB4F1641D5C7F740066AE69 /* View */,
+			);
+			path = "SearchView(搜索)";
+			sourceTree = "<group>";
+		};
+		3BB4F15F1D5C7F740066AE69 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3BB4F16D1D5C81120066AE69 /* 搜索@2x.png */,
+				3BB4F16E1D5C81120066AE69 /* 下拉箭头@2x.png */,
+				3BB4F1601D5C7F740066AE69 /* AllianceViewController.h */,
+				3BB4F1611D5C7F740066AE69 /* AllianceViewController.m */,
+				3BB4F1621D5C7F740066AE69 /* SearchViewController.h */,
+				3BB4F1631D5C7F740066AE69 /* SearchViewController.m */,
+				3BB4F16A1D5C806D0066AE69 /* FRPlist.h */,
+				3BB4F16B1D5C806D0066AE69 /* FRPlist.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3BB4F1641D5C7F740066AE69 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3BB4F1651D5C7F740066AE69 /* PositionBtn.h */,
+				3BB4F1661D5C7F740066AE69 /* PositionBtn.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3BCA98DA1D54AC210081F484 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				3BB4F15E1D5C7F480066AE69 /* SearchView(搜索) */,
+				3BCA98DB1D54AC210081F484 /* PostImage(上传头像) */,
+				3BCA98DE1D54AC210081F484 /* RootTableViewController.h */,
+				3BCA98DF1D54AC210081F484 /* RootTableViewController.m */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
+		3BCA98DB1D54AC210081F484 /* PostImage(上传头像) */ = {
+			isa = PBXGroup;
+			children = (
+				3BCA98DC1D54AC210081F484 /* PersonalIconViewController.h */,
+				3BCA98DD1D54AC210081F484 /* PersonalIconViewController.m */,
+			);
+			path = "PostImage(上传头像)";
+			sourceTree = "<group>";
+		};
 		3BFF4B7B1C99288800B4E4F7 = {
 			isa = PBXGroup;
 			children = (
@@ -188,8 +269,7 @@
 				3BFF4BCD1C9928B500B4E4F7 /* FRNetworking */,
 				3BFF4B8A1C99288800B4E4F7 /* AppDelegate.h */,
 				3BFF4B8B1C99288800B4E4F7 /* AppDelegate.m */,
-				3BFF4B8D1C99288800B4E4F7 /* ViewController.h */,
-				3BFF4B8E1C99288800B4E4F7 /* ViewController.m */,
+				3BCA98DA1D54AC210081F484 /* Class */,
 				3BFF4B901C99288800B4E4F7 /* Main.storyboard */,
 				3BFF4B931C99288800B4E4F7 /* Assets.xcassets */,
 				3BFF4BD21C9928B500B4E4F7 /* PrefixHeader.pch */,
@@ -235,6 +315,12 @@
 				3B6E99341D54378F0012BDF7 /* UIBarButtonItem+FR.m */,
 				3BFF4BC01C9928B500B4E4F7 /* NSDate+FR.h */,
 				3BFF4BC11C9928B500B4E4F7 /* NSDate+FR.m */,
+				3BCA98CE1D54A8F70081F484 /* AppDelegate+Category.h */,
+				3BCA98CF1D54A8F70081F484 /* AppDelegate+Category.m */,
+				3BCA98D01D54A8F70081F484 /* NSData+Category.h */,
+				3BCA98D11D54A8F70081F484 /* NSData+Category.m */,
+				3BCA98D21D54A8F70081F484 /* UIView+Frame.h */,
+				3BCA98D31D54A8F70081F484 /* UIView+Frame.m */,
 				3BFF4BC21C9928B500B4E4F7 /* NSString+FR.h */,
 				3BFF4BC31C9928B500B4E4F7 /* NSString+FR.m */,
 				3BFF4BC41C9928B500B4E4F7 /* UIImage+Extension.h */,
@@ -391,7 +477,9 @@
 				3BFF4B971C99288800B4E4F7 /* LaunchScreen.storyboard in Resources */,
 				3B6E99461D54384B0012BDF7 /* navigationbar_back@2x.png in Resources */,
 				3BFF4B941C99288800B4E4F7 /* Assets.xcassets in Resources */,
+				3BB4F16F1D5C81120066AE69 /* 搜索@2x.png in Resources */,
 				3BFF4BD61C9928B500B4E4F7 /* success@2x.png in Resources */,
+				3BB4F1701D5C81120066AE69 /* 下拉箭头@2x.png in Resources */,
 				3BFF4B921C99288800B4E4F7 /* Main.storyboard in Resources */,
 				3BFF4BD41C9928B500B4E4F7 /* error@2x.png in Resources */,
 			);
@@ -466,22 +554,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BCA98D51D54A8F70081F484 /* NSData+Category.m in Sources */,
 				3BFF4BDE1C9928B500B4E4F7 /* FRNetworking.m in Sources */,
-				3BFF4B8F1C99288800B4E4F7 /* ViewController.m in Sources */,
 				3BFF4BD91C9928B500B4E4F7 /* UIImage+Extension.m in Sources */,
 				3BFF4BD81C9928B500B4E4F7 /* NSString+FR.m in Sources */,
 				3BFF4BDD1C9928B500B4E4F7 /* FRFormData.m in Sources */,
 				3BFF4BD51C9928B500B4E4F7 /* MBProgressHUD+FR.m in Sources */,
+				3BB4F1671D5C7F740066AE69 /* AllianceViewController.m in Sources */,
 				3B6E994A1D54384B0012BDF7 /* FRTabBarController.m in Sources */,
+				3BB4F16C1D5C806D0066AE69 /* FRPlist.m in Sources */,
+				3BB4F1691D5C7F740066AE69 /* PositionBtn.m in Sources */,
+				3BB4F1681D5C7F740066AE69 /* SearchViewController.m in Sources */,
 				3B6E99471D54384B0012BDF7 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
+				3BCA98D41D54A8F70081F484 /* AppDelegate+Category.m in Sources */,
+				3BCA98D61D54A8F70081F484 /* UIView+Frame.m in Sources */,
 				3BFF4B8C1C99288800B4E4F7 /* AppDelegate.m in Sources */,
 				3B6E99481D54384B0012BDF7 /* FRBadge.m in Sources */,
+				3BCA98E11D54AC210081F484 /* RootTableViewController.m in Sources */,
 				3BFF4BD71C9928B500B4E4F7 /* NSDate+FR.m in Sources */,
 				3B6E99351D54378F0012BDF7 /* UIBarButtonItem+FR.m in Sources */,
 				3B6E994B1D54384B0012BDF7 /* FRTabBarItem.m in Sources */,
 				3B6E99491D54384B0012BDF7 /* FRTabBar.m in Sources */,
 				3B6E99451D54384B0012BDF7 /* FRNavigationController.m in Sources */,
 				3BFF4B891C99288800B4E4F7 /* main.m in Sources */,
+				3BCA98E01D54AC210081F484 /* PersonalIconViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,7 +719,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREFIX_HEADER = FRDemo/PrefixHeader.pch;
 				INFOPLIST_FILE = FRDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sgxt.www.FRDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -637,7 +733,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREFIX_HEADER = FRDemo/PrefixHeader.pch;
 				INFOPLIST_FILE = FRDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sgxt.www.FRDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

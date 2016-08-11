@@ -23,13 +23,13 @@
 #endif
 /*Xcode7以下版本需要添加上方宏定义 支持AF*/
 
-//NSLog就只在Debug下有输出，Release下不输出了
+//处理系统NSLog: NSLog就只在Debug下有输出，Release下不输出了
 #ifdef DEBUG
 #define NSLog(...) NSLog(__VA_ARGS__)
-#define debugMethod() NSLog(@"%s", __func__)
+#define NSLog_func() NSLog(@"%s", __func__)
 #else
 #define NSLog(...)
-#define debugMethod()
+#define NSLog_func()
 #endif
 
 //全局设置宏定义
