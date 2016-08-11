@@ -137,6 +137,7 @@ static NSInteger const edgeDistance = 12;
     [_searchTextField resignFirstResponder];
     NSInteger tag = button.tag;
     NSLog(@"%@",self.hotWords[tag]);
+    [self settingPlistWithText:button.titleLabel.text];
 }
 
 /**
@@ -239,16 +240,21 @@ static NSInteger const edgeDistance = 12;
     [textField resignFirstResponder];
     NSString *text = textField.text;
     if (text.length > 0) {//搜索有内容，根据搜索内容进行操作(数据处理、页面跳转)
-        for (NSString *history in self.historys) {
-            if ([history isEqualToString:text]) return YES;
-        }
-        [self.historys addObject:text];
-        FRPlist *plist = [[FRPlist alloc]init];
-        [plist writeArray:self.historys toPlist:searchHistoryPlist];
-        
+        [self settingPlistWithText:text];
     }
     
     return YES;
+}
+
+
+
+- (void)settingPlistWithText:(NSString *)text {
+    for (NSString *history in self.historys) {
+        if ([history isEqualToString:text]) return;
+    }
+    [self.historys addObject:text];
+    FRPlist *plist = [[FRPlist alloc]init];
+    [plist writeArray:self.historys toPlist:searchHistoryPlist];
 }
 
 #pragma - mark 懒加载
