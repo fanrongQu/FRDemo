@@ -7,21 +7,16 @@
 //
 
 #import "AppDelegate+Category.h"
-#import "RootTableViewController.h"
-#import "FRNavigationController.h"
 
 @implementation AppDelegate (Category)
 
 
-- (void)setRootViewController {
+- (void)setRootViewController:(UIViewController *)controller {
     //设置window
     self.window = [[UIWindow alloc]initWithFrame:kScreenBounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    RootTableViewController *rootTableVC = [[RootTableViewController alloc]init];
-    FRNavigationController *nav = [[FRNavigationController alloc]initWithRootViewController:rootTableVC];
-    [self.window setRootViewController:nav];
-    
+    [self.window setRootViewController:controller];
     
     [self.window makeKeyAndVisible];
 }

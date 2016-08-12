@@ -13,6 +13,6 @@
 /**
  *  设置根控制器
  */
-- (void)setRootViewController;
+- (void)setRootViewController:(UIViewController *)controller;
 
 @end

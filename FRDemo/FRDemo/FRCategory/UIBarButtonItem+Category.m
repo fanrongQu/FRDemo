@@ -1,20 +1,18 @@
 //
-//  UIBarButtonItem+FR.m
-//  FRDemo
+//  UIBarButtonItem+Category.m
+//  FRCategory
 //
-//  Created by 1860 on 16/1/5.
-//  Copyright © 2016年 QuFanrong. All rights reserved.
+//  Created by 1860 on 16/8/12.
+//  Copyright © 2016年 FanrongQu. All rights reserved.
 //
 
-#import "UIBarButtonItem+FR.h"
+#import "UIBarButtonItem+Category.h"
 
-
-@implementation UIBarButtonItem (FR)
-
+@implementation UIBarButtonItem (Category)
 
 
 //快速创建一个显示图片的item
-+(UIBarButtonItem *)ItemWithIcon:(NSString *)icon highIcon:(NSString *)highIcon target:(id)target action:(SEL)action
++ (UIBarButtonItem *)ItemWithIcon:(NSString *)icon highIcon:(NSString *)highIcon target:(id)target action:(SEL)action
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setBackgroundImage:[UIImage imageNamed:icon] forState:UIControlStateNormal];
@@ -25,7 +23,7 @@
 }
 
 
-+(UIBarButtonItem *)ItemWithTitle:(NSString *)title target:(id)target action:(SEL)action
++ (UIBarButtonItem *)ItemWithTitle:(NSString *)title target:(id)target action:(SEL)action
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:title forState:UIControlStateNormal];
@@ -35,9 +33,6 @@
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     return [[UIBarButtonItem alloc]initWithCustomView:button];
 }
-
-
-
 
 
 @end
