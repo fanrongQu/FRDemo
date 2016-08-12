@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B4211B61D5C8DE600CB263B /* SVProgressHUDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4211B51D5C8DE600CB263B /* SVProgressHUDViewController.m */; };
+		3B4211B81D5C8DEC00CB263B /* SVProgressHUDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B4211B71D5C8DEC00CB263B /* SVProgressHUDViewController.xib */; };
 		3B6E99351D54378F0012BDF7 /* UIBarButtonItem+FR.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E99341D54378F0012BDF7 /* UIBarButtonItem+FR.m */; };
 		3B6E99451D54384B0012BDF7 /* FRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E99381D54384B0012BDF7 /* FRNavigationController.m */; };
 		3B6E99461D54384B0012BDF7 /* navigationbar_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6E99391D54384B0012BDF7 /* navigationbar_back@2x.png */; };
@@ -63,6 +65,9 @@
 
 /* Begin PBXFileReference section */
 		39BA607DAD8FC23B432F4006 /* Pods-FRDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FRDemo/Pods-FRDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		3B4211B41D5C8DE600CB263B /* SVProgressHUDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUDViewController.h; sourceTree = "<group>"; };
+		3B4211B51D5C8DE600CB263B /* SVProgressHUDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUDViewController.m; sourceTree = "<group>"; };
+		3B4211B71D5C8DEC00CB263B /* SVProgressHUDViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SVProgressHUDViewController.xib; sourceTree = "<group>"; };
 		3B6E99331D54378F0012BDF7 /* UIBarButtonItem+FR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+FR.h"; sourceTree = "<group>"; };
 		3B6E99341D54378F0012BDF7 /* UIBarButtonItem+FR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+FR.m"; sourceTree = "<group>"; };
 		3B6E99371D54384B0012BDF7 /* FRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNavigationController.h; sourceTree = "<group>"; };
@@ -218,9 +223,20 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		3BB4F1711D5C8D510066AE69 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				3B4211B71D5C8DEC00CB263B /* SVProgressHUDViewController.xib */,
+				3B4211B41D5C8DE600CB263B /* SVProgressHUDViewController.h */,
+				3B4211B51D5C8DE600CB263B /* SVProgressHUDViewController.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 		3BCA98DA1D54AC210081F484 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				3BB4F1711D5C8D510066AE69 /* SVProgressHUD */,
 				3BB4F15E1D5C7F480066AE69 /* SearchView(搜索) */,
 				3BCA98DB1D54AC210081F484 /* PostImage(上传头像) */,
 				3BCA98DE1D54AC210081F484 /* RootTableViewController.h */,
@@ -475,6 +491,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BFF4B971C99288800B4E4F7 /* LaunchScreen.storyboard in Resources */,
+				3B4211B81D5C8DEC00CB263B /* SVProgressHUDViewController.xib in Resources */,
 				3B6E99461D54384B0012BDF7 /* navigationbar_back@2x.png in Resources */,
 				3BFF4B941C99288800B4E4F7 /* Assets.xcassets in Resources */,
 				3BB4F16F1D5C81120066AE69 /* 搜索@2x.png in Resources */,
@@ -578,6 +595,7 @@
 				3B6E99451D54384B0012BDF7 /* FRNavigationController.m in Sources */,
 				3BFF4B891C99288800B4E4F7 /* main.m in Sources */,
 				3BCA98E01D54AC210081F484 /* PersonalIconViewController.m in Sources */,
+				3B4211B61D5C8DE600CB263B /* SVProgressHUDViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

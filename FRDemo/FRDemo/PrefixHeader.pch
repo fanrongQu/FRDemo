@@ -91,3 +91,27 @@ static const int ddLogLevel = DDLogLevelError;
 
 
 #endif /* PrefixHeader_pch */
+
+
+//pod 'AFNetworking', '~> 3.0.0'
+//pod 'MBProgressHUD', '~> 0.9.2'
+//pod 'ReactiveCocoa', '~> 4.1.0'
+//pod 'CocoaLumberjack'//是Mac和iOS上一个集快捷、简单、强大和灵活于一身的日志框架
+//pod 'Masonry'
+//pod 'MJExtension'
+//pod 'MJRefresh'
+//pod 'SDWebImage'
+//pod 'TPKeyboardAvoiding'//避免键盘遮挡下方输入框
+//pod 'MLTransition'//一句代码即可添加视图拖动切换功能
+//pod 'FMDB'//FMDB是建立在SQLite的数据库管理框架
+//pod 'CocoaAsyncSocket'//封装了CFSocket和CFSteam的TCP/IP socket网络库
+//pod 'Shimmer'//漂亮的闪光效果
+//pod 'AsyncDisplayKit'//能够提高UI的流畅性并缩短响应时间, 线程安全，能够把UI的耗时操作放到非主线程执行
+//pod 'RESideMenu'//QQ的左侧菜单风格
+//pod 'SWTableViewCell'//Cell滑动，出现多个功能按钮
+//pod 'MWPhotoBrowser'//图片浏览器
+//pod 'WMPageController'//网易新闻首页分类
+//pod 'FlickerNumber'//闪动的数字
+//pod 'FXBlurView'//毛玻璃效果
+//pod 'TSMessages'//非HUD风格的iOS提示框(附官方demo BUG修复方案)
+//pod 'RKNotificationHub'//快速给UIView 添加上炫酷通知图标

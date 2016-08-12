@@ -1,0 +1,6 @@
+framework module FlickerNumber {
+  umbrella header "FlickerNumber-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -34,7 +34,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FXBlurView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FlatUIKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FlickerNumber.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>HexColors.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -94,6 +109,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>RKNotificationHub.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ReactiveCocoa.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -129,6 +149,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TSMessages.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>WMPageController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -137,12 +162,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>06EF65ADD569C1FCF208C0E38EF5223B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>132E004D0B8DB3916FC9AB23EC2D4FAD</key>
+		<key>029D7B4ED23F957D055FCDAA6D72F630</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -167,12 +187,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2DB86F345AE7C753CB920F1B507A84EE</key>
+		<key>2AE2A67F3BC8E7E6039146D222DA1ECB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3B1AC68AE62F7BDF61607EFF45D3BFF7</key>
+		<key>3911A3180B0FB3DFE0C22C515B3CEAAA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -182,22 +202,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>41491B16B30CDCFA42D6BE4650BDFB92</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>4941A5B561F17E4B063066B616F2F299</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5702A44C1642A72737B9E7FE938A1358</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>6461FF73E606AC17ECB9C28944E4F30F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6A399D4AAE8998AC3B8CD51F6636CF93</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>766FCD93B3179F89DF0662A4FC7CB4A0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -212,12 +232,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>803DE0E0AC45C63E0EC7467DADE84D81</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8A2A9C74DE42D40E5D899B20A7DF12AD</key>
+		<key>871643C5E121A105F412679497EB05A4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -227,12 +242,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8C87F047621A9FB00ECF79CC57C1DF60</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9309E111B80C2E7A291D96F4DE48DE22</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>94624EC6C9739263AA965CFE2D8933F5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>948D5D7E27F494FE9C7E2ECE615E4189</key>
+		<key>A3ACFD9C7977D154AE4DD5E709F9744E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -257,12 +282,37 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>BD16FAC69CA1ED81D0B5282A8FBCBC97</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>BE7A5E8E0FDE9CA58316BC4D6568818D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>C408D4E183A88B763793C217A66A1950</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CD378EDFF42487A7E1BB47D45223953B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D9BDB8868E92CD1EC956E67B07A76319</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E61CE3B6DFA1FE6B3E296965C76C0E10</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FDA033B3422B0CF4472DCC656EC58F9D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

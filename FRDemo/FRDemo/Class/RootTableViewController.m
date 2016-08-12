@@ -9,6 +9,7 @@
 #import "RootTableViewController.h"
 #import "PersonalIconViewController.h"
 #import "AllianceViewController.h"
+#import "SVProgressHUDViewController.h"
 
 @interface RootTableViewController ()
 
@@ -66,6 +67,15 @@
             [self.navigationController pushViewController:allianceViewController animated:YES];
         }
             break;
+        case 2: {
+            SVProgressHUDViewController *progressHUDViewController = [[SVProgressHUDViewController alloc]initWithNibName:@"SVProgressHUDViewController" bundle:nil];
+            [self.navigationController pushViewController:progressHUDViewController animated:YES];
+        }
+            break;
+        case 3: {
+            
+        }
+            break;
         default:
             break;
     }
@@ -75,7 +85,7 @@
 #pragma mark - 懒加载
 - (NSArray *)typeArray {
     if (!_typeArray) {
-        _typeArray = @[@"上传头像",@"搜索"];
+        _typeArray = @[@"上传头像",@"搜索",@"SVProgressHUD"];
     }
     return _typeArray;
 }

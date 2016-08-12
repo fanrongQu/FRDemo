@@ -37,9 +37,12 @@ PODS:
     - CocoaLumberjack/Default
   - DACircularProgress (2.3.1)
   - FlatUIKit (1.6.2)
+  - FlickerNumber (1.1)
   - FMDB (2.6):
     - FMDB/standard (= 2.6)
   - FMDB/standard (2.6)
+  - FXBlurView (1.6.4)
+  - HexColors (2.2.1)
   - Masonry (0.6.4)
   - MBProgressHUD (0.9.2)
   - MJExtension (3.0.10)
@@ -67,13 +70,16 @@ PODS:
     - Result (~> 2.0)
   - RESideMenu (4.0.7)
   - Result (2.0.0)
+  - RKNotificationHub (2.0.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - Shimmer (1.0.2)
-  - SVProgressHUD (1.1.3)
+  - SVProgressHUD (2.0.3)
   - SWTableViewCell (0.3.7)
   - TPKeyboardAvoiding (1.2.11)
+  - TSMessages (0.9.12):
+    - HexColors (~> 2.2.0)
   - WMPageController (1.4.1)
 
 DEPENDENCIES:
@@ -82,7 +88,9 @@ DEPENDENCIES:
   - CocoaAsyncSocket
   - CocoaLumberjack
   - FlatUIKit
+  - FlickerNumber
   - FMDB
+  - FXBlurView
   - Masonry
   - MBProgressHUD (~> 0.9.2)
   - MJExtension
@@ -91,11 +99,13 @@ DEPENDENCIES:
   - MWPhotoBrowser
   - ReactiveCocoa (~> 4.1.0)
   - RESideMenu
+  - RKNotificationHub
   - SDWebImage
   - Shimmer
-  - SVProgressHUD
+  - SVProgressHUD (~> 2.0.3)
   - SWTableViewCell
   - TPKeyboardAvoiding
+  - TSMessages
   - WMPageController
 
 SPEC CHECKSUMS:
@@ -105,7 +115,10 @@ SPEC CHECKSUMS:
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   FlatUIKit: 1b41f0d4952ce8d970d8479ce79df54a960242c4
+  FlickerNumber: bce41da51904d533393d69e9734df6281ab1c646
   FMDB: c1968bab3ab0aed38f66cb778ae1e7fa9a652b6e
+  FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
+  HexColors: abfd172e329dab59888614ccba6f216cec59289d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
@@ -117,13 +130,15 @@ SPEC CHECKSUMS:
   ReactiveCocoa: d70004d7a366a7b8e87e60ce2347182c77701949
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   Result: 9e75e1111c774c6ac594e14907b15057053a7959
+  RKNotificationHub: d80905a948c79c11673345f807133a0bfd17e320
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
-  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SWTableViewCell: 2a94aadc9d47b2b611fa064566bf57948b95b579
   TPKeyboardAvoiding: e5ce146b313de063957bfa75a13f1e9b0ff18ab7
+  TSMessages: c8cc7b80f2a833af533872cd02010cac061532cc
   WMPageController: 3b6d2aa2ddcd53f2cbc2319f2473f27b4ea4fe89
 
-PODFILE CHECKSUM: 7827a51bdc57faab89979a55fedea7807c4750c8
+PODFILE CHECKSUM: 79253c82328f0a42b070f42bc6dfff5dcc87ac30
 
 COCOAPODS: 1.0.1
