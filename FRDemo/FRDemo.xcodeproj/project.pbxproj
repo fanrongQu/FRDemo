@@ -16,6 +16,7 @@
 		3B6E99491D54384B0012BDF7 /* FRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E99401D54384B0012BDF7 /* FRTabBar.m */; };
 		3B6E994A1D54384B0012BDF7 /* FRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E99421D54384B0012BDF7 /* FRTabBarController.m */; };
 		3B6E994B1D54384B0012BDF7 /* FRTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E99441D54384B0012BDF7 /* FRTabBarItem.m */; };
+		3B7577B81D7FA34D00258599 /* AddressBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7577B71D7FA34D00258599 /* AddressBookViewController.m */; };
 		3B78C9331D5D9C11004B75A7 /* AppDelegate+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78C90B1D5D9C10004B75A7 /* AppDelegate+Category.m */; };
 		3B78C9341D5D9C11004B75A7 /* CALayer+Anim.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78C90D1D5D9C10004B75A7 /* CALayer+Anim.m */; };
 		3B78C9351D5D9C11004B75A7 /* CALayer+Transition.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B78C90F1D5D9C10004B75A7 /* CALayer+Transition.m */; };
@@ -91,6 +92,8 @@
 		3B6E99421D54384B0012BDF7 /* FRTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTabBarController.m; sourceTree = "<group>"; };
 		3B6E99431D54384B0012BDF7 /* FRTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRTabBarItem.h; sourceTree = "<group>"; };
 		3B6E99441D54384B0012BDF7 /* FRTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTabBarItem.m; sourceTree = "<group>"; };
+		3B7577B61D7FA34D00258599 /* AddressBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressBookViewController.h; sourceTree = "<group>"; };
+		3B7577B71D7FA34D00258599 /* AddressBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressBookViewController.m; sourceTree = "<group>"; };
 		3B78C90A1D5D9C10004B75A7 /* AppDelegate+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+Category.h"; sourceTree = "<group>"; };
 		3B78C90B1D5D9C10004B75A7 /* AppDelegate+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+Category.m"; sourceTree = "<group>"; };
 		3B78C90C1D5D9C10004B75A7 /* CALayer+Anim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+Anim.h"; sourceTree = "<group>"; };
@@ -222,6 +225,15 @@
 			path = FRTabBarController;
 			sourceTree = "<group>";
 		};
+		3B7577B51D7FA32C00258599 /* AddressBook */ = {
+			isa = PBXGroup;
+			children = (
+				3B7577B61D7FA34D00258599 /* AddressBookViewController.h */,
+				3B7577B71D7FA34D00258599 /* AddressBookViewController.m */,
+			);
+			path = AddressBook;
+			sourceTree = "<group>";
+		};
 		3B78C9091D5D9C10004B75A7 /* FRCategory */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,6 +346,7 @@
 				3BB4F1711D5C8D510066AE69 /* SVProgressHUD */,
 				3BB4F15E1D5C7F480066AE69 /* SearchView(搜索) */,
 				3BCA98DB1D54AC210081F484 /* PostImage(上传头像) */,
+				3B7577B51D7FA32C00258599 /* AddressBook */,
 				3BCA98DE1D54AC210081F484 /* RootTableViewController.h */,
 				3BCA98DF1D54AC210081F484 /* RootTableViewController.m */,
 			);
@@ -633,6 +646,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B78C93A1D5D9C11004B75A7 /* NSArray+Category.m in Sources */,
+				3B7577B81D7FA34D00258599 /* AddressBookViewController.m in Sources */,
 				3B78C93B1D5D9C11004B75A7 /* NSAttributedString+Category.m in Sources */,
 				3B78C9401D5D9C11004B75A7 /* UIBarButtonItem+Category.m in Sources */,
 				3B78C93C1D5D9C11004B75A7 /* NSDate+Category.m in Sources */,

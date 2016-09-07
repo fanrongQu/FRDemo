@@ -10,6 +10,7 @@
 #import "PersonalIconViewController.h"
 #import "AllianceViewController.h"
 #import "SVProgressHUDViewController.h"
+#import "AddressBookViewController.h"
 
 @interface RootTableViewController ()
 
@@ -55,6 +56,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"%ld---%ld",(long)indexPath.section,(long)indexPath.row);
     NSInteger row = indexPath.row;
     switch (row) {
         case 0: {//头像
@@ -73,6 +75,8 @@
         }
             break;
         case 3: {
+            AddressBookViewController *addressBookVC = [[AddressBookViewController alloc] init];
+            [self.navigationController pushViewController:addressBookVC animated:YES];
             
         }
             break;
@@ -85,7 +89,7 @@
 #pragma mark - 懒加载
 - (NSArray *)typeArray {
     if (!_typeArray) {
-        _typeArray = @[@"上传头像",@"搜索",@"SVProgressHUD"];
+        _typeArray = @[@"上传头像",@"搜索",@"SVProgressHUD",@"获取通信录联系人"];
     }
     return _typeArray;
 }
