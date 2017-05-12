@@ -1,18 +1,20 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  _ASPendingState.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
-#import "_ASPendingState.h"
+#import <AsyncDisplayKit/_ASPendingState.h>
 
-#import "_ASCoreAnimationExtras.h"
-#import "_ASAsyncTransactionContainer.h"
-#import "ASAssert.h"
-#import "ASInternalHelpers.h"
-#import "ASDisplayNodeInternal.h"
+#import <AsyncDisplayKit/_ASCoreAnimationExtras.h>
+#import <AsyncDisplayKit/_ASAsyncTransactionContainer.h>
+#import <AsyncDisplayKit/ASAssert.h>
+#import <AsyncDisplayKit/ASInternalHelpers.h>
+#import <AsyncDisplayKit/ASDisplayNodeInternal.h>
 
 #define __shouldSetNeedsDisplay(layer) (flags.needsDisplay \
   || (flags.setOpaque && opaque != (layer).opaque)\
@@ -54,6 +56,7 @@ typedef struct {
   int setBorderWidth:1;
   int setBorderColor:1;
   int setAsyncTransactionContainer:1;
+  int setAllowsGroupOpacity:1;
   int setAllowsEdgeAntialiasing:1;
   int setEdgeAntialiasingMask:1;
   int setIsAccessibilityElement:1;
@@ -67,6 +70,10 @@ typedef struct {
   int setAccessibilityViewIsModal:1;
   int setShouldGroupAccessibilityChildren:1;
   int setAccessibilityIdentifier:1;
+  int setAccessibilityNavigationStyle:1;
+  int setAccessibilityHeaderElements:1;
+  int setAccessibilityActivationPoint:1;
+  int setAccessibilityPath:1;
 } ASPendingStateFlags;
 
 @implementation _ASPendingState
@@ -106,6 +113,10 @@ typedef struct {
   BOOL accessibilityViewIsModal;
   BOOL shouldGroupAccessibilityChildren;
   NSString *accessibilityIdentifier;
+  UIAccessibilityNavigationStyle accessibilityNavigationStyle;
+  NSArray *accessibilityHeaderElements;
+  CGPoint accessibilityActivationPoint;
+  UIBezierPath *accessibilityPath;
 
   ASPendingStateFlags _flags;
 }
@@ -143,6 +154,7 @@ ASDISPLAYNODE_INLINE void ASPendingStateApplyMetricsToLayer(_ASPendingState *sta
 @synthesize contents=contents;
 @synthesize hidden=isHidden;
 @synthesize needsDisplayOnBoundsChange=needsDisplayOnBoundsChange;
+@synthesize allowsGroupOpacity=allowsGroupOpacity;
 @synthesize allowsEdgeAntialiasing=allowsEdgeAntialiasing;
 @synthesize edgeAntialiasingMask=edgeAntialiasingMask;
 @synthesize autoresizesSubviews=autoresizesSubviews;
@@ -170,8 +182,21 @@ ASDISPLAYNODE_INLINE void ASPendingStateApplyMetricsToLayer(_ASPendingState *sta
 
 static CGColorRef blackColorRef = NULL;
 static UIColor *defaultTintColor = nil;
+static BOOL defaultAllowsGroupOpacity = YES;
+static BOOL defaultAllowsEdgeAntialiasing = NO;
 
-- (id)init
++ (void)load
+{
+  // Create temporary view to read default values that are based on linked SDK and Info.plist values
+  // Ensure this values cached on the main thread before needed
+  ASDisplayNodeCAssertMainThread();
+  UIView *view = [[UIView alloc] init];
+  defaultAllowsGroupOpacity = view.layer.allowsGroupOpacity;
+  defaultAllowsEdgeAntialiasing = view.layer.allowsEdgeAntialiasing;
+}
+
+
+- (instancetype)init
 {
   if (!(self = [super init]))
     return nil;
@@ -197,6 +222,8 @@ static UIColor *defaultTintColor = nil;
   contents = nil;
   isHidden = NO;
   needsDisplayOnBoundsChange = NO;
+  allowsGroupOpacity = defaultAllowsGroupOpacity;
+  allowsEdgeAntialiasing = defaultAllowsEdgeAntialiasing;
   autoresizesSubviews = YES;
   alpha = 1.0f;
   cornerRadius = 0.0f;
@@ -226,6 +253,10 @@ static UIColor *defaultTintColor = nil;
   accessibilityViewIsModal = NO;
   shouldGroupAccessibilityChildren = NO;
   accessibilityIdentifier = nil;
+  accessibilityNavigationStyle = UIAccessibilityNavigationStyleAutomatic;
+  accessibilityHeaderElements = nil;
+  accessibilityActivationPoint = CGPointZero;
+  accessibilityPath = nil;
   edgeAntialiasingMask = (kCALayerLeftEdge | kCALayerRightEdge | kCALayerTopEdge | kCALayerBottomEdge);
 
   return self;
@@ -257,6 +288,12 @@ static UIColor *defaultTintColor = nil;
 {
   needsDisplayOnBoundsChange = flag;
   _flags.setNeedsDisplayOnBoundsChange = YES;
+}
+
+- (void)setAllowsGroupOpacity:(BOOL)flag
+{
+  allowsGroupOpacity = flag;
+  _flags.setAllowsGroupOpacity = YES;
 }
 
 - (void)setAllowsEdgeAntialiasing:(BOOL)flag
@@ -594,6 +631,59 @@ static UIColor *defaultTintColor = nil;
   }
 }
 
+- (UIAccessibilityNavigationStyle)accessibilityNavigationStyle
+{
+  return accessibilityNavigationStyle;
+}
+
+- (void)setAccessibilityNavigationStyle:(UIAccessibilityNavigationStyle)newAccessibilityNavigationStyle
+{
+  _flags.setAccessibilityNavigationStyle = YES;
+  accessibilityNavigationStyle = newAccessibilityNavigationStyle;
+}
+
+- (NSArray *)accessibilityHeaderElements
+{
+  return accessibilityHeaderElements;
+}
+
+- (void)setAccessibilityHeaderElements:(NSArray *)newAccessibilityHeaderElements
+{
+  _flags.setAccessibilityHeaderElements = YES;
+  if (accessibilityHeaderElements != newAccessibilityHeaderElements) {
+    accessibilityHeaderElements = [newAccessibilityHeaderElements copy];
+  }
+}
+
+- (CGPoint)accessibilityActivationPoint
+{
+  if (_flags.setAccessibilityActivationPoint) {
+    return accessibilityActivationPoint;
+  }
+  
+  // Default == Mid-point of the accessibilityFrame
+  return CGPointMake(CGRectGetMidX(accessibilityFrame), CGRectGetMidY(accessibilityFrame));
+}
+
+- (void)setAccessibilityActivationPoint:(CGPoint)newAccessibilityActivationPoint
+{
+  _flags.setAccessibilityActivationPoint = YES;
+  accessibilityActivationPoint = newAccessibilityActivationPoint;
+}
+
+- (UIBezierPath *)accessibilityPath
+{
+  return accessibilityPath;
+}
+
+- (void)setAccessibilityPath:(UIBezierPath *)newAccessibilityPath
+{
+  _flags.setAccessibilityPath = YES;
+  if (accessibilityPath != newAccessibilityPath) {
+    accessibilityPath = newAccessibilityPath;
+  }
+}
+
 - (void)applyToLayer:(CALayer *)layer
 {
   ASPendingStateFlags flags = _flags;
@@ -661,6 +751,9 @@ static UIColor *defaultTintColor = nil;
 
   if (flags.setNeedsDisplayOnBoundsChange)
     layer.needsDisplayOnBoundsChange = needsDisplayOnBoundsChange;
+  
+  if (flags.setAllowsGroupOpacity)
+    layer.allowsGroupOpacity = allowsGroupOpacity;
 
   if (flags.setAllowsEdgeAntialiasing)
     layer.allowsEdgeAntialiasing = allowsEdgeAntialiasing;
@@ -680,7 +773,7 @@ static UIColor *defaultTintColor = nil;
   ASPendingStateApplyMetricsToLayer(self, layer);
 }
 
-- (void)applyToView:(UIView *)view setFrameDirectly:(BOOL)setFrameDirectly
+- (void)applyToView:(UIView *)view withSpecialPropertiesHandling:(BOOL)specialPropertiesHandling
 {
   /*
    Use our convenience setters blah here instead of layer.blah
@@ -724,8 +817,15 @@ static UIColor *defaultTintColor = nil;
   if (flags.setClipsToBounds)
     view.clipsToBounds = clipsToBounds;
 
-  if (flags.setBackgroundColor)
-    layer.backgroundColor = backgroundColor;
+  if (flags.setBackgroundColor) {
+    // We have to make sure certain nodes get the background color call directly set
+    if (specialPropertiesHandling) {
+      view.backgroundColor = [UIColor colorWithCGColor:backgroundColor];
+    } else {
+      // Set the background color to the layer as in the UIView bridge we use this value as background color
+      layer.backgroundColor = backgroundColor;
+    }
+  }
 
   if (flags.setTintColor)
     view.tintColor = self.tintColor;
@@ -779,6 +879,9 @@ static UIColor *defaultTintColor = nil;
 
   if (flags.setNeedsDisplayOnBoundsChange)
     layer.needsDisplayOnBoundsChange = needsDisplayOnBoundsChange;
+  
+  if (flags.setAllowsGroupOpacity)
+    layer.allowsGroupOpacity = allowsGroupOpacity;
 
   if (flags.setAllowsEdgeAntialiasing)
     layer.allowsEdgeAntialiasing = allowsEdgeAntialiasing;
@@ -827,14 +930,27 @@ static UIColor *defaultTintColor = nil;
 
   if (flags.setAccessibilityIdentifier)
     view.accessibilityIdentifier = accessibilityIdentifier;
-
-  // For classes like ASTableNode, ASCollectionNode, ASScrollNode and similar - make sure UIView gets setFrame:
-  if (flags.setFrame && setFrameDirectly) {
-    // Frame is only defined when transform is identity because we explicitly diverge from CALayer behavior and define frame without transform
-#if DEBUG
-    // Checking if the transform is identity is expensive, so disable when unnecessary. We have assertions on in Release, so DEBUG is the only way I know of.
-    ASDisplayNodeAssert(CATransform3DIsIdentity(layer.transform), @"-[ASDisplayNode setFrame:] - self.transform must be identity in order to set the frame property.  (From Apple's UIView documentation: If the transform property is not the identity transform, the value of this property is undefined and therefore should be ignored.)");
+  
+  if (flags.setAccessibilityNavigationStyle)
+    view.accessibilityNavigationStyle = accessibilityNavigationStyle;
+  
+#if TARGET_OS_TV
+  if (flags.setAccessibilityHeaderElements)
+    view.accessibilityHeaderElements = accessibilityHeaderElements;
 #endif
+  
+  if (flags.setAccessibilityActivationPoint)
+    view.accessibilityActivationPoint = accessibilityActivationPoint;
+  
+  if (flags.setAccessibilityPath)
+    view.accessibilityPath = accessibilityPath;
+
+  if (flags.setFrame && specialPropertiesHandling) {
+    // Frame is only defined when transform is identity because we explicitly diverge from CALayer behavior and define frame without transform
+//#if DEBUG
+//    // Checking if the transform is identity is expensive, so disable when unnecessary. We have assertions on in Release, so DEBUG is the only way I know of.
+//    ASDisplayNodeAssert(CATransform3DIsIdentity(layer.transform), @"-[ASDisplayNode setFrame:] - self.transform must be identity in order to set the frame property.  (From Apple's UIView documentation: If the transform property is not the identity transform, the value of this property is undefined and therefore should be ignored.)");
+//#endif
     view.frame = frame;
   } else {
     ASPendingStateApplyMetricsToLayer(self, layer);
@@ -870,6 +986,7 @@ static UIColor *defaultTintColor = nil;
   pendingState.borderWidth = layer.borderWidth;
   pendingState.borderColor = layer.borderColor;
   pendingState.needsDisplayOnBoundsChange = layer.needsDisplayOnBoundsChange;
+  pendingState.allowsGroupOpacity = layer.allowsGroupOpacity;
   pendingState.allowsEdgeAntialiasing = layer.allowsEdgeAntialiasing;
   pendingState.edgeAntialiasingMask = layer.edgeAntialiasingMask;
   return pendingState;
@@ -913,6 +1030,7 @@ static UIColor *defaultTintColor = nil;
   pendingState.autoresizingMask = view.autoresizingMask;
   pendingState.autoresizesSubviews = view.autoresizesSubviews;
   pendingState.needsDisplayOnBoundsChange = layer.needsDisplayOnBoundsChange;
+  pendingState.allowsGroupOpacity = layer.allowsGroupOpacity;
   pendingState.allowsEdgeAntialiasing = layer.allowsEdgeAntialiasing;
   pendingState.edgeAntialiasingMask = layer.edgeAntialiasingMask;
   pendingState.isAccessibilityElement = view.isAccessibilityElement;
@@ -926,6 +1044,12 @@ static UIColor *defaultTintColor = nil;
   pendingState.accessibilityViewIsModal = view.accessibilityViewIsModal;
   pendingState.shouldGroupAccessibilityChildren = view.shouldGroupAccessibilityChildren;
   pendingState.accessibilityIdentifier = view.accessibilityIdentifier;
+  pendingState.accessibilityNavigationStyle = view.accessibilityNavigationStyle;
+#if TARGET_OS_TV
+  pendingState.accessibilityHeaderElements = view.accessibilityHeaderElements;
+#endif
+  pendingState.accessibilityActivationPoint = view.accessibilityActivationPoint;
+  pendingState.accessibilityPath = view.accessibilityPath;
   return pendingState;
 }
 
@@ -976,6 +1100,7 @@ static UIColor *defaultTintColor = nil;
   || flags.setAutoresizingMask
   || flags.setAutoresizesSubviews
   || flags.setNeedsDisplayOnBoundsChange
+  || flags.setAllowsGroupOpacity
   || flags.setAllowsEdgeAntialiasing
   || flags.setEdgeAntialiasingMask
   || flags.needsDisplay
@@ -992,7 +1117,11 @@ static UIColor *defaultTintColor = nil;
   || flags.setAccessibilityElementsHidden
   || flags.setAccessibilityViewIsModal
   || flags.setShouldGroupAccessibilityChildren
-  || flags.setAccessibilityIdentifier);
+  || flags.setAccessibilityIdentifier
+  || flags.setAccessibilityNavigationStyle
+  || flags.setAccessibilityHeaderElements
+  || flags.setAccessibilityActivationPoint
+  || flags.setAccessibilityPath);
 }
 
 - (void)dealloc

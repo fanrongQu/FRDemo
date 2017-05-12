@@ -3,12 +3,16 @@
 //  AsyncDisplayKit
 //
 //  Created by Adlai Holler on 9/25/15.
-//  Copyright © 2015 Facebook. All rights reserved.
 //
-#if TARGET_OS_IOS
-#import "ASPhotosFrameworkImageRequest.h"
-#import "ASBaseDefines.h"
-#import "ASAvailability.h"
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
+
+#import <AsyncDisplayKit/ASPhotosFrameworkImageRequest.h>
+#import <AsyncDisplayKit/ASBaseDefines.h>
+#import <AsyncDisplayKit/ASAvailability.h>
 
 NSString *const ASPhotosURLScheme = @"ph";
 
@@ -101,8 +105,8 @@ static NSString *const _ASPhotosURLQueryKeyCropHeight = @"crop_h";
 
 + (ASPhotosFrameworkImageRequest *)requestWithURL:(NSURL *)url
 {
-  // not a photos URL or iOS < 8
-  if (![url.scheme isEqualToString:ASPhotosURLScheme] || !AS_AT_LEAST_IOS8) {
+  // not a photos URL
+  if (![url.scheme isEqualToString:ASPhotosURLScheme]) {
     return nil;
   }
   
@@ -159,4 +163,3 @@ static NSString *const _ASPhotosURLQueryKeyCropHeight = @"crop_h";
 }
 
 @end
-#endif

@@ -14,12 +14,13 @@ PODS:
   - AFNetworking/Serialization (3.0.4)
   - AFNetworking/UIKit (3.0.4):
     - AFNetworking/NSURLSession
-  - AsyncDisplayKit (1.9.7):
-    - AsyncDisplayKit/PINRemoteImage (= 1.9.7)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.9.7)
-  - AsyncDisplayKit/PINRemoteImage (1.9.7):
-    - AsyncDisplayKit/ASDealloc2MainObject
-    - PINRemoteImage/iOS (>= 2)
+  - AsyncDisplayKit (2.2.1):
+    - AsyncDisplayKit/PINRemoteImage (= 2.2.1)
+  - AsyncDisplayKit/Core (2.2.1)
+  - AsyncDisplayKit/PINRemoteImage (2.2.1):
+    - AsyncDisplayKit/Core
+    - PINRemoteImage/iOS (= 3.0.0-beta.8)
+    - PINRemoteImage/PINCache
   - CocoaAsyncSocket (7.4.3):
     - CocoaAsyncSocket/All (= 7.4.3)
   - CocoaAsyncSocket/All (7.4.3):
@@ -52,24 +53,26 @@ PODS:
     - DACircularProgress (~> 2.3)
     - MBProgressHUD (~> 0.9)
     - SDWebImage (!= 3.7.2, ~> 3.7)
-  - PINCache (2.2.2)
-  - PINRemoteImage/Core (2.1):
-    - PINCache (>= 2.1)
-  - PINRemoteImage/iOS (2.1):
+  - PINCache (3.0.1-beta.4):
+    - PINCache/Arc-exception-safe (= 3.0.1-beta.4)
+    - PINCache/Core (= 3.0.1-beta.4)
+  - PINCache/Arc-exception-safe (3.0.1-beta.4):
+    - PINCache/Core
+  - PINCache/Core (3.0.1-beta.4):
+    - PINOperation (= 1.0.3)
+  - PINOperation (1.0.3)
+  - PINRemoteImage/Core (3.0.0-beta.8)
+  - PINRemoteImage/iOS (3.0.0-beta.8):
     - PINRemoteImage/Core
-  - ReactiveCocoa (4.1.0):
-    - ReactiveCocoa/UI (= 4.1.0)
-    - Result (~> 2.0)
-  - ReactiveCocoa/Core (4.1.0):
-    - ReactiveCocoa/no-arc
-    - Result (~> 2.0)
-  - ReactiveCocoa/no-arc (4.1.0):
-    - Result (~> 2.0)
-  - ReactiveCocoa/UI (4.1.0):
-    - ReactiveCocoa/Core
-    - Result (~> 2.0)
+  - PINRemoteImage/PINCache (3.0.0-beta.8):
+    - PINCache (= 3.0.1-beta.4)
+    - PINRemoteImage/Core
+  - ReactiveCocoa (5.0.3):
+    - ReactiveSwift (~> 1.1)
+  - ReactiveSwift (1.1.1):
+    - Result (~> 3.2)
   - RESideMenu (4.0.7)
-  - Result (2.0.0)
+  - Result (3.2.1)
   - RKNotificationHub (2.0.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
@@ -84,7 +87,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0.0)
-  - AsyncDisplayKit
+  - AsyncDisplayKit (~> 2.2.1)
   - CocoaAsyncSocket
   - CocoaLumberjack
   - FlatUIKit
@@ -97,12 +100,12 @@ DEPENDENCIES:
   - MJRefresh
   - MLTransition
   - MWPhotoBrowser
-  - ReactiveCocoa (~> 4.1.0)
+  - ReactiveCocoa (~> 5.0.3)
   - RESideMenu
   - RKNotificationHub
   - SDWebImage
   - Shimmer
-  - SVProgressHUD (~> 2.0.3)
+  - SVProgressHUD
   - SWTableViewCell
   - TPKeyboardAvoiding
   - TSMessages
@@ -110,7 +113,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
-  AsyncDisplayKit: eb762d3bfd3896b2901909ebc24b54c97f32d43c
+  AsyncDisplayKit: 2234dd8d8770a5ed72936b3f8394bd5a807765f6
   CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
@@ -125,11 +128,13 @@ SPEC CHECKSUMS:
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MLTransition: 47b87b8bc6077540919dcfc3e0adcc0b4a589910
   MWPhotoBrowser: ba0d0c09ffda3a7ea10093518738c502c1c7141c
-  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
-  PINRemoteImage: e8367ac3f5c234712f1d8c274462ec834d649940
-  ReactiveCocoa: d70004d7a366a7b8e87e60ce2347182c77701949
+  PINCache: a89c8f609232afac77128557bd12c861844423d7
+  PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
+  PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
+  ReactiveCocoa: 066a855f613fb72f68258771095805fdb10312d2
+  ReactiveSwift: 2489549e3231a6ff68ec99f3d320bb264f10ba0a
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
-  Result: 9e75e1111c774c6ac594e14907b15057053a7959
+  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
   RKNotificationHub: d80905a948c79c11673345f807133a0bfd17e320
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
@@ -139,6 +144,6 @@ SPEC CHECKSUMS:
   TSMessages: c8cc7b80f2a833af533872cd02010cac061532cc
   WMPageController: 3b6d2aa2ddcd53f2cbc2319f2473f27b4ea4fe89
 
-PODFILE CHECKSUM: 79253c82328f0a42b070f42bc6dfff5dcc87ac30
+PODFILE CHECKSUM: 18fa80789e14623519f17118f9da4419e5b59371
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.2.1

@@ -1,17 +1,16 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASCenterLayoutSpec.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
-#import "ASCenterLayoutSpec.h"
+#import <AsyncDisplayKit/ASCenterLayoutSpec.h>
 
-#import "ASInternalHelpers.h"
-#import "ASLayout.h"
+#import <AsyncDisplayKit/ASLayout.h>
 
 @implementation ASCenterLayoutSpec
 {
@@ -21,7 +20,7 @@
 
 - (instancetype)initWithCenteringOptions:(ASCenterLayoutSpecCenteringOptions)centeringOptions
                            sizingOptions:(ASCenterLayoutSpecSizingOptions)sizingOptions
-                                   child:(id<ASLayoutable>)child;
+                                   child:(id<ASLayoutElement>)child;
 {
   ASRelativeLayoutSpecPosition verticalPosition = [self verticalPositionFromCenteringOptions:centeringOptions];
   ASRelativeLayoutSpecPosition horizontalPosition = [self horizontalPositionFromCenteringOptions:centeringOptions];
@@ -36,7 +35,7 @@
 
 + (instancetype)centerLayoutSpecWithCenteringOptions:(ASCenterLayoutSpecCenteringOptions)centeringOptions
                                        sizingOptions:(ASCenterLayoutSpecSizingOptions)sizingOptions
-                                               child:(id<ASLayoutable>)child
+                                               child:(id<ASLayoutElement>)child
 {
   return [[self alloc] initWithCenteringOptions:centeringOptions sizingOptions:sizingOptions child:child];
 }
@@ -59,21 +58,19 @@
 
 - (ASRelativeLayoutSpecPosition)horizontalPositionFromCenteringOptions:(ASCenterLayoutSpecCenteringOptions)centeringOptions
 {
-  BOOL centerX =  (centeringOptions & ASCenterLayoutSpecCenteringX) != 0;
-  if (centerX) {
+  if ((centeringOptions & ASCenterLayoutSpecCenteringX) != 0) {
     return ASRelativeLayoutSpecPositionCenter;
   } else {
-    return ASRelativeLayoutSpecPositionStart;
+    return ASRelativeLayoutSpecPositionNone;
   }
 }
 
 - (ASRelativeLayoutSpecPosition)verticalPositionFromCenteringOptions:(ASCenterLayoutSpecCenteringOptions)centeringOptions
 {
-  BOOL centerY =  (centeringOptions & ASCenterLayoutSpecCenteringY) != 0;
-  if (centerY) {
+  if ((centeringOptions & ASCenterLayoutSpecCenteringY) != 0) {
     return ASRelativeLayoutSpecPositionCenter;
   } else {
-    return ASRelativeLayoutSpecPositionStart;
+    return ASRelativeLayoutSpecPositionNone;
   }
 }
 

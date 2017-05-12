@@ -1,86 +1,75 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASOverlayLayoutSpec.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
-#import "ASOverlayLayoutSpec.h"
+#import <AsyncDisplayKit/ASOverlayLayoutSpec.h>
+#import <AsyncDisplayKit/ASLayoutSpec+Subclasses.h>
+#import <AsyncDisplayKit/ASAssert.h>
 
-#import "ASAssert.h"
-#import "ASBaseDefines.h"
-#import "ASLayout.h"
-
-static NSString * const kOverlayChildKey = @"kOverlayChildKey";
+static NSUInteger const kUnderlayChildIndex = 0;
+static NSUInteger const kOverlayChildIndex = 1;
 
 @implementation ASOverlayLayoutSpec
 
-- (instancetype)initWithChild:(id<ASLayoutable>)child overlay:(id<ASLayoutable>)overlay
+#pragma mark - Class
+
++ (instancetype)overlayLayoutSpecWithChild:(id<ASLayoutElement>)child overlay:(id<ASLayoutElement>)overlay
+{
+  return [[self alloc] initWithChild:child overlay:overlay];
+}
+
+#pragma mark - Lifecycle
+
+- (instancetype)initWithChild:(id<ASLayoutElement>)child overlay:(id<ASLayoutElement>)overlay
 {
   if (!(self = [super init])) {
     return nil;
   }
   ASDisplayNodeAssertNotNil(child, @"Child that will be overlayed on shouldn't be nil");
+  [self setChild:child atIndex:kUnderlayChildIndex];
   self.overlay = overlay;
-  [self setChild:child];
   return self;
 }
 
-+ (instancetype)overlayLayoutSpecWithChild:(id<ASLayoutable>)child overlay:(id<ASLayoutable>)overlay
+#pragma mark - Setter / Getter
+
+- (void)setOverlay:(id<ASLayoutElement>)overlay
 {
-  return [[self alloc] initWithChild:child overlay:overlay];
+  ASDisplayNodeAssertNotNil(overlay, @"Overlay cannot be nil");
+  [super setChild:overlay atIndex:kOverlayChildIndex];
 }
 
-- (void)setOverlay:(id<ASLayoutable>)overlay
+- (id<ASLayoutElement>)overlay
 {
-  [super setChild:overlay forIdentifier:kOverlayChildKey];
+  return [super childAtIndex:kOverlayChildIndex];
 }
 
-- (id<ASLayoutable>)overlay
-{
-  return [super childForIdentifier:kOverlayChildKey];
-}
+#pragma mark - ASLayoutSpec
 
 /**
  First layout the contents, then fit the overlay on top of it.
  */
-- (ASLayout *)measureWithSizeRange:(ASSizeRange)constrainedSize
+- (ASLayout *)calculateLayoutThatFits:(ASSizeRange)constrainedSize
+                     restrictedToSize:(ASLayoutElementSize)size
+                 relativeToParentSize:(CGSize)parentSize
 {
-  ASLayout *contentsLayout = [self.child measureWithSizeRange:constrainedSize];
+  ASLayout *contentsLayout = [[super childAtIndex:kUnderlayChildIndex] layoutThatFits:constrainedSize parentSize:parentSize];
   contentsLayout.position = CGPointZero;
   NSMutableArray *sublayouts = [NSMutableArray arrayWithObject:contentsLayout];
   if (self.overlay) {
-    ASLayout *overlayLayout = [self.overlay measureWithSizeRange:{contentsLayout.size, contentsLayout.size}];
+    ASLayout *overlayLayout = [self.overlay layoutThatFits:ASSizeRangeMake(contentsLayout.size)
+                                                parentSize:contentsLayout.size];
     overlayLayout.position = CGPointZero;
     [sublayouts addObject:overlayLayout];
   }
   
-  return [ASLayout layoutWithLayoutableObject:self size:contentsLayout.size sublayouts:sublayouts];
-}
-
-- (void)setChildren:(NSArray *)children
-{
-  ASDisplayNodeAssert(NO, @"not supported by this layout spec");
-}
-
-- (NSArray *)children
-{
-  ASDisplayNodeAssert(NO, @"not supported by this layout spec");
-  return nil;
-}
-
-@end
-
-@implementation ASOverlayLayoutSpec (Debugging)
-
-#pragma mark - ASLayoutableAsciiArtProtocol
-
-- (NSString *)debugBoxString
-{
-  return [ASLayoutSpec asciiArtStringForChildren:@[self.overlay, self.child] parentName:[self asciiArtName]];
+  return [ASLayout layoutWithLayoutElement:self size:contentsLayout.size sublayouts:sublayouts];
 }
 
 @end

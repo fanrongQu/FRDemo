@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImage (FixOrientation)
-
--(UIImage *)fixOrientation;
+//固定图片的方向，不随着屏幕旋转而改变方向
+- (UIImage *)fixOrientation;
 
 @end

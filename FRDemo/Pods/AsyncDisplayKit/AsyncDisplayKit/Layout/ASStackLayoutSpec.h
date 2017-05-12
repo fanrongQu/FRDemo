@@ -1,12 +1,12 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASStackLayoutSpec.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <AsyncDisplayKit/ASLayoutSpec.h>
 #import <AsyncDisplayKit/ASStackLayoutDefines.h>
@@ -55,12 +55,10 @@ NS_ASSUME_NONNULL_BEGIN
  Thus, it is preferred to those properties
  */
 @property (nonatomic, assign) ASVerticalAlignment verticalAlignment;
-/** The amount of space between each child. */
+/** The amount of space between each child. Defaults to ASStackLayoutJustifyContentStart */
 @property (nonatomic, assign) ASStackLayoutJustifyContent justifyContent;
-/** Orientation of children along cross axis */
+/** Orientation of children along cross axis. Defaults to ASStackLayoutAlignItemsStretch */
 @property (nonatomic, assign) ASStackLayoutAlignItems alignItems;
-/** If YES the vertical spacing between two views is measured from the last baseline of the top view to the top of the bottom view */
-@property (nonatomic, assign) BOOL baselineRelativeArrangement;
 
 - (instancetype)init;
 
@@ -69,19 +67,19 @@ NS_ASSUME_NONNULL_BEGIN
  @param spacing The spacing between the children
  @param justifyContent If no children are flexible, this describes how to fill any extra space
  @param alignItems Orientation of the children along the cross axis
- @param children ASLayoutable children to be positioned.
+ @param children ASLayoutElement children to be positioned.
  */
-+ (instancetype)stackLayoutSpecWithDirection:(ASStackLayoutDirection)direction spacing:(CGFloat)spacing justifyContent:(ASStackLayoutJustifyContent)justifyContent alignItems:(ASStackLayoutAlignItems)alignItems children:(NSArray<id<ASLayoutable>> *)children;
++ (instancetype)stackLayoutSpecWithDirection:(ASStackLayoutDirection)direction spacing:(CGFloat)spacing justifyContent:(ASStackLayoutJustifyContent)justifyContent alignItems:(ASStackLayoutAlignItems)alignItems children:(NSArray<id<ASLayoutElement>> *)children AS_WARN_UNUSED_RESULT;
 
 /**
  * @return A stack layout spec with direction of ASStackLayoutDirectionVertical
  **/
-+ (instancetype)verticalStackLayoutSpec;
++ (instancetype)verticalStackLayoutSpec AS_WARN_UNUSED_RESULT;
 
 /**
  * @return A stack layout spec with direction of ASStackLayoutDirectionHorizontal
  **/
-+ (instancetype)horizontalStackLayoutSpec;
++ (instancetype)horizontalStackLayoutSpec AS_WARN_UNUSED_RESULT;
 
 @end
 

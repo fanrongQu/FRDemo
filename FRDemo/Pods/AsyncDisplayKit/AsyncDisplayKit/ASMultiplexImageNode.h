@@ -1,12 +1,12 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-#if TARGET_OS_IOS
+//
+//  ASMultiplexImageNode.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <AsyncDisplayKit/ASImageNode.h>
 #import <AsyncDisplayKit/ASImageProtocols.h>
@@ -64,7 +64,7 @@ typedef NS_ENUM(NSUInteger, ASMultiplexImageNodeErrorCode) {
  * @param cache The object that implements a cache of images for the image node.
  * @param downloader The object that implements image downloading for the image node.
  * @discussion If `cache` is nil, the receiver will not attempt to retrieve images from a cache before downloading them.
- * @returns An initialized ASMultiplexImageNode.
+ * @return An initialized ASMultiplexImageNode.
  */
 - (instancetype)initWithCache:(nullable id<ASImageCacheProtocol>)cache downloader:(nullable id<ASImageDownloaderProtocol>)downloader NS_DESIGNATED_INITIALIZER;
 
@@ -117,13 +117,20 @@ typedef NS_ENUM(NSUInteger, ASMultiplexImageNodeErrorCode) {
  */
 @property (nullable, nonatomic, readonly) ASImageIdentifier displayedImageIdentifier;
 
+/**
+ * @abstract If the downloader implements progressive image rendering and this value is YES progressive renders of the
+ * image will be displayed as the image downloads. Regardless of this properties value, progress renders will
+ * only occur when the node is visible. Defaults to YES.
+ */
+@property (nonatomic, assign, readwrite) BOOL shouldRenderProgressImages;
+
 #if TARGET_OS_IOS
 /**
  * @abstract The image manager that this image node should use when requesting images from the Photos framework. If this is `nil` (the default), then `PHImageManager.defaultManager` is used.
  
  * @see `+[NSURL URLWithAssetLocalIdentifier:targetSize:contentMode:options:]` below.
  */
-@property (nonatomic, strong) PHImageManager *imageManager;
+@property (nullable, nonatomic, strong) PHImageManager *imageManager;
 #endif
 @end
 
@@ -214,7 +221,7 @@ didFinishDownloadingImageWithIdentifier:(ASImageIdentifier)imageIdentifier
  * @param imageIdentifier The identifier for the image that should be returned.
  * @discussion If the image is already available to the data source, this method should be used in lieu of providing the
  * URL to the image via -multiplexImageNode:URLForImageIdentifier:.
- * @returns A UIImage corresponding to `imageIdentifier`, or nil if none is available.
+ * @return A UIImage corresponding to `imageIdentifier`, or nil if none is available.
  */
 - (nullable UIImage *)multiplexImageNode:(ASMultiplexImageNode *)imageNode imageForImageIdentifier:(ASImageIdentifier)imageIdentifier;
 
@@ -261,11 +268,9 @@ didFinishDownloadingImageWithIdentifier:(ASImageIdentifier)imageIdentifier
 + (NSURL *)URLWithAssetLocalIdentifier:(NSString *)assetLocalIdentifier
                             targetSize:(CGSize)targetSize
                            contentMode:(PHImageContentMode)contentMode
-                               options:(PHImageRequestOptions *)options;
+                               options:(PHImageRequestOptions *)options AS_WARN_UNUSED_RESULT;
 
 @end
 #endif
 
 NS_ASSUME_NONNULL_END
-
-#endif

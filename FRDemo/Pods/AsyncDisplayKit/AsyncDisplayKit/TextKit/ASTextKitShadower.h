@@ -1,24 +1,26 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASTextKitShadower.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <UIKit/UIKit.h>
+#import <AsyncDisplayKit/ASBaseDefines.h>
 
 /**
  * @abstract an immutable class for calculating shadow padding drawing a shadowed background for text
  */
+AS_SUBCLASSING_RESTRICTED
 @interface ASTextKitShadower : NSObject
 
-- (instancetype)initWithShadowOffset:(CGSize)shadowOffset
-                         shadowColor:(UIColor *)shadowColor
-                       shadowOpacity:(CGFloat)shadowOpacity
-                        shadowRadius:(CGFloat)shadowRadius;
++ (ASTextKitShadower *)shadowerWithShadowOffset:(CGSize)shadowOffset
+                                    shadowColor:(UIColor *)shadowColor
+                                  shadowOpacity:(CGFloat)shadowOpacity
+                                   shadowRadius:(CGFloat)shadowRadius;
 
 /**
  * @abstract The offset from the top-left corner at which the shadow starts.

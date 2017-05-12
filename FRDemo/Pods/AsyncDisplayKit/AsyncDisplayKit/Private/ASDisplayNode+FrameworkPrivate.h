@@ -1,25 +1,25 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASDisplayNode+FrameworkPrivate.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 //
 // The following methods are ONLY for use by _ASDisplayLayer, _ASDisplayView, and ASDisplayNode.
 // These methods must never be called or overridden by other classes.
 //
 
-#import "_AS-objc-internal.h"
-#import "ASDisplayNodeExtraIvars.h"
-#import "ASDisplayNode.h"
-#import "ASSentinel.h"
-#import "ASThread.h"
-#import "ASLayoutOptions.h"
-#import "_ASDisplayLayer.h"
+#import <Foundation/Foundation.h>
+#import <AsyncDisplayKit/ASDisplayNode.h>
+#import <AsyncDisplayKit/ASObjectDescriptionHelpers.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol ASInterfaceStateDelegate;
 
 /**
  Hierarchy state is propagated from nodes to all of their children when certain behaviors are required from the subtree.
@@ -48,20 +48,63 @@ typedef NS_OPTIONS(NSUInteger, ASHierarchyState)
   ASHierarchyStateTransitioningSupernodes = 1 << 2,
   /** One of the supernodes of this node is performing a transition.
       Any layout calculated during this state should not be applied immediately, but pending until later. */
-  ASHierarchyStateLayoutPending           = 1 << 3
+  ASHierarchyStateLayoutPending           = 1 << 3,
+  ASHierarchyStateYogaLayoutEnabled       = 1 << 4,
+  ASHierarchyStateYogaLayoutMeasuring     = 1 << 5
 };
 
-inline BOOL ASHierarchyStateIncludesLayoutPending(ASHierarchyState hierarchyState)
+ASDISPLAYNODE_INLINE BOOL ASHierarchyStateIncludesLayoutPending(ASHierarchyState hierarchyState)
 {
   return ((hierarchyState & ASHierarchyStateLayoutPending) == ASHierarchyStateLayoutPending);
 }
 
-inline BOOL ASHierarchyStateIncludesRangeManaged(ASHierarchyState hierarchyState)
+ASDISPLAYNODE_INLINE BOOL ASHierarchyStateIncludesRangeManaged(ASHierarchyState hierarchyState)
 {
-    return ((hierarchyState & ASHierarchyStateRangeManaged) == ASHierarchyStateRangeManaged);
+  return ((hierarchyState & ASHierarchyStateRangeManaged) == ASHierarchyStateRangeManaged);
 }
 
-@interface ASDisplayNode ()
+ASDISPLAYNODE_INLINE BOOL ASHierarchyStateIncludesYogaLayoutMeasuring(ASHierarchyState hierarchyState)
+{
+  return ((hierarchyState & ASHierarchyStateYogaLayoutMeasuring) == ASHierarchyStateYogaLayoutMeasuring);
+}
+
+ASDISPLAYNODE_INLINE BOOL ASHierarchyStateIncludesYogaLayoutEnabled(ASHierarchyState hierarchyState)
+{
+  return ((hierarchyState & ASHierarchyStateYogaLayoutEnabled) == ASHierarchyStateYogaLayoutEnabled);
+}
+
+ASDISPLAYNODE_INLINE BOOL ASHierarchyStateIncludesRasterized(ASHierarchyState hierarchyState)
+{
+	return ((hierarchyState & ASHierarchyStateRasterized) == ASHierarchyStateRasterized);
+}
+
+ASDISPLAYNODE_INLINE BOOL ASHierarchyStateIncludesTransitioningSupernodes(ASHierarchyState hierarchyState)
+{
+	return ((hierarchyState & ASHierarchyStateTransitioningSupernodes) == ASHierarchyStateTransitioningSupernodes);
+}
+
+__unused static NSString * _Nonnull NSStringFromASHierarchyState(ASHierarchyState hierarchyState)
+{
+	NSMutableArray *states = [NSMutableArray array];
+	if (hierarchyState == ASHierarchyStateNormal) {
+		[states addObject:@"Normal"];
+	}
+	if (ASHierarchyStateIncludesRangeManaged(hierarchyState)) {
+		[states addObject:@"RangeManaged"];
+	}
+	if (ASHierarchyStateIncludesLayoutPending(hierarchyState)) {
+		[states addObject:@"LayoutPending"];
+	}
+	if (ASHierarchyStateIncludesRasterized(hierarchyState)) {
+		[states addObject:@"Rasterized"];
+	}
+	if (ASHierarchyStateIncludesTransitioningSupernodes(hierarchyState)) {
+		[states addObject:@"TransitioningSupernodes"];
+	}
+	return [NSString stringWithFormat:@"{ %@ }", [states componentsJoinedByString:@" | "]];
+}
+
+@interface ASDisplayNode () <ASDescriptionProvider, ASDebugDescriptionProvider>
 {
 @protected
   ASInterfaceState _interfaceState;
@@ -70,6 +113,12 @@ inline BOOL ASHierarchyStateIncludesRangeManaged(ASHierarchyState hierarchyState
 
 // The view class to use when creating a new display node instance. Defaults to _ASDisplayView.
 + (Class)viewClass;
+
+// Thread safe way to access the bounds of the node
+@property (nonatomic, assign) CGRect threadSafeBounds;
+
+// delegate to inform of ASInterfaceState changes (used by ASNodeController)
+@property (nonatomic, weak) id<ASInterfaceStateDelegate> interfaceStateDelegate;
 
 // These methods are recursive, and either union or remove the provided interfaceState to all sub-elements.
 - (void)enterInterfaceState:(ASInterfaceState)interfaceState;
@@ -81,7 +130,7 @@ inline BOOL ASHierarchyStateIncludesRangeManaged(ASHierarchyState hierarchyState
 - (void)exitHierarchyState:(ASHierarchyState)hierarchyState;
 
 // Changed before calling willEnterHierarchy / didExitHierarchy.
-@property (nonatomic, readwrite, assign, getter = isInHierarchy) BOOL inHierarchy;
+@property (readonly, assign, getter = isInHierarchy) BOOL inHierarchy;
 // Call willEnterHierarchy if necessary and set inHierarchy = YES if visibility notifications are enabled on all of its parents
 - (void)__enterHierarchy;
 // Call didExitHierarchy if necessary and set inHierarchy = NO if visibility notifications are enabled on all of its parents
@@ -123,6 +172,31 @@ inline BOOL ASHierarchyStateIncludesRangeManaged(ASHierarchyState hierarchyState
 - (void)recursivelyEnsureDisplaySynchronously:(BOOL)synchronously;
 
 /**
+ * @abstract Calls -didExitPreloadState on the receiver and its subnode hierarchy.
+ *
+ * @discussion Clears any memory-intensive preloaded content.
+ * This method is used to notify the node that it should purge any content that is both expensive to fetch and to
+ * retain in memory.
+ *
+ * @see [ASDisplayNode(Subclassing) didExitPreloadState] and [ASDisplayNode(Subclassing) didEnterPreloadState]
+ */
+- (void)recursivelyClearPreloadedData;
+
+/**
+ * @abstract Calls -didEnterPreloadState on the receiver and its subnode hierarchy.
+ *
+ * @discussion Fetches content from remote sources for the current node and all subnodes.
+ *
+ * @see [ASDisplayNode(Subclassing) didEnterPreloadState] and [ASDisplayNode(Subclassing) didExitPreloadState]
+ */
+- (void)recursivelyPreload;
+
+/**
+ * @abstract Triggers a recursive call to -didEnterPreloadState when the node has an interfaceState of ASInterfaceStatePreload
+ */
+- (void)setNeedsPreload;
+
+/**
  * @abstract Allows a node to bypass all ensureDisplay passes.  Defaults to NO.
  *
  * @discussion Nodes that are expensive to draw and expected to have placeholder even with
@@ -135,14 +209,33 @@ inline BOOL ASHierarchyStateIncludesRangeManaged(ASHierarchyState hierarchyState
  */
 @property (nonatomic, assign) BOOL shouldBypassEnsureDisplay;
 
+/**
+ * @abstract Checks whether a node should be scheduled for display, considering its current and new interface states.
+ */
+- (BOOL)shouldScheduleDisplayWithNewInterfaceState:(ASInterfaceState)newInterfaceState;
+
+/**
+ * @abstract Informs the root node that the intrinsic size of the receiver is no longer valid.
+ *
+ * @discussion The size of a root node is determined by each subnode. Calling invalidateSize will let the root node know
+ * that the intrinsic size of the receiver node is no longer valid and a resizing of the root node needs to happen.
+ */
+- (void)setNeedsLayoutFromAbove;
+
+/**
+ * @abstract Subclass hook for nodes that are acting as root nodes. This method is called if one of the subnodes
+ * size is invalidated and may need to result in a different size as the current calculated size.
+ */
+- (void)_locked_displayNodeDidInvalidateSizeNewSize:(CGSize)newSize;
+
 @end
 
 @interface UIView (ASDisplayNodeInternal)
-@property (nullable, nonatomic, assign, readwrite) ASDisplayNode *asyncdisplaykit_node;
+@property (nullable, atomic, weak, readwrite) ASDisplayNode *asyncdisplaykit_node;
 @end
 
 @interface CALayer (ASDisplayNodeInternal)
-@property (nullable, nonatomic, assign, readwrite) ASDisplayNode *asyncdisplaykit_node;
+@property (nullable, atomic, weak, readwrite) ASDisplayNode *asyncdisplaykit_node;
 @end
 
 NS_ASSUME_NONNULL_END

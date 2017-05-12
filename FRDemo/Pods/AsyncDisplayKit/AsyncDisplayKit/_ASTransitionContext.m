@@ -3,12 +3,16 @@
 //  AsyncDisplayKit
 //
 //  Created by Levi McCallum on 2/4/16.
-//  Copyright © 2016 Facebook. All rights reserved.
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
 //
 
-#import "_ASTransitionContext.h"
-
-#import "ASLayout.h"
+#import <AsyncDisplayKit/_ASTransitionContext.h>
+#import <AsyncDisplayKit/ASDisplayNode.h>
+#import <AsyncDisplayKit/ASLayout.h>
 
 
 NSString * const ASTransitionContextFromLayoutKey = @"org.asyncdisplaykit.ASTransitionContextFromLayoutKey";
@@ -61,7 +65,7 @@ NSString * const ASTransitionContextToLayoutKey = @"org.asyncdisplaykit.ASTransi
 - (CGRect)finalFrameForNode:(ASDisplayNode *)node
 {
   for (ASLayout *layout in [self layoutForKey:ASTransitionContextToLayoutKey].sublayouts) {
-    if (layout.layoutableObject == node) {
+    if (layout.layoutElement == node) {
       return [layout frame];
     }
   }
@@ -71,8 +75,8 @@ NSString * const ASTransitionContextToLayoutKey = @"org.asyncdisplaykit.ASTransi
 - (NSArray<ASDisplayNode *> *)subnodesForKey:(NSString *)key
 {
   NSMutableArray<ASDisplayNode *> *subnodes = [NSMutableArray array];
-  for (ASLayout *sublayout in [self layoutForKey:key].immediateSublayouts) {
-    [subnodes addObject:(ASDisplayNode *)sublayout.layoutableObject];
+  for (ASLayout *sublayout in [self layoutForKey:key].sublayouts) {
+    [subnodes addObject:(ASDisplayNode *)sublayout.layoutElement];
   }
   return subnodes;
 }
@@ -90,6 +94,24 @@ NSString * const ASTransitionContextToLayoutKey = @"org.asyncdisplaykit.ASTransi
 - (void)completeTransition:(BOOL)didComplete
 {
   [_completionDelegate transitionContext:self didComplete:didComplete];
+}
+
+@end
+
+
+@interface _ASAnimatedTransitionContext ()
+@property (nonatomic, strong, readwrite) ASDisplayNode *node;
+@property (nonatomic, assign, readwrite) CGFloat alpha;
+@end
+
+@implementation _ASAnimatedTransitionContext
+
++ (instancetype)contextForNode:(ASDisplayNode *)node alpha:(CGFloat)alpha
+{
+  _ASAnimatedTransitionContext *context = [[_ASAnimatedTransitionContext alloc] init];
+  context.node = node;
+  context.alpha = alpha;
+  return context;
 }
 
 @end

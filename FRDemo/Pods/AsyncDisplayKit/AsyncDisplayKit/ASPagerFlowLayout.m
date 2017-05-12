@@ -3,63 +3,102 @@
 //  AsyncDisplayKit
 //
 //  Created by Levi McCallum on 2/12/16.
-//  Copyright © 2016 Facebook. All rights reserved.
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
 //
 
-#import "ASPagerFlowLayout.h"
+#import <AsyncDisplayKit/ASPagerFlowLayout.h>
+#import <AsyncDisplayKit/ASCellNode.h>
+#import <AsyncDisplayKit/ASCollectionView.h>
 
-@interface ASPagerFlowLayout ()
-
-@property (strong, nonatomic) NSIndexPath *currentIndexPath;
+@interface ASPagerFlowLayout () {
+  __weak ASCellNode *_currentCellNode;
+}
 
 @end
 
 @implementation ASPagerFlowLayout
 
-- (void)invalidateLayout
+- (ASCollectionView *)asCollectionView
 {
-  self.currentIndexPath = [self _indexPathForVisiblyCenteredItem];
-  [super invalidateLayout];
+  // Dynamic cast is too slow and not worth it.
+  return (ASCollectionView *)self.collectionView;
+}
+
+- (void)prepareLayout
+{
+  [super prepareLayout];
+  if (_currentCellNode == nil) {
+    [self _updateCurrentNode];
+  }
 }
 
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset
 {
-  if (self.currentIndexPath) {
-    CGPoint contentOffset = [self _targetContentOffsetForItemAtIndexPath:self.currentIndexPath
-                                                   proposedContentOffset:proposedContentOffset];
-    self.currentIndexPath = nil;
-    return contentOffset;
+  // Don't mess around if the user is interacting with the page node. Although if just a rotation happened we should
+  // try to use the current index path to not end up setting the target content offset to something in between pages
+  if (!self.collectionView.decelerating && !self.collectionView.tracking) {
+    NSIndexPath *indexPath = [self.asCollectionView indexPathForNode:_currentCellNode];
+    if (indexPath) {
+      return [self _targetContentOffsetForItemAtIndexPath:indexPath proposedContentOffset:proposedContentOffset];
+    }
   }
-  
+
   return [super targetContentOffsetForProposedContentOffset:proposedContentOffset];
 }
 
 - (CGPoint)_targetContentOffsetForItemAtIndexPath:(NSIndexPath *)indexPath proposedContentOffset:(CGPoint)proposedContentOffset
 {
+  if ([self _dataSourceIsEmpty]) {
+    return proposedContentOffset;
+  }
+  
   UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:indexPath];
-  CGFloat xOffset = (self.collectionView.bounds.size.width - attributes.frame.size.width) / 2;
+  if (attributes == nil) {
+    return proposedContentOffset;
+  }
+
+  CGFloat xOffset = (CGRectGetWidth(self.collectionView.bounds) - CGRectGetWidth(attributes.frame)) / 2.0;
   return CGPointMake(attributes.frame.origin.x - xOffset, proposedContentOffset.y);
 }
 
-- (NSIndexPath *)_indexPathForVisiblyCenteredItem
+- (BOOL)_dataSourceIsEmpty
 {
-  CGRect visibleRect = [self _visibleRect];
-  CGFloat visibleXCenter = CGRectGetMidX(visibleRect);
-  NSArray<UICollectionViewLayoutAttributes *> *layoutAttributes = [self layoutAttributesForElementsInRect:visibleRect];
-  for (UICollectionViewLayoutAttributes *attributes in layoutAttributes) {
-    if ([attributes representedElementCategory] == UICollectionElementCategoryCell && attributes.center.x == visibleXCenter) {
-      return attributes.indexPath;
-    }
-  }
-  return nil;
+  return ([self.collectionView numberOfSections] == 0 ||
+          [self.collectionView numberOfItemsInSection:0] == 0);
 }
 
-- (CGRect)_visibleRect
+- (void)_updateCurrentNode
 {
-  CGRect visibleRect;
-  visibleRect.origin = self.collectionView.contentOffset;
-  visibleRect.size = self.collectionView.bounds.size;
-  return visibleRect;
+  // Never change node during an animated bounds change (rotation)
+  // NOTE! Listening for -prepareForAnimatedBoundsChange and -finalizeAnimatedBoundsChange
+  // isn't sufficient here! It's broken!
+  NSArray *animKeys = self.collectionView.layer.animationKeys;
+  for (NSString *key in animKeys) {
+    if ([key hasPrefix:@"bounds"]) {
+      return;
+    }
+  }
+  
+  CGRect bounds = self.collectionView.bounds;
+  CGRect rect = CGRectMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds), 1, 1);
+
+  NSIndexPath *indexPath = [self layoutAttributesForElementsInRect:rect].firstObject.indexPath;
+  if (indexPath) {
+    ASCellNode *node = [self.asCollectionView nodeForItemAtIndexPath:indexPath];
+    if (node) {
+      _currentCellNode = node;
+    }
+  }
+}
+
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+  [self _updateCurrentNode];
+  return [super shouldInvalidateLayoutForBoundsChange:newBounds];
 }
 
 @end

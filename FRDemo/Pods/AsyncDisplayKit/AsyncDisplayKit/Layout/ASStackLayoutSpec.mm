@@ -1,33 +1,31 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASStackLayoutSpec.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
+
+#import <AsyncDisplayKit/ASStackLayoutSpec.h>
 
 #import <numeric>
 #import <vector>
 
-#import "ASBaseDefines.h"
-#import "ASInternalHelpers.h"
-
-#import "ASLayoutSpecUtilities.h"
-#import "ASStackBaselinePositionedLayout.h"
-#import "ASStackLayoutSpecUtilities.h"
-#import "ASStackUnpositionedLayout.h"
-#import "ASThread.h"
+#import <AsyncDisplayKit/ASDimension.h>
+#import <AsyncDisplayKit/ASLayout.h>
+#import <AsyncDisplayKit/ASLayoutElement.h>
+#import <AsyncDisplayKit/ASLayoutElementStylePrivate.h>
+#import <AsyncDisplayKit/ASLayoutSpecUtilities.h>
+#import <AsyncDisplayKit/ASStackPositionedLayout.h>
+#import <AsyncDisplayKit/ASStackUnpositionedLayout.h>
 
 @implementation ASStackLayoutSpec
-{
-  ASDN::RecursiveMutex _propertyLock;
-}
 
 - (instancetype)init
 {
-  return [self initWithDirection:ASStackLayoutDirectionHorizontal spacing:0.0 justifyContent:ASStackLayoutJustifyContentStart alignItems:ASStackLayoutAlignItemsStart children:nil];
+  return [self initWithDirection:ASStackLayoutDirectionHorizontal spacing:0.0 justifyContent:ASStackLayoutJustifyContentStart alignItems:ASStackLayoutAlignItemsStretch children:nil];
 }
 
 + (instancetype)stackLayoutSpecWithDirection:(ASStackLayoutDirection)direction spacing:(CGFloat)spacing justifyContent:(ASStackLayoutJustifyContent)justifyContent alignItems:(ASStackLayoutAlignItems)alignItems children:(NSArray *)children
@@ -115,67 +113,38 @@
   _spacing = spacing;
 }
 
-- (void)setBaselineRelativeArrangement:(BOOL)baselineRelativeArrangement
+- (ASLayout *)calculateLayoutThatFits:(ASSizeRange)constrainedSize
 {
-  ASDisplayNodeAssert(self.isMutable, @"Cannot set properties when layout spec is not mutable");
-  _baselineRelativeArrangement = baselineRelativeArrangement;
-}
-
-- (void)setChild:(id<ASLayoutable>)child forIdentifier:(NSString *)identifier
-{
-  ASDisplayNodeAssert(NO, @"ASStackLayoutSpec only supports setChildren");
-}
-
-- (id<ASLayoutable>)childForIdentifier:(NSString *)identifier
-{
-  ASDisplayNodeAssert(NO, @"ASStackLayoutSpec only supports children");
-  return nil;
-}
-
-- (ASLayout *)measureWithSizeRange:(ASSizeRange)constrainedSize
-{
-  if (self.children.count == 0) {
-    return [ASLayout layoutWithLayoutableObject:self size:constrainedSize.min];
+  NSArray *children = self.children;
+  if (children.count == 0) {
+    return [ASLayout layoutWithLayoutElement:self size:constrainedSize.min];
   }
+ 
+  // Accessing the style and size property is pretty costly we create layout spec children we use to figure
+  // out the layout for each child
+  const auto stackChildren = AS::map(children, [&](const id<ASLayoutElement> child) -> ASStackLayoutSpecChild {
+    ASLayoutElementStyle *style = child.style;
+    return {child, style, style.size};
+  });
   
-  ASStackLayoutSpecStyle style = {.direction = _direction, .spacing = _spacing, .justifyContent = _justifyContent, .alignItems = _alignItems, .baselineRelativeArrangement = _baselineRelativeArrangement};
-  BOOL needsBaselinePass = _baselineRelativeArrangement || _alignItems == ASStackLayoutAlignItemsBaselineFirst || _alignItems == ASStackLayoutAlignItemsBaselineLast;
-  
-  std::vector<id<ASLayoutable>> stackChildren = std::vector<id<ASLayoutable>>();
-  for (id<ASLayoutable> child in self.children) {
-    stackChildren.push_back(child);
-  }
+  const ASStackLayoutSpecStyle style = {.direction = _direction, .spacing = _spacing, .justifyContent = _justifyContent, .alignItems = _alignItems};
   
   const auto unpositionedLayout = ASStackUnpositionedLayout::compute(stackChildren, style, constrainedSize);
   const auto positionedLayout = ASStackPositionedLayout::compute(unpositionedLayout, style, constrainedSize);
   
-  CGSize finalSize = CGSizeZero;
-  NSArray *sublayouts = nil;
-  
-  // regardless of whether or not this stack aligns to baseline, we should let ASStackBaselinePositionedLayout::compute find the max ascender
-  // and min descender in case this spec is a child in another spec that wants to align to a baseline.
-  const auto baselinePositionedLayout = ASStackBaselinePositionedLayout::compute(positionedLayout, style, constrainedSize);
-  if (self.direction == ASStackLayoutDirectionVertical) {
-    ASDN::MutexLocker l(_propertyLock);
-    self.ascender = [[self.children firstObject] ascender];
-    self.descender = [[self.children lastObject] descender];
-  } else {
-    ASDN::MutexLocker l(_propertyLock);
-    self.ascender = baselinePositionedLayout.ascender;
-    self.descender = baselinePositionedLayout.descender;
+  if (style.direction == ASStackLayoutDirectionVertical) {
+    self.style.ascender = stackChildren.front().style.ascender;
+    self.style.descender = stackChildren.back().style.descender;
   }
   
-  if (needsBaselinePass) {
-    finalSize = directionSize(style.direction, unpositionedLayout.stackDimensionSum, baselinePositionedLayout.crossSize);
-    sublayouts = [NSArray arrayWithObjects:&baselinePositionedLayout.sublayouts[0] count:baselinePositionedLayout.sublayouts.size()];
-  } else {
-    finalSize = directionSize(style.direction, unpositionedLayout.stackDimensionSum, positionedLayout.crossSize);
-    sublayouts = [NSArray arrayWithObjects:&positionedLayout.sublayouts[0] count:positionedLayout.sublayouts.size()];
+  const CGSize finalSize = directionSize(style.direction, unpositionedLayout.stackDimensionSum, unpositionedLayout.crossSize);
+  
+  NSMutableArray *sublayouts = [NSMutableArray array];
+  for (const auto &l : positionedLayout.items) {
+    [sublayouts addObject:l.layout];
   }
   
-  return [ASLayout layoutWithLayoutableObject:self
-                                         size:ASSizeRangeClamp(constrainedSize, finalSize)
-                                   sublayouts:sublayouts];
+  return [ASLayout layoutWithLayoutElement:self size:ASSizeRangeClamp(constrainedSize, finalSize) sublayouts:sublayouts];
 }
 
 - (void)resolveHorizontalAlignment
@@ -200,7 +169,7 @@
 
 @implementation ASStackLayoutSpec (Debugging)
 
-#pragma mark - ASLayoutableAsciiArtProtocol
+#pragma mark - ASLayoutElementAsciiArtProtocol
 
 - (NSString *)asciiArtString
 {

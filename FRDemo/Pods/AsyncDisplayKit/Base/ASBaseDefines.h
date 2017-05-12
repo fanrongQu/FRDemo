@@ -1,12 +1,24 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASBaseDefines.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #pragma once
+
+#import <AsyncDisplayKit/ASLog.h>
+
+#ifndef PIN_REMOTE_IMAGE
+#if __has_include(<PINRemoteImage/PINRemoteImage.h>)
+#define PIN_REMOTE_IMAGE 1
+#else
+#define PIN_REMOTE_IMAGE 0
+#endif
+#endif
 
 // The C++ compiler mangles C function names. extern "C" { /* your C functions */ } prevents this.
 // You should wrap all C function prototypes declared in headers with ASDISPLAYNODE_EXTERN_C_BEGIN/END, even if
@@ -58,6 +70,14 @@
 # endif
 #endif
 
+#ifndef ASDISPLAYNODE_CONST
+# if ASDISPLAYNODE_GNUC (3, 0)
+#  define ASDISPLAYNODE_CONST __attribute__ ((const))
+# else
+#  define ASDISPLAYNODE_CONST /* no const */
+# endif
+#endif
+
 #ifndef ASDISPLAYNODE_WARN_UNUSED
 # if ASDISPLAYNODE_GNUC (3, 4)
 #  define ASDISPLAYNODE_WARN_UNUSED __attribute__ ((warn_unused_result))
@@ -78,10 +98,29 @@
 # endif
 #endif
 
+#ifndef ASDISPLAYNODE_DEPRECATED_MSG
+# if ASDISPLAYNODE_GNUC (3, 0) && ASDISPLAYNODE_WARN_DEPRECATED
+#   define  ASDISPLAYNODE_DEPRECATED_MSG(msg) __deprecated_msg(msg)
+# else
+#   define  ASDISPLAYNODE_DEPRECATED_MSG(msg)
+# endif
+#endif
+
 #if defined (__cplusplus) && defined (__GNUC__)
 # define ASDISPLAYNODE_NOTHROW __attribute__ ((nothrow))
 #else
 # define ASDISPLAYNODE_NOTHROW
+#endif
+
+/**
+ * The event backtraces take a static 2KB of memory
+ * and retain all objects present in all the registers
+ * of the stack frames. The memory consumption impact
+ * is too significant even to be enabled during general
+ * development.
+ */
+#ifndef AS_SAVE_EVENT_BACKTRACES
+# define AS_SAVE_EVENT_BACKTRACES 0
 #endif
 
 #define ARRAY_COUNT(x) sizeof(x) / sizeof(x[0])
@@ -141,3 +180,40 @@
 #define ASDISPLAYNODE_REQUIRES_SUPER
 #endif
 #endif
+
+#ifndef AS_UNAVAILABLE
+#if __has_attribute(unavailable)
+#define AS_UNAVAILABLE(message) __attribute__((unavailable(message)))
+#else
+#define AS_UNAVAILABLE(message)
+#endif
+#endif
+
+#ifndef AS_WARN_UNUSED_RESULT
+#if __has_attribute(warn_unused_result)
+#define AS_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+#else
+#define AS_WARN_UNUSED_RESULT
+#endif
+#endif
+
+#define ASOVERLOADABLE __attribute__((overloadable))
+
+
+#if __has_attribute(noescape)
+#define AS_NOESCAPE __attribute__((noescape))
+#else
+#define AS_NOESCAPE
+#endif
+
+#if __has_attribute(objc_subclassing_restricted)
+#define AS_SUBCLASSING_RESTRICTED __attribute__((objc_subclassing_restricted))
+#else
+#define AS_SUBCLASSING_RESTRICTED
+#endif
+
+/// Ensure that class is of certain kind
+#define ASDynamicCast(x, c) ({ \
+  id __val = x;\
+  ((c *) ([__val isKindOfClass:[c class]] ? __val : nil));\
+})

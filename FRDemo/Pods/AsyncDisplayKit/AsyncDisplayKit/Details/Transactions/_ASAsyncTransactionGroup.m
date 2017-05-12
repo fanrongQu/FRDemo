@@ -1,16 +1,19 @@
- /* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  _ASAsyncTransactionGroup.m
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
-#import "ASAssert.h"
+#import <AsyncDisplayKit/ASAssert.h>
 
-#import "_ASAsyncTransaction.h"
-#import "_ASAsyncTransactionGroup.h"
-#import "_ASAsyncTransactionContainer+Private.h"
+#import <AsyncDisplayKit/_ASAsyncTransaction.h>
+#import <AsyncDisplayKit/_ASAsyncTransactionGroup.h>
+#import <AsyncDisplayKit/_ASAsyncTransactionContainer.h>
+#import <AsyncDisplayKit/_ASAsyncTransactionContainer+Private.h>
 
 static void _transactionGroupRunLoopObserverCallback(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info);
 
@@ -20,7 +23,7 @@ static void _transactionGroupRunLoopObserverCallback(CFRunLoopObserverRef observ
 @end
 
 @implementation _ASAsyncTransactionGroup {
-  NSHashTable *_containerLayers;
+  NSHashTable<id<ASAsyncTransactionContainer>> *_containers;
 }
 
 + (_ASAsyncTransactionGroup *)mainTransactionGroup
@@ -62,34 +65,34 @@ static void _transactionGroupRunLoopObserverCallback(CFRunLoopObserverRef observ
   CFRelease(observer);
 }
 
-- (id)init
+- (instancetype)init
 {
   if ((self = [super init])) {
-    _containerLayers = [NSHashTable hashTableWithOptions:NSPointerFunctionsObjectPointerPersonality];
+    _containers = [NSHashTable hashTableWithOptions:NSHashTableObjectPointerPersonality];
   }
   return self;
 }
 
-- (void)addTransactionContainer:(CALayer *)containerLayer
+- (void)addTransactionContainer:(id<ASAsyncTransactionContainer>)container
 {
   ASDisplayNodeAssertMainThread();
-  ASDisplayNodeAssert(containerLayer != nil, @"No container");
-  [_containerLayers addObject:containerLayer];
+  ASDisplayNodeAssert(container != nil, @"No container");
+  [_containers addObject:container];
 }
 
 - (void)commit
 {
   ASDisplayNodeAssertMainThread();
 
-  if ([_containerLayers count]) {
-    NSHashTable *containerLayersToCommit = [_containerLayers copy];
-    [_containerLayers removeAllObjects];
+  if ([_containers count]) {
+    NSHashTable *containersToCommit = _containers;
+    _containers = [NSHashTable hashTableWithOptions:NSHashTableObjectPointerPersonality];
 
-    for (CALayer *containerLayer in containerLayersToCommit) {
+    for (id<ASAsyncTransactionContainer> container in containersToCommit) {
       // Note that the act of committing a transaction may open a new transaction,
       // so we must nil out the transaction we're committing first.
-      _ASAsyncTransaction *transaction = containerLayer.asyncdisplaykit_currentAsyncLayerTransaction;
-      containerLayer.asyncdisplaykit_currentAsyncLayerTransaction = nil;
+      _ASAsyncTransaction *transaction = container.asyncdisplaykit_currentAsyncTransaction;
+      container.asyncdisplaykit_currentAsyncTransaction = nil;
       [transaction commit];
     }
   }

@@ -16,9 +16,6 @@
     return [self colorWithHexColorString:hexColorString alpha:1.0f];
 }
 
-
-
-
 #pragma mark  十六进制颜色
 + (UIColor *)colorWithHexColorString:(NSString *)hexColorString alpha:(float)alpha{
     
@@ -44,5 +41,17 @@
     
     return color;
 }
+
+
+
++ (UIColor *)colorWithColorRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue {
+    return [self colorWithColorRed:red green:green blue:blue alpha:1.0f];
+}
+
+
++ (UIColor *)colorWithColorRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha {
+    return [self colorWithRed:red/255.0f green:green/255.0f blue:blue/255.0f alpha:alpha];
+}
+
 
 @end

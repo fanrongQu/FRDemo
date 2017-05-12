@@ -60,10 +60,6 @@ typedef enum {
  */
 - (void)setBorder:(UIColor*)color width:(CGFloat)width;
 
-/**
- *  调试
- */
-- (void)debug:(UIColor*)color width:(CGFloat)width;
 
 /**
  *  批量移除视图

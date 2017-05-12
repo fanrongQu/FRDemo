@@ -31,4 +31,12 @@
 
 #define kRedColor kUIColor_RGB(224, 50, 53, 1);
 
+
+#define IsObjectValid(obj) (obj&&((NSNull *)obj!=[NSNull null]))
+#define IsNSStringNotEmpty(obj) (obj&&((NSNull *)obj!=[NSNull null]) && [obj isKindOfClass:[NSString class]] && [obj length] > 0)
+#define IsNSArrayNotEmpty(obj) (obj&&((NSNull *)obj!=[NSNull null]) && [obj isKindOfClass:[NSArray class]] && [obj count] > 0)
+#define IsObjectTypeValid(obj,type) (obj&&((NSNull *)obj!=[NSNull null])&&[obj isKindOfClass:type])
+#define IsValidNSDictionary(obj) (obj&&((NSNull *)obj!=[NSNull null]) && [obj isKindOfClass:[NSDictionary class]])
+
+
 #endif /* SettingMacro_h */

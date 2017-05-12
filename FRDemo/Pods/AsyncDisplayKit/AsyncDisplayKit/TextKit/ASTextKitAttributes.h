@@ -1,19 +1,17 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASTextKitAttributes.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #pragma once
 
 #import <UIKit/UIKit.h>
-#import "ASEqualityHelpers.h"
-
-@protocol ASTextKitTruncating;
+#import <AsyncDisplayKit/ASEqualityHelpers.h>
 
 extern NSString *const ASTextKitTruncationAttributeName;
 /**
@@ -59,7 +57,7 @@ struct ASTextKitAttributes {
   /**
    An array of UIBezierPath objects representing the exclusion paths inside the receiver's bounding rectangle. Default value: nil.
    */
-  NSArray *exclusionPaths;
+  NSArray<UIBezierPath *> *exclusionPaths;
   /**
    The shadow offset for any shadows applied to the text.  The coordinate space for this is the same as UIKit, so a
    positive width means towards the right, and a positive height means towards the bottom.
@@ -81,20 +79,6 @@ struct ASTextKitAttributes {
    An array of scale factors in descending order to apply to the text to try to make it fit into a constrained size.
    */
   NSArray *pointSizeScaleFactors;
-  /**
-   An optional block that returns a custom layout manager subclass. If nil, defaults to NSLayoutManager.
-   */
-  NSLayoutManager * (^layoutManagerCreationBlock)(void);
-  
-  /**
-   An optional delegate for the NSLayoutManager
-   */
-  id<NSLayoutManagerDelegate> layoutManagerDelegate;
-
-  /**
-   An optional block that returns a custom NSTextStorage for the layout manager. 
-   */
-  NSTextStorage * (^textStorageCreationBlock)(NSAttributedString *attributedString);
 
   /**
    We provide an explicit copy function so we can use aggregate initializer syntax while providing copy semantics for
@@ -114,9 +98,6 @@ struct ASTextKitAttributes {
       shadowOpacity,
       shadowRadius,
       pointSizeScaleFactors,
-      layoutManagerCreationBlock,
-      layoutManagerDelegate,
-      textStorageCreationBlock,
     };
   };
 
@@ -127,9 +108,8 @@ struct ASTextKitAttributes {
     && maximumNumberOfLines == other.maximumNumberOfLines
     && shadowOpacity == other.shadowOpacity
     && shadowRadius == other.shadowRadius
-    && [pointSizeScaleFactors isEqualToArray:other.pointSizeScaleFactors]
-    && layoutManagerCreationBlock == other.layoutManagerCreationBlock
-    && textStorageCreationBlock == other.textStorageCreationBlock
+    && (pointSizeScaleFactors == other.pointSizeScaleFactors
+        || [pointSizeScaleFactors isEqualToArray:other.pointSizeScaleFactors])
     && CGSizeEqualToSize(shadowOffset, other.shadowOffset)
     && ASObjectIsEqual(exclusionPaths, other.exclusionPaths)
     && ASObjectIsEqual(avoidTailTruncationSet, other.avoidTailTruncationSet)

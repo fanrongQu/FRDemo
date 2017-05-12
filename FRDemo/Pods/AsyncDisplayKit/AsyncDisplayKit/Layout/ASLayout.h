@@ -1,74 +1,101 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASLayout.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
-#import <UIKit/UIKit.h>
-#import <AsyncDisplayKit/ASAssert.h>
-#import <AsyncDisplayKit/ASLayoutable.h>
+#pragma once
+#import <Foundation/Foundation.h>
+#import <AsyncDisplayKit/ASDimension.h>
+#import <AsyncDisplayKit/ASLayoutElement.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+ASDISPLAYNODE_EXTERN_C_BEGIN
 
 extern CGPoint const CGPointNull;
 
 extern BOOL CGPointIsNull(CGPoint point);
 
-/** Represents a computed immutable layout tree. */
+/**
+ * Safely calculates the layout of the given root layoutElement by guarding against nil nodes.
+ * @param rootLayoutElement The root node to calculate the layout for.
+ * @param sizeRange The size range to calculate the root layout within.
+ */
+extern ASLayout *ASCalculateRootLayout(id<ASLayoutElement> rootLayoutElement, const ASSizeRange sizeRange);
+
+/**
+ * Safely computes the layout of the given node by guarding against nil nodes.
+ * @param layoutElement The layout element to calculate the layout for.
+ * @param sizeRange The size range to calculate the node layout within.
+ * @param parentSize The parent size of the node to calculate the layout for.
+ */
+extern ASLayout *ASCalculateLayout(id<ASLayoutElement>layoutElement, const ASSizeRange sizeRange, const CGSize parentSize);
+
+ASDISPLAYNODE_EXTERN_C_END
+
+/**
+ * A node in the layout tree that represents the size and position of the object that created it (ASLayoutElement).
+ */
 @interface ASLayout : NSObject
 
 /**
  * The underlying object described by this layout
  */
-@property (nonatomic, weak, readonly) id<ASLayoutable> layoutableObject;
+@property (nonatomic, weak, readonly) id<ASLayoutElement> layoutElement;
+
+/**
+ * The type of ASLayoutElement that created this layout
+ */
+@property (nonatomic, assign, readonly) ASLayoutElementType type;
 
 /**
  * Size of the current layout
  */
-@property (nonatomic, readonly) CGSize size;
+@property (nonatomic, assign, readonly) CGSize size;
 
 /**
  * Position in parent. Default to CGPointNull.
  * 
  * @discussion When being used as a sublayout, this property must not equal CGPointNull.
  */
-@property (nonatomic, readwrite) CGPoint position;
+@property (nonatomic, assign, readonly) CGPoint position;
 
 /**
  * Array of ASLayouts. Each must have a valid non-null position.
  */
-@property (nonatomic, readonly) NSArray<ASLayout *> *sublayouts;
+@property (nonatomic, copy, readonly) NSArray<ASLayout *> *sublayouts;
 
 /**
- * A list of sublayouts that were not already flattened.
+ * @abstract Returns a valid frame for the current layout computed with the size and position.
+ * @discussion Clamps the layout's origin or position to 0 if any of the calculated values are infinite.
  */
-@property (nonatomic, readonly) NSArray<ASLayout *> *immediateSublayouts;
+@property (nonatomic, assign, readonly) CGRect frame;
 
 /**
- * A boolean describing if the current layout has been flattened.
+ * Designated initializer
  */
-@property (nonatomic, readonly, getter=isFlattened) BOOL flattened;
+- (instancetype)initWithLayoutElement:(id<ASLayoutElement>)layoutElement
+                                 size:(CGSize)size
+                             position:(CGPoint)position
+                           sublayouts:(nullable NSArray<ASLayout *> *)sublayouts NS_DESIGNATED_INITIALIZER;
 
 /**
- * Initializer.
+ * Convenience class initializer for layout construction.
  *
- * @param layoutableObject The backing ASLayoutable object.
- *
- * @param size The size of this layout.
- *
- * @param position The position of this layout within its parent (if available).
- *
- * @param sublayouts Sublayouts belong to the new layout.
+ * @param layoutElement The backing ASLayoutElement object.
+ * @param size             The size of this layout.
+ * @param position         The position of this layout within its parent (if available).
+ * @param sublayouts       Sublayouts belong to the new layout.
  */
-+ (instancetype)layoutWithLayoutableObject:(id<ASLayoutable>)layoutableObject
-                                      size:(CGSize)size
-                                  position:(CGPoint)position
-                                sublayouts:(nullable NSArray<ASLayout *> *)sublayouts
-                                 flattened:(BOOL)flattened;
++ (instancetype)layoutWithLayoutElement:(id<ASLayoutElement>)layoutElement
+                                   size:(CGSize)size
+                               position:(CGPoint)position
+                             sublayouts:(nullable NSArray<ASLayout *> *)sublayouts AS_WARN_UNUSED_RESULT;
 
 /**
  * Convenience initializer that has CGPointNull position.
@@ -76,57 +103,70 @@ extern BOOL CGPointIsNull(CGPoint point);
  * or for ASLayoutSpec subclasses that are referencing the "self" level in the layout tree,
  * or for creating a sublayout of which the position is yet to be determined.
  *
- * @param layoutableObject The backing ASLayoutable object.
- *
- * @param size The size of this layout.
- *
- * @param sublayouts Sublayouts belong to the new layout.
+ * @param layoutElement  The backing ASLayoutElement object.
+ * @param size              The size of this layout.
+ * @param sublayouts        Sublayouts belong to the new layout.
  */
-+ (instancetype)layoutWithLayoutableObject:(id<ASLayoutable>)layoutableObject
-                                      size:(CGSize)size
-                                sublayouts:(nullable NSArray<ASLayout *> *)sublayouts;
++ (instancetype)layoutWithLayoutElement:(id<ASLayoutElement>)layoutElement
+                                   size:(CGSize)size
+                             sublayouts:(nullable NSArray<ASLayout *> *)sublayouts AS_WARN_UNUSED_RESULT;
 
 /**
- * Convenience that has CGPointNull position and no sublayouts. 
+ * Convenience that has CGPointNull position and no sublayouts.
  * Best used for creating a layout that has no sublayouts, and is either a root one
  * or a sublayout of which the position is yet to be determined.
  *
- * @param layoutableObject The backing ASLayoutable object.
- *
- * @param size The size of this layout.
+ * @param layoutElement The backing ASLayoutElement object.
+ * @param size             The size of this layout.
  */
-+ (instancetype)layoutWithLayoutableObject:(id<ASLayoutable>)layoutableObject size:(CGSize)size;
++ (instancetype)layoutWithLayoutElement:(id<ASLayoutElement>)layoutElement
+                                   size:(CGSize)size AS_WARN_UNUSED_RESULT;
+/**
+ * Convenience initializer that creates a layout based on the values of the given layout, with a new position
+ *
+ * @param layout           The layout to use to create the new layout
+ * @param position         The position of the new layout
+ */
++ (instancetype)layoutWithLayout:(ASLayout *)layout position:(CGPoint)position AS_WARN_UNUSED_RESULT;
 
 /**
- * Convenience initializer that is flattened and has CGPointNull position.
- *
- * @param layoutableObject The backing ASLayoutable object.
- *
- * @param size The size of this layout.
- *
- * @param sublayouts Sublayouts belong to the new layout.
+ * Traverses the existing layout tree and generates a new tree that represents only ASDisplayNode layouts
  */
-+ (instancetype)flattenedLayoutWithLayoutableObject:(id<ASLayoutable>)layoutableObject
-                                               size:(CGSize)size
-                                         sublayouts:(nullable NSArray<ASLayout *> *)sublayouts;
+- (ASLayout *)filteredNodeLayoutTree AS_WARN_UNUSED_RESULT;
+
+@end
+
+@interface ASLayout (Unavailable)
+
+- (instancetype)init __unavailable;
+
+@end
+
+#pragma mark - Deprecated
+
+@interface ASLayout (Deprecated)
+
+- (id <ASLayoutElement>)layoutableObject ASDISPLAYNODE_DEPRECATED;
+
++ (instancetype)layoutWithLayoutableObject:(id<ASLayoutElement>)layoutElement
+                      constrainedSizeRange:(ASSizeRange)constrainedSizeRange
+                                      size:(CGSize)size ASDISPLAYNODE_DEPRECATED;
+
++ (instancetype)layoutWithLayoutableObject:(id<ASLayoutElement>)layoutElement
+                      constrainedSizeRange:(ASSizeRange)constrainedSizeRange
+                                      size:(CGSize)size
+                                sublayouts:(nullable NSArray<ASLayout *> *)sublayouts AS_WARN_UNUSED_RESULT ASDISPLAYNODE_DEPRECATED;
+
+@end
+
+#pragma mark - Debugging
+
+@interface ASLayout (Debugging)
 
 /**
- * @abstract Evaluates a given predicate block against each object in the receiving layout tree
- * and returns a new, 1-level deep layout containing the objects for which the predicate block returns true.
- *
- * @param predicateBlock The block is applied to a layout to be evaluated. 
- * The block takes 1 argument: evaluatedLayout - the layout to be evaluated.
- * The block returns YES if evaluatedLayout evaluates  to true, otherwise NO.
- *
- * @return A new, 1-level deep layout containing the layouts for which the predicate block returns true.
+ * Recrusively output the description of the layout tree.
  */
-- (ASLayout *)flattenedLayoutUsingPredicateBlock:(BOOL (^)(ASLayout *evaluatedLayout))predicateBlock;
-
-/**
- * @abstract Returns a valid frame for the current layout computed with the size and position.
- * @discussion Clamps the layout's origin or position to 0 if any of the calculated values are infinite.
- */
-- (CGRect)frame;
+- (NSString *)recursiveDescription;
 
 @end
 

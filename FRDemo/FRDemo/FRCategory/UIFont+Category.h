@@ -10,21 +10,15 @@
 
 @interface UIFont (Category)
 
-
 /**
  *  打印并显示所有字体
  */
 +(void)showAllFonts;
 
-
 /**
  *  宋体(字体缺失)
  */
 +(UIFont *)songTypefaceFontOfSize:(CGFloat)size;
-
-
-
-
 
 /**
  *  微软雅黑：正常字体

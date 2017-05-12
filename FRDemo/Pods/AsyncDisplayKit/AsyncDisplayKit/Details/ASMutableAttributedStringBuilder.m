@@ -1,12 +1,14 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASMutableAttributedStringBuilder.m
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
-#import "ASMutableAttributedStringBuilder.h"
+#import <AsyncDisplayKit/ASMutableAttributedStringBuilder.h>
 
 @implementation ASMutableAttributedStringBuilder {
   // Flag for the type of the current transaction (set or add)

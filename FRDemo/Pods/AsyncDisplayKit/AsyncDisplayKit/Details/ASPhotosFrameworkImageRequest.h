@@ -3,13 +3,17 @@
 //  AsyncDisplayKit
 //
 //  Created by Adlai Holler on 9/25/15.
-//  Copyright © 2015 Facebook. All rights reserved.
 //
-#if TARGET_OS_IOS
-#import <Foundation/Foundation.h>
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
+
+#import <UIKit/UIKit.h>
 #import <Photos/Photos.h>
 
-// NS_ASSUME_NONNULL_BEGIN
+NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const ASPhotosURLScheme;
 
@@ -24,7 +28,7 @@ extern NSString *const ASPhotosURLScheme;
 /**
  @return A new image request deserialized from `url`, or nil if `url` is not a valid photos URL.
  */
-+ (/*nullable*/ ASPhotosFrameworkImageRequest *)requestWithURL:(NSURL *)url;
++ (nullable ASPhotosFrameworkImageRequest *)requestWithURL:(NSURL *)url;
 
 /**
  @abstract The asset identifier for this image request provided during initialization.
@@ -63,5 +67,4 @@ extern NSString *const ASPhotosURLScheme;
 
 @end
 
-// NS_ASSUME_NONNULL_END
-#endif
+NS_ASSUME_NONNULL_END

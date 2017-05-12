@@ -447,8 +447,6 @@
 
 
 
-
-
 /*
  *  时间戳对应的NSDate
  */
@@ -483,6 +481,207 @@
     return dateString;
 }
 
+
+
++ (BOOL)isBlankString:(NSString*)string {
+    
+    if (string == nil) {
+        return YES;
+    }
+    
+    if (string == NULL) {
+        return YES;
+    }
+    
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    
+    if ([string isEqualToString:@"(null)"]) {
+        return YES;
+    }
+    
+    if([string isEqualToString:@"<null>"]){
+        return YES;
+    }
+    
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+#pragma makr 判断是输入了表情
++ (BOOL)isContainsTwoEmoji:(NSString *)string
+{
+    __block BOOL isEomji = NO;
+    [string enumerateSubstringsInRange:NSMakeRange(0, [string length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:
+     ^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+         const unichar hs = [substring characterAtIndex:0];
+         //         NSLog(@"hs++++++++%04x",hs);
+         if (0xd800 <= hs && hs <= 0xdbff) {
+             if (substring.length > 1) {
+                 const unichar ls = [substring characterAtIndex:1];
+                 const int uc = ((hs - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
+                 if (0x1d000 <= uc && uc <= 0x1f77f)
+                 {
+                     isEomji = YES;
+                 }
+                 //                 NSLog(@"uc++++++++%04x",uc);
+             }
+         } else if (substring.length > 1) {
+             const unichar ls = [substring characterAtIndex:1];
+             if (ls == 0x20e3|| ls ==0xfe0f) {
+                 isEomji = YES;
+             }
+             //             NSLog(@"ls++++++++%04x",ls);
+         } else {
+             if (0x2100 <= hs && hs <= 0x27ff && hs != 0x263b) {
+                 isEomji = YES;
+             } else if (0x2B05 <= hs && hs <= 0x2b07) {
+                 isEomji = YES;
+             } else if (0x2934 <= hs && hs <= 0x2935) {
+                 isEomji = YES;
+             } else if (0x3297 <= hs && hs <= 0x3299) {
+                 isEomji = YES;
+             } else if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50|| hs == 0x231a ) {
+                 isEomji = YES;
+             }
+         }
+         
+     }];
+    return isEomji;
+}
+
+
+/**
+ *  快速返回沙盒中，Documents文件的路径
+ *
+ *  @return Documents文件的路径
+ */
++ (NSString *)pathForDocuments
+{
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
+/**
+ *  快速返回Documents文件中某个子文件的路径
+ *
+ *  @param fileName 子文件名称
+ *
+ *  @return 快速返回Documents文件中某个子文件的路径
+ */
++ (NSString *)filePathAtDocumentsWithFileName:(NSString *)fileName
+{
+    return  [[self pathForDocuments] stringByAppendingPathComponent:fileName];
+}
+
+/**
+ *  快速返回沙盒中Library下Caches文件的路径
+ *
+ *  @return 快速返回沙盒中Library下Caches文件的路径
+ */
++ (NSString *)pathForCaches
+{
+    return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+}
+
++ (NSString *)filePathAtCachesWithFileName:(NSString *)fileName
+{
+    return [[self pathForCaches] stringByAppendingPathComponent:fileName];
+}
+
+/**
+ *  快速返回MainBundle(资源捆绑包的)的路径
+ *
+ *  @return 快速返回MainBundle(资源捆绑包的)的路径
+ */
++ (NSString *)pathForMainBundle
+{
+    return [NSBundle mainBundle].bundlePath;
+}
+
+/**
+ *  快速返回MainBundle(资源捆绑包的)下文件的路径
+ *
+ *  @param fileName MainBundle(资源捆绑包的)下的文件名
+ *
+ *  @return 快速返回MainBundle(资源捆绑包的)下文件的路径
+ */
++ (NSString *)filePathAtMainBundleWithFileName:(NSString *)fileName
+{
+    return [[self pathForMainBundle] stringByAppendingPathComponent:fileName];
+}
+
+/**
+ *  快速返回沙盒中tmp(临时文件)文件的路径
+ *
+ *  @return 快速返回沙盒中tmp文件的路径
+ */
++ (NSString *)pathForTemp
+{
+    return NSTemporaryDirectory();
+}
+
+/**
+ *  快速返回沙盒中，temp文件中某个子文件的路径
+ *
+ *  @param fileName 子文件名
+ *
+ *  @return 快速返回temp文件中某个子文件的路径
+ */
++ (NSString *)filePathAtTempWithFileName:(NSString *)fileName
+{
+    return [[self pathForTemp] stringByAppendingPathComponent:fileName];
+}
+
+/**
+ *  快速返回沙盒中，Library下Preferences文件的路径
+ *
+ *  @return 快速返回沙盒中Library下Caches文件的路径
+ */
++ (NSString *)pathForPreferences
+{
+    return [NSSearchPathForDirectoriesInDomains(NSPreferencePanesDirectory, NSUserDomainMask, YES) lastObject];
+}
+
+/**
+ *  快速返回沙盒中，Library下Preferences文件中某个子文件的路径
+ *
+ *  @param fileName 子文件名称
+ *
+ *  @return 快速返回Preferences文件中某个子文件的路径
+ */
++ (NSString *)filePathAtPreferencesWithFileName:(NSString *)fileName
+{
+    return [[self pathForPreferences] stringByAppendingPathComponent:fileName];
+}
+
+/**
+ *  快速你指定的系统文件的路径
+ *
+ *  @param directory NSSearchPathDirectory枚举
+ *
+ *  @return 快速你指定的系统文件的路径
+ */
++ (NSString *)pathForSystemFile:(NSSearchPathDirectory)directory
+{
+    return [NSSearchPathForDirectoriesInDomains(directory, NSUserDomainMask, YES) lastObject];
+}
+
+/**
+ *  快速返回沙盒中，你指定的系统文件的中某个子文件的路径。tmp文件除外，请使用filePathAtTempWithFileName
+ *
+ *  @param directory 你指的的系统文件
+ *  @param fileName  子文件名
+ *
+ *  @return 快速返回沙盒中，你指定的系统文件的中某个子文件的路径
+ */
++ (NSString *)filePathForSystemFile:(NSSearchPathDirectory)directory withFileName:(NSString *)fileName
+{
+    return [[self pathForSystemFile:directory] stringByAppendingPathComponent:fileName];
+}
 
 
 @end

@@ -1,20 +1,19 @@
-/* Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASCollectionViewLayoutController.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
-#import "ASCollectionViewLayoutController.h"
+#import <AsyncDisplayKit/ASCollectionViewLayoutController.h>
 
-#include <vector>
-
-#import "ASAssert.h"
-#import "ASCollectionView.h"
-#import "CGRect+ASConvenience.h"
-#import "UICollectionViewLayout+ASConvenience.h"
-#import "ASDisplayNodeExtras.h"
+#import <AsyncDisplayKit/ASAssert.h>
+#import <AsyncDisplayKit/ASCollectionView.h>
+#import <AsyncDisplayKit/CoreGraphics+ASConvenience.h>
+#import <AsyncDisplayKit/UICollectionViewLayout+ASConvenience.h>
 
 struct ASRangeGeometry {
   CGRect rangeBounds;
@@ -31,7 +30,6 @@ typedef struct ASRangeGeometry ASRangeGeometry;
   @package
   ASCollectionView * __weak _collectionView;
   UICollectionViewLayout * __strong _collectionViewLayout;
-  ASScrollDirection _scrollableDirections;
 }
 @end
 
@@ -43,7 +41,6 @@ typedef struct ASRangeGeometry ASRangeGeometry;
     return nil;
   }
   
-  _scrollableDirections = [collectionView scrollableDirections];
   _collectionView = collectionView;
   _collectionViewLayout = [collectionView collectionViewLayout];
   return self;
@@ -63,7 +60,15 @@ typedef struct ASRangeGeometry ASRangeGeometry;
   
   for (UICollectionViewLayoutAttributes *la in layoutAttributes) {
     //ASDisplayNodeAssert(![indexPathSet containsObject:la.indexPath], @"Shouldn't already contain indexPath");
-    ASDisplayNodeAssert(la.representedElementCategory != UICollectionElementCategoryDecorationView, @"UICollectionView decoration views are not supported by ASCollectionView");
+
+    // Manually filter out elements that don't intersect the range bounds.
+    // If a layout returns elements outside the requested rect this can be a huge problem.
+    // For instance in a paging flow, you may only want to preload 3 pages (one center, one on each side)
+    // but if flow layout includes the 4th page (which it does! as of iOS 9&10), you will preload a 4th
+    // page as well.
+    if (CATransform3DIsIdentity(la.transform3D) && CGRectIntersectsRect(la.frame, rangeBounds) == NO) {
+      continue;
+    }
     [indexPathSet addObject:la.indexPath];
   }
 
@@ -75,12 +80,7 @@ typedef struct ASRangeGeometry ASRangeGeometry;
 {
   CGRect rect = _collectionView.bounds;
   
-  // Scrollable directions can change for non-flow layouts
-  if ([_collectionViewLayout asdk_isFlowLayout] == NO) {
-    _scrollableDirections = [_collectionView scrollableDirections];
-  }
-  
-  return CGRectExpandToRangeWithScrollableDirections(rect, tuningParameters, _scrollableDirections, scrollDirection);
+  return CGRectExpandToRangeWithScrollableDirections(rect, tuningParameters, [_collectionView scrollableDirections], scrollDirection);
 }
 
 @end

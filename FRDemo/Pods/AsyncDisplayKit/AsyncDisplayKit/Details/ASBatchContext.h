@@ -1,10 +1,12 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASBatchContext.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -18,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Retrieve the state of the current batch process.
  *
- * @returns A boolean reflecting if the owner of the context object is fetching another batch.
+ * @return A boolean reflecting if the owner of the context object is fetching another batch.
  */
 - (BOOL)isFetching;
 
@@ -39,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion If an error occurs in the context owner, the batch fetching may become out of sync and need to be
  * cancelled. For best practices, pass the return value of -batchWasCancelled to -completeBatchFetch:.
  *
- * @returns A boolean reflecting if the context object owner had to cancel the batch process.
+ * @return A boolean reflecting if the context object owner had to cancel the batch process.
  */
 - (BOOL)batchFetchingWasCancelled;
 

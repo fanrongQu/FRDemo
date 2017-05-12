@@ -1,19 +1,19 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASDisplayNode+Subclasses.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <pthread.h>
 
-#import <AsyncDisplayKit/_ASDisplayLayer.h>
-#import <AsyncDisplayKit/ASAssert.h>
+#import <AsyncDisplayKit/ASBlockTypes.h>
 #import <AsyncDisplayKit/ASDisplayNode.h>
-#import <AsyncDisplayKit/ASThread.h>
 
-@class ASLayoutSpec;
+@class ASLayoutSpec, _ASDisplayLayer;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,8 +37,63 @@ NS_ASSUME_NONNULL_BEGIN
  * variables.
  */
 
-@interface ASDisplayNode (Subclassing)
+@protocol ASInterfaceStateDelegate <NSObject>
+@required
 
+/**
+ * @abstract Called whenever any bit in the ASInterfaceState bitfield is changed.
+ * @discussion Subclasses may use this to monitor when they become visible, should free cached data, and much more.
+ * @see ASInterfaceState
+ */
+- (void)interfaceStateDidChange:(ASInterfaceState)newState fromState:(ASInterfaceState)oldState;
+
+/**
+ * @abstract Called whenever the node becomes visible.
+ * @discussion Subclasses may use this to monitor when they become visible.
+ * @note This method is guaranteed to be called on main.
+ */
+- (void)didEnterVisibleState;
+
+/**
+ * @abstract Called whenever the node is no longer visible.
+ * @discussion Subclasses may use this to monitor when they are no longer visible.
+ * @note This method is guaranteed to be called on main.
+ */
+- (void)didExitVisibleState;
+
+/**
+ * @abstract Called whenever the the node has entered the display state.
+ * @discussion Subclasses may use this to monitor when a node should be rendering its content.
+ * @note This method is guaranteed to be called on main.
+ */
+- (void)didEnterDisplayState;
+
+/**
+ * @abstract Called whenever the the node has exited the display state.
+ * @discussion Subclasses may use this to monitor when a node should no longer be rendering its content.
+ * @note This method is guaranteed to be called on main.
+ */
+- (void)didExitDisplayState;
+
+/**
+ * @abstract Called whenever the the node has entered the preload state.
+ * @discussion Subclasses may use this to monitor data for a node should be preloaded, either from a local or remote source.
+ * @note This method is guaranteed to be called on main.
+ */
+- (void)didEnterPreloadState;
+
+/**
+ * @abstract Called whenever the the node has exited the preload state.
+ * @discussion Subclasses may use this to monitor whether preloading data for a node should be canceled.
+ * @note This method is guaranteed to be called on main.
+ */
+- (void)didExitPreloadState;
+
+@end
+
+@interface ASDisplayNode (Subclassing) <ASInterfaceStateDelegate>
+
+#pragma mark - Properties
 /** @name Properties */
 
 /**
@@ -62,8 +117,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, nonatomic, readonly, assign) ASLayout *calculatedLayout;
 
+#pragma mark - View Lifecycle
 /** @name View Lifecycle */
-
 
 /**
  * @abstract Called on the main thread immediately after self.view is created.
@@ -73,8 +128,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didLoad ASDISPLAYNODE_REQUIRES_SUPER;
 
 
+#pragma mark - Layout
 /** @name Layout */
-
 
 /**
  * @abstract Called on the main thread by the view's -layoutSubviews.
@@ -89,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion Gives a chance for subclasses to perform actions after the subclass and superclass have finished laying
  * out.
  */
-- (void)layoutDidFinish;
+- (void)layoutDidFinish ASDISPLAYNODE_REQUIRES_SUPER;
 
 /**
  * @abstract Called on a background thread if !isNodeLoaded - called on the main thread if isNodeLoaded.
@@ -97,8 +152,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion When the .calculatedLayout property is set to a new ASLayout (directly from -calculateLayoutThatFits: or
  * calculated via use of -layoutSpecThatFits:), subclasses may inspect it here.
  */
-- (void)calculatedLayoutDidChange;
+- (void)calculatedLayoutDidChange ASDISPLAYNODE_REQUIRES_SUPER;
 
+
+#pragma mark - Layout calculation
 /** @name Layout calculation */
 
 /**
@@ -117,6 +174,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (ASLayout *)calculateLayoutThatFits:(ASSizeRange)constrainedSize;
 
 /**
+ * ASDisplayNode's implementation of -layoutThatFits:parentSize: calls this method to resolve the node's size
+ * against parentSize, intersect it with constrainedSize, and call -calculateLayoutThatFits: with the result.
+ *
+ * In certain advanced cases, you may want to customize this logic. Overriding this method allows you to receive all
+ * three parameters and do the computation yourself.
+ *
+ * @warning Overriding this method should be done VERY rarely.
+ */
+- (ASLayout *)calculateLayoutThatFits:(ASSizeRange)constrainedSize
+                     restrictedToSize:(ASLayoutElementSize)size
+                 relativeToParentSize:(CGSize)parentSize;
+
+/**
  * @abstract Return the calculated size.
  *
  * @param constrainedSize The maximum size the receiver should fit in.
@@ -128,7 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @note Subclasses that override are committed to manual layout. Therefore, -layout: must be overriden to layout all subnodes or subviews.
  *
- * @note This method should not be called directly outside of ASDisplayNode; use -measure: or -calculatedLayout instead.
+ * @note This method should not be called directly outside of ASDisplayNode; use -layoutThatFits: or layoutThatFits:parentSize: instead.
  */
 - (CGSize)calculateSizeThatFits:(CGSize)constrainedSize;
 
@@ -142,7 +212,11 @@ NS_ASSUME_NONNULL_BEGIN
  * be done before display can be performed here, and using ivars to cache any valuable intermediate results is
  * encouraged.
  *
- * @note This method should not be called directly outside of ASDisplayNode; use -measure: or -calculatedLayout instead.
+ * @note This method should not be called directly outside of ASDisplayNode; use -layoutThatFits: instead.
+ *
+ * @warning Subclasses that implement -layoutSpecThatFits: must not use .layoutSpecBlock. Doing so will trigger an
+ * exception. A future version of the framework may support using both, calling them serially, with the .layoutSpecBlock
+ * superseding any values set by the method override.
  */
 - (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize;
 
@@ -154,9 +228,35 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)invalidateCalculatedLayout;
 
+#pragma mark - Observing Node State Changes
+/** @name Observing node state changes */
 
+/**
+  * Declare <ASInterfaceStateDelegate> methods as requiring super calls (this can't be required in the protocol).
+  * For descriptions, see <ASInterfaceStateDelegate> definition.
+  */
+
+- (void)didEnterVisibleState ASDISPLAYNODE_REQUIRES_SUPER;
+- (void)didExitVisibleState  ASDISPLAYNODE_REQUIRES_SUPER;
+
+- (void)didEnterDisplayState ASDISPLAYNODE_REQUIRES_SUPER;
+- (void)didExitDisplayState  ASDISPLAYNODE_REQUIRES_SUPER;
+
+- (void)didEnterPreloadState ASDISPLAYNODE_REQUIRES_SUPER;
+- (void)didExitPreloadState  ASDISPLAYNODE_REQUIRES_SUPER;
+
+- (void)interfaceStateDidChange:(ASInterfaceState)newState
+                      fromState:(ASInterfaceState)oldState ASDISPLAYNODE_REQUIRES_SUPER;
+
+/**
+ * @abstract Called when the node's ASTraitCollection changes
+ *
+ * @discussion Subclasses can override this method to react to a trait collection change.
+ */
+- (void)asyncTraitCollectionDidChange;
+
+#pragma mark - Drawing
 /** @name Drawing */
-
 
 /**
  * @summary Delegate method to draw layer contents into a CGBitmapContext. The current UIGraphics context will be set
@@ -173,7 +273,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @note Called on the display queue and/or main queue (MUST BE THREAD SAFE)
  */
 + (void)drawRect:(CGRect)bounds withParameters:(nullable id <NSObject>)parameters
-                                   isCancelled:(asdisplaynode_iscancelled_block_t)isCancelledBlock
+                                   isCancelled:(AS_NOESCAPE asdisplaynode_iscancelled_block_t)isCancelledBlock
                                  isRasterizing:(BOOL)isRasterizing;
 
 /**
@@ -190,7 +290,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @note Called on the display queue and/or main queue (MUST BE THREAD SAFE)
  */
 + (nullable UIImage *)displayWithParameters:(nullable id<NSObject>)parameters
-                       isCancelled:(asdisplaynode_iscancelled_block_t)isCancelledBlock;
+                                isCancelled:(AS_NOESCAPE asdisplaynode_iscancelled_block_t)isCancelledBlock;
 
 /**
  * @abstract Delegate override for drawParameters
@@ -210,6 +310,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @note Called on the main thread only
  */
 - (void)displayWillStart ASDISPLAYNODE_REQUIRES_SUPER;
+- (void)displayWillStartAsynchronously:(BOOL)asynchronously ASDISPLAYNODE_REQUIRES_SUPER;
 
 /**
  * @abstract Indicates that the receiver has finished displaying.
@@ -220,23 +321,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @note Called on the main thread only
  */
 - (void)displayDidFinish ASDISPLAYNODE_REQUIRES_SUPER;
-
-/** @name Observing node-related changes */
-
-/**
- * @abstract Called whenever any bit in the ASInterfaceState bitfield is changed.
- *
- * @discussion Subclasses may use this to monitor when they become visible, should free cached data, and much more.
- * @see ASInterfaceState
- */
-- (void)interfaceStateDidChange:(ASInterfaceState)newState fromState:(ASInterfaceState)oldState ASDISPLAYNODE_REQUIRES_SUPER;
-
-/**
- * @abstract Called whenever the visiblity of the node changed.
- *
- * @discussion Subclasses may use this to monitor when they become visible.
- */
-- (void)visibilityDidChange:(BOOL)isVisible ASDISPLAYNODE_REQUIRES_SUPER;
 
 /**
  * Called just before the view is added to a window.
@@ -254,27 +338,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, assign, getter=isInHierarchy) BOOL inHierarchy;
 
 /**
- * @abstract Indicates that the node should fetch any external data, such as images.
- *
- * @discussion Subclasses may override this method to be notified when they should begin to fetch data. Fetching
- * should be done asynchronously. The node is also responsible for managing the memory of any data.
- * The data may be remote and accessed via the network, but could also be a local database query.
- */
-- (void)fetchData ASDISPLAYNODE_REQUIRES_SUPER;
-
-/**
- * Provides an opportunity to clear any fetched data (e.g. remote / network or database-queried) on the current node.
- *
- * @discussion This will not clear data recursively for all subnodes. Either call -recursivelyClearFetchedData or
- * selectively clear fetched data.
- */
-- (void)clearFetchedData ASDISPLAYNODE_REQUIRES_SUPER;
-
-/**
  * Provides an opportunity to clear backing store and other memory-intensive intermediates, such as text layout managers
  * on the current node.
  *
- * @discussion Called by -recursivelyClearContents. Base class implements self.contents = nil, clearing any backing
+ * @discussion Called by -recursivelyClearContents. Always called on main thread. Base class implements self.contents = nil, clearing any backing
  * store, for asynchronous regeneration when needed.
  */
 - (void)clearContents ASDISPLAYNODE_REQUIRES_SUPER;
@@ -340,8 +407,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) CGFloat contentsScaleForDisplay;
 
 
+#pragma mark - Touch handling
 /** @name Touch handling */
-
 
 /**
  * @abstract Tells the node when touches began in its view.
@@ -376,8 +443,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)touchesCancelled:(nullable NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event ASDISPLAYNODE_REQUIRES_SUPER;
 
 
+#pragma mark - Managing Gesture Recognizers
 /** @name Managing Gesture Recognizers */
-
 
 /**
  * @abstract Asks the node if a gesture recognizer should continue tracking touches.
@@ -387,8 +454,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
 
 
-/** @name Hit Testing */
+#pragma mark - Hit Testing
 
+/** @name Hit Testing */
 
 /**
  * @abstract Returns the view that contains the point.
@@ -405,6 +473,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable UIView *)hitTest:(CGPoint)point withEvent:(nullable UIEvent *)event;
 
+
+#pragma mark - Placeholders
 /** @name Placeholders */
 
 /**
@@ -425,6 +495,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable UIImage *)placeholderImage;
 
 
+#pragma mark - Description
 /** @name Description */
 
 /**

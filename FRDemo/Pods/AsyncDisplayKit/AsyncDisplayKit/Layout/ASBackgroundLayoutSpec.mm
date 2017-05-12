@@ -1,82 +1,81 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASBackgroundLayoutSpec.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
-#import "ASBackgroundLayoutSpec.h"
+#import <AsyncDisplayKit/ASBackgroundLayoutSpec.h>
 
-#import "ASAssert.h"
-#import "ASBaseDefines.h"
-#import "ASLayout.h"
+#import <AsyncDisplayKit/ASLayoutSpec+Subclasses.h>
 
-static NSString * const kBackgroundChildKey = @"kBackgroundChildKey";
+#import <AsyncDisplayKit/ASAssert.h>
 
-@interface ASBackgroundLayoutSpec ()
-@end
+static NSUInteger const kForegroundChildIndex = 0;
+static NSUInteger const kBackgroundChildIndex = 1;
 
 @implementation ASBackgroundLayoutSpec
 
-- (instancetype)initWithChild:(id<ASLayoutable>)child background:(id<ASLayoutable>)background
+#pragma mark - Class
+
++ (instancetype)backgroundLayoutSpecWithChild:(id<ASLayoutElement>)child background:(id<ASLayoutElement>)background;
+{
+  return [[self alloc] initWithChild:child background:background];
+}
+
+#pragma mark - Lifecycle
+
+- (instancetype)initWithChild:(id<ASLayoutElement>)child background:(id<ASLayoutElement>)background
 {
   if (!(self = [super init])) {
     return nil;
   }
   
   ASDisplayNodeAssertNotNil(child, @"Child cannot be nil");
-  [self setChild:child];
+  [self setChild:child atIndex:kForegroundChildIndex];
   self.background = background;
   return self;
 }
 
-+ (instancetype)backgroundLayoutSpecWithChild:(id<ASLayoutable>)child background:(id<ASLayoutable>)background;
-{
-  return [[self alloc] initWithChild:child background:background];
-}
+#pragma mark - ASLayoutSpec
 
 /**
- First layout the contents, then fit the background image.
+ * First layout the contents, then fit the background image.
  */
-- (ASLayout *)measureWithSizeRange:(ASSizeRange)constrainedSize
+- (ASLayout *)calculateLayoutThatFits:(ASSizeRange)constrainedSize
+                     restrictedToSize:(ASLayoutElementSize)size
+                 relativeToParentSize:(CGSize)parentSize
 {
-  ASLayout *contentsLayout = [[self child] measureWithSizeRange:constrainedSize];
+  ASLayout *contentsLayout = [[super childAtIndex:kForegroundChildIndex] layoutThatFits:constrainedSize parentSize:parentSize];
 
   NSMutableArray *sublayouts = [NSMutableArray arrayWithCapacity:2];
   if (self.background) {
     // Size background to exactly the same size.
-    ASLayout *backgroundLayout = [self.background measureWithSizeRange:{contentsLayout.size, contentsLayout.size}];
+    ASLayout *backgroundLayout = [self.background layoutThatFits:ASSizeRangeMake(contentsLayout.size)
+                                                      parentSize:parentSize];
     backgroundLayout.position = CGPointZero;
     [sublayouts addObject:backgroundLayout];
   }
   contentsLayout.position = CGPointZero;
   [sublayouts addObject:contentsLayout];
 
-  return [ASLayout layoutWithLayoutableObject:self size:contentsLayout.size sublayouts:sublayouts];
+  return [ASLayout layoutWithLayoutElement:self size:contentsLayout.size sublayouts:sublayouts];
 }
 
-- (void)setBackground:(id<ASLayoutable>)background
+#pragma mark - Background
+
+- (void)setBackground:(id<ASLayoutElement>)background
 {
-  [super setChild:background forIdentifier:kBackgroundChildKey];
+  ASDisplayNodeAssertNotNil(background, @"Background cannot be nil");
+  [super setChild:background atIndex:kBackgroundChildIndex];
 }
 
-- (id<ASLayoutable>)background
+- (id<ASLayoutElement>)background
 {
-  return [super childForIdentifier:kBackgroundChildKey];
-}
-
-- (void)setChildren:(NSArray *)children
-{
-  ASDisplayNodeAssert(NO, @"not supported by this layout spec");
-}
-
-- (NSArray *)children
-{
-  ASDisplayNodeAssert(NO, @"not supported by this layout spec");
-  return nil;
+  return [super childAtIndex:kBackgroundChildIndex];
 }
 
 @end

@@ -1,24 +1,46 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASEditableTextNode.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <AsyncDisplayKit/ASDisplayNode.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ASEditableTextNodeDelegate;
+@class ASTextKitComponents;
 
 /**
  @abstract Implements a node that supports text editing.
  @discussion Does not support layer backing.
  */
-@interface ASEditableTextNode : ASDisplayNode
+@interface ASEditableTextNode : ASDisplayNode <UITextInputTraits>
 
-// @abstract The text node's delegate, which must conform to the <ASEditableTextNodeDelegate> protocol.
+/**
+ * @abstract Initializes an editable text node using default TextKit components.
+ *
+ * @return An initialized ASEditableTextNode.
+ */
+- (instancetype)init;
+
+/**
+ * @abstract Initializes an editable text node using the provided TextKit components.
+ *
+ * @param textKitComponents The TextKit stack used to render text.
+ * @param placeholderTextKitComponents The TextKit stack used to render placeholder text.
+ *
+ * @return An initialized ASEditableTextNode.
+ */
+- (instancetype)initWithTextKitComponents:(ASTextKitComponents *)textKitComponents
+             placeholderTextKitComponents:(ASTextKitComponents *)placeholderTextKitComponents;
+
+//! @abstract The text node's delegate, which must conform to the <ASEditableTextNodeDelegate> protocol.
 @property (nonatomic, readwrite, weak) id <ASEditableTextNodeDelegate> delegate;
 
 #pragma mark - Configuration
@@ -47,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
   @discussion To update the placeholder, see the <attributedPlaceholderText> property.
   @result YES if the placeholder is currently displayed; NO otherwise.
  */
-- (BOOL)isDisplayingPlaceholder;
+- (BOOL)isDisplayingPlaceholder AS_WARN_UNUSED_RESULT;
 
 /**
   @abstract The styled placeholder text displayed by the text node while no text is entered
@@ -66,21 +88,22 @@ NS_ASSUME_NONNULL_BEGIN
 //! @abstract The text input mode used by the receiver's keyboard, if it is visible. This value is undefined if the receiver is not the first responder.
 @property (nonatomic, readonly) UITextInputMode *textInputMode;
 
-/*
+/**
  @abstract The textContainerInset of both the placeholder and typed textView. This value defaults to UIEdgeInsetsZero.
  */
 @property (nonatomic, readwrite) UIEdgeInsets textContainerInset;
 
-/*
- @abstract The returnKeyType of the keyboard. This value defaults to UIReturnKeyDefault.
+/**
+ @abstract The maximum number of lines to display. Additional lines will require scrolling.
+ @default 0 (No limit)
  */
-@property (nonatomic, readwrite) UIReturnKeyType returnKeyType;
+@property (nonatomic, assign) NSUInteger maximumLinesToDisplay;
 
 /**
   @abstract Indicates whether the receiver's text view is the first responder, and thus has the keyboard visible and is prepared for editing by the user.
   @result YES if the receiver's text view is the first-responder; NO otherwise.
  */
-- (BOOL)isFirstResponder;
+- (BOOL)isFirstResponder AS_WARN_UNUSED_RESULT;
 
 //! @abstract Makes the receiver's text view the first responder.
 - (BOOL)becomeFirstResponder;
@@ -95,7 +118,27 @@ NS_ASSUME_NONNULL_BEGIN
   @discussion This method raises an exception if `textRange` is not a valid range of characters within the receiver's attributed text.
   @result A CGRect that is the bounding box of the glyphs covered by the given range of characters, in the coordinate system of the receiver.
  */
-- (CGRect)frameForTextRange:(NSRange)textRange;
+- (CGRect)frameForTextRange:(NSRange)textRange AS_WARN_UNUSED_RESULT;
+
+/**
+ @abstract <UITextInputTraits> properties.
+ */
+@property(nonatomic, readwrite, assign) UITextAutocapitalizationType autocapitalizationType; // default is UITextAutocapitalizationTypeSentences
+@property(nonatomic, readwrite, assign) UITextAutocorrectionType autocorrectionType;         // default is UITextAutocorrectionTypeDefault
+@property(nonatomic, readwrite, assign) UITextSpellCheckingType spellCheckingType;           // default is UITextSpellCheckingTypeDefault;
+@property(nonatomic, readwrite, assign) UIKeyboardType keyboardType;                         // default is UIKeyboardTypeDefault
+@property(nonatomic, readwrite, assign) UIKeyboardAppearance keyboardAppearance;             // default is UIKeyboardAppearanceDefault
+@property(nonatomic, readwrite, assign) UIReturnKeyType returnKeyType;                       // default is UIReturnKeyDefault (See note under UIReturnKeyType enum)
+@property(nonatomic, readwrite, assign) BOOL enablesReturnKeyAutomatically;                  // default is NO (when YES, will automatically disable return key when text widget has zero-length contents, and will automatically enable when text widget has non-zero-length contents)
+@property(nonatomic, readwrite, assign, getter=isSecureTextEntry) BOOL secureTextEntry;      // default is NO
+
+@end
+
+@interface ASEditableTextNode (Unavailable)
+
+- (instancetype)initWithLayerBlock:(ASDisplayNodeLayerBlock)viewBlock didLoadBlock:(nullable ASDisplayNodeDidLoadBlock)didLoadBlock __unavailable;
+
+- (instancetype)initWithViewBlock:(ASDisplayNodeViewBlock)viewBlock didLoadBlock:(nullable ASDisplayNodeDidLoadBlock)didLoadBlock __unavailable;
 
 @end
 

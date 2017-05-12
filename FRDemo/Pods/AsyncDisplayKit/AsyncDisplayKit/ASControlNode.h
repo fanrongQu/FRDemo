@@ -1,12 +1,16 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASControlNode.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <AsyncDisplayKit/ASDisplayNode.h>
+
+#pragma once
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,17 +34,28 @@ typedef NS_OPTIONS(NSUInteger, ASControlNodeEvent)
   ASControlNodeEventTouchUpOutside    = 1 << 5,
   /** A system event canceling the current touches for the control node. */
   ASControlNodeEventTouchCancel       = 1 << 6,
+  /** A system event triggered when controls like switches, slides, etc change state. */
+  ASControlNodeEventValueChanged      = 1 << 12,
+  /** A system event when the Play/Pause button on the Apple TV remote is pressed. */
+  ASControlNodeEventPrimaryActionTriggered = 1 << 13,
+    
   /** All events, including system events. */
   ASControlNodeEventAllEvents         = 0xFFFFFFFF
 };
 
-typedef NS_OPTIONS(NSUInteger, ASControlState) {
-    ASControlStateNormal       = 0,
-    ASControlStateHighlighted  = 1 << 0,                  // used when ASControlNode isHighlighted is set
-    ASControlStateDisabled     = 1 << 1,
-    ASControlStateSelected     = 1 << 2,                  // used when ASControlNode isSelected is set
-    ASControlStateReserved     = 0xFF000000               // flags reserved for internal framework use
-};
+/**
+ * Compatibility aliases for @c ASControlState enum.
+ * We previously provided our own enum, but when it was imported
+ * into Swift, the @c normal (0) option disappeared.
+ *
+ * Apple's UIControlState enum gets special treatment here, and
+ * UIControlStateNormal is available in Swift.
+ */
+typedef UIControlState ASControlState ASDISPLAYNODE_DEPRECATED_MSG("Use UIControlState.");
+static UIControlState const ASControlStateNormal ASDISPLAYNODE_DEPRECATED_MSG("Use UIControlStateNormal.") = UIControlStateNormal;
+static UIControlState const ASControlStateDisabled ASDISPLAYNODE_DEPRECATED_MSG("Use UIControlStateDisabled.") = UIControlStateDisabled;
+static UIControlState const ASControlStateHighlighted ASDISPLAYNODE_DEPRECATED_MSG("Use UIControlStateHighlighted.") = UIControlStateHighlighted;
+static UIControlState const ASControlStateSelected ASDISPLAYNODE_DEPRECATED_MSG("Use UIControlStateSelected.") = UIControlStateSelected;
 
 /**
   @abstract ASControlNode is the base class for control nodes (such as buttons), or nodes that track touches to invoke targets with action messages.
@@ -97,13 +112,13 @@ typedef NS_OPTIONS(NSUInteger, ASControlState) {
   @param controlEvent A single constant of type ASControlNodeEvent that specifies a particular user action on the control; for a list of these constants, see "Control Events". May not be 0 or ASControlNodeEventAllEvents.
   @result An array of selector names as NSString objects, or nil if there are no action selectors associated with controlEvent.
  */
-- (nullable NSArray<NSString *> *)actionsForTarget:(id)target forControlEvent:(ASControlNodeEvent)controlEvent;
+- (nullable NSArray<NSString *> *)actionsForTarget:(id)target forControlEvent:(ASControlNodeEvent)controlEvent AS_WARN_UNUSED_RESULT;
 
 /**
   @abstract Returns all target objects associated with the receiver.
   @result A set of all targets for the receiver. The set may include NSNull to indicate at least one nil target (meaning, the responder chain is searched for a target.)
  */
-- (NSSet *)allTargets;
+- (NSSet *)allTargets AS_WARN_UNUSED_RESULT;
 
 /**
   @abstract Removes a target-action pair for a particular event.
@@ -119,7 +134,12 @@ typedef NS_OPTIONS(NSUInteger, ASControlState) {
   @param event The event which triggered these control actions. May be nil.
  */
 - (void)sendActionsForControlEvents:(ASControlNodeEvent)controlEvents withEvent:(nullable UIEvent *)event;
-
+#if TARGET_OS_TV
+/**
+ @abstract How the node looks when it isn't focused. Exposed here so that subclasses can override.
+ */
+- (void)setDefaultFocusAppearance;
+#endif
 @end
 
 NS_ASSUME_NONNULL_END

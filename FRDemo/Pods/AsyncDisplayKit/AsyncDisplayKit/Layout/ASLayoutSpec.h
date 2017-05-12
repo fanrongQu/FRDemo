@@ -1,20 +1,23 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASLayoutSpec.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
-#import <AsyncDisplayKit/ASLayoutable.h>
+#import <AsyncDisplayKit/ASLayoutElement.h>
 #import <AsyncDisplayKit/ASAsciiArtBoxCreator.h>
+#import <AsyncDisplayKit/ASObjectDescriptionHelpers.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** A layout spec is an immutable object that describes a layout, loosely inspired by React. */
-@interface ASLayoutSpec : NSObject <ASLayoutable>
+/**
+ * A layout spec is an immutable object that describes a layout, loosely inspired by React.
+ */
+@interface ASLayoutSpec : NSObject <ASLayoutElement, ASLayoutElementStylability, NSFastEnumeration>
 
 /** 
  * Creation of a layout spec should only happen by a user in layoutSpecThatFits:. During that method, a
@@ -23,12 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) BOOL isMutable;
 
-- (instancetype)init;
-
 /**
- * Adds a child to this layout spec using a default identifier.
- *
- * @param child A child to be added.
+ * First child within the children's array.
  *
  * @discussion Every ASLayoutSpec must act on at least one child. The ASLayoutSpec base class takes the
  * responsibility of holding on to the spec children. Some layout specs, like ASInsetLayoutSpec,
@@ -40,31 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
  * setChild:forIdentifier: internally. For example, ASBackgroundLayoutSpec exposes a backgroundChild
  * property that behind the scenes is calling setChild:forIdentifier:.
  */
-- (void)setChild:(id<ASLayoutable>)child;
+@property (nullable, strong, nonatomic) id<ASLayoutElement> child;
 
 /**
- * Adds a child with the given identifier to this layout spec.
- *
- * @param child A child to be added.
- *
- * @param identifier An identifier associated with the child.
- *
- * @discussion Every ASLayoutSpec must act on at least one child. The ASLayoutSpec base class takes the
- * responsibility of holding on to the spec children. Some layout specs, like ASInsetLayoutSpec,
- * only require a single child.
- *
- * For layout specs that require a known number of children (ASBackgroundLayoutSpec, for example)
- * a subclass should use the setChild method to set the "primary" child. It can then use this method
- * to set any other required children. Ideally a subclass would hide this from the user, and use the
- * setChild:forIdentifier: internally. For example, ASBackgroundLayoutSpec exposes a backgroundChild
- * property that behind the scenes is calling setChild:forIdentifier:.
- */
-- (void)setChild:(id<ASLayoutable>)child forIdentifier:(NSString *)identifier;
-
-/**
- * Adds childen to this layout spec.
- *
- * @param children An array of ASLayoutable children to be added.
+ * An array of ASLayoutElement children
  * 
  * @discussion Every ASLayoutSpec must act on at least one child. The ASLayoutSpec base class takes the
  * reponsibility of holding on to the spec children. Some layout specs, like ASStackLayoutSpec,
@@ -72,35 +50,45 @@ NS_ASSUME_NONNULL_BEGIN
  * For good measure, in these layout specs it probably makes sense to define
  * setChild: and setChild:forIdentifier: methods to do something appropriate or to assert.
  */
-- (void)setChildren:(NSArray<id<ASLayoutable>> *)children;
-
-/**
- * Get child methods
- *
- * There is a corresponding "getChild" method for the above "setChild" methods.  If a subclass
- * has extra layoutable children, it is recommended to make a corresponding get method for that
- * child. For example, the ASBackgroundLayoutSpec responds to backgroundChild.
- * 
- * If a get method is called on a spec that doesn't make sense, then the standard is to assert.
- * For example, calling children on an ASInsetLayoutSpec will assert.
- */
-
-/** Returns the child added to this layout spec using the default identifier. */
-- (nullable id<ASLayoutable>)child;
-
-/**
- * Returns the child added to this layout spec using the given identifier.
- *
- * @param identifier An identifier associated withe the child.
- */
-- (nullable id<ASLayoutable>)childForIdentifier:(NSString *)identifier;
-
-/** Returns all children added to this layout spec. */
-- (NSArray<id<ASLayoutable>> *)children;
+@property (nullable, strong, nonatomic) NSArray<id<ASLayoutElement>> *children;
 
 @end
 
-@interface ASLayoutSpec (Debugging) <ASLayoutableAsciiArtProtocol>
+/**
+ * An ASLayoutSpec subclass that can wrap one or more ASLayoutElement and calculates the layout based on the
+ * sizes of the children. If multiple children are provided the size of the biggest child will be used to for
+ * size of this layout spec.
+ */
+@interface ASWrapperLayoutSpec : ASLayoutSpec
+
+/*
+ * Returns an ASWrapperLayoutSpec object with the given layoutElement as child.
+ */
++ (instancetype)wrapperWithLayoutElement:(id<ASLayoutElement>)layoutElement AS_WARN_UNUSED_RESULT;
+
+/*
+ * Returns an ASWrapperLayoutSpec object with the given layoutElements as children.
+ */
++ (instancetype)wrapperWithLayoutElements:(NSArray<id<ASLayoutElement>> *)layoutElements AS_WARN_UNUSED_RESULT;
+
+/*
+ * Returns an ASWrapperLayoutSpec object initialized with the given layoutElement as child.
+ */
+- (instancetype)initWithLayoutElement:(id<ASLayoutElement>)layoutElement AS_WARN_UNUSED_RESULT;
+
+/*
+ * Returns an ASWrapperLayoutSpec object initialized with the given layoutElements as children.
+ */
+- (instancetype)initWithLayoutElements:(NSArray<id<ASLayoutElement>> *)layoutElements AS_WARN_UNUSED_RESULT;
+
+/*
+ * Init not available for ASWrapperLayoutSpec
+ */
+- (instancetype)init __unavailable;
+
+@end
+
+@interface ASLayoutSpec (Debugging) <ASLayoutElementAsciiArtProtocol, ASDebugNameProvider>
 /**
  *  Used by other layout specs to create ascii art debug strings
  */
@@ -109,5 +97,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+@interface ASLayoutSpec (Deprecated)
 
+ASLayoutElementStyleForwardingDeclaration
+
+@end
+
+NS_ASSUME_NONNULL_END

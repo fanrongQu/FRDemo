@@ -32,7 +32,7 @@ static const void *FailBlockKey = &FailBlockKey;
  *
  *  @return 剪切后的圆形图片
  */
--(UIImage *)roundImage{
+- (UIImage *)roundImage{
     
     //获取size
     CGSize size = [self sizeFromImage:self];
@@ -65,7 +65,7 @@ static const void *FailBlockKey = &FailBlockKey;
 
 
 
--(CGSize)sizeFromImage:(UIImage *)image{
+- (CGSize)sizeFromImage:(UIImage *)image{
     
     CGSize size = image.size;
     
@@ -75,19 +75,12 @@ static const void *FailBlockKey = &FailBlockKey;
 }
 
 
-
-
-
-
 /*
  *  直接截屏
  */
 +(UIImage *)cutScreen{
     return [self cutFromView:[UIApplication sharedApplication].keyWindow];
 }
-
-
-
 
 
 +(UIImage *)cutFromView:(UIView *)view{
@@ -127,8 +120,6 @@ static const void *FailBlockKey = &FailBlockKey;
     CGImageRelease(cgimage);
     
     return newImage;
-    
-    
 }
 
 
