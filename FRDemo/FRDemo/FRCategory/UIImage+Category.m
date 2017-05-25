@@ -123,21 +123,6 @@ static const void *FailBlockKey = &FailBlockKey;
 }
 
 
-/**
- *  返回一张可以随意拉伸不变形的图片
- *
- *  @param name 图片名字
- */
-+ (UIImage *)resizableImage:(NSString *)name
-{
-    UIImage *normal = [UIImage imageNamed:name];
-    CGFloat w = normal.size.width * 0.5;
-    CGFloat h = normal.size.height * 0.5;
-    // 拉伸图片
-    //        [normal stretchableImageWithLeftCapWidth:<#(NSInteger)#> topCapHeight:<#(NSInteger)#>];
-    //        [normal resizableImageWithCapInsets:<#(UIEdgeInsets)#> resizingMode:<#(UIImageResizingMode)#>];
-    return [normal resizableImageWithCapInsets:UIEdgeInsetsMake(h, w, h, w)];
-}
 
 /**
  *  裁剪图片使图片不失真

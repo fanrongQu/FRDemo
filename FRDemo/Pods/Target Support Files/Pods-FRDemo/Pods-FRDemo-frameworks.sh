@@ -120,6 +120,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/TPKeyboardAvoiding/TPKeyboardAvoiding.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TSMessages/TSMessages.framework"
   install_framework "$BUILT_PRODUCTS_DIR/WMPageController/WMPageController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/YYCache/YYCache.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AFNetworking/AFNetworking.framework"
@@ -153,6 +154,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/TPKeyboardAvoiding/TPKeyboardAvoiding.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TSMessages/TSMessages.framework"
   install_framework "$BUILT_PRODUCTS_DIR/WMPageController/WMPageController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/YYCache/YYCache.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

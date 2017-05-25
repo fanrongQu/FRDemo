@@ -32,14 +32,6 @@
  */
 -(UIImage *)cutWithFrame:(CGRect)frame;
 
-/**
- *  对图片进行拉伸(拉伸图片中心点)
- *
- *  @param name 图片名
- *
- *  @return 拉伸后的图片
- */
-+ (UIImage *)resizableImage:(NSString *)name;
 
 /**
  *  裁剪图片使图片不失真

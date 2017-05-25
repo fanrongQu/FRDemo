@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045D987A1ED6E8570072174A /* FRFormData.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D98751ED6E8570072174A /* FRFormData.m */; };
+		045D987B1ED6E8570072174A /* FRNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D98771ED6E8570072174A /* FRNetworking.m */; };
+		045D987C1ED6E8570072174A /* FRNetworkingCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D98791ED6E8570072174A /* FRNetworkingCache.m */; };
 		04BC61371EC2FB8300ABD3B2 /* FRNoDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC61361EC2FB8300ABD3B2 /* FRNoDataView.m */; };
 		04BC613A1EC3008600ABD3B2 /* UILabel+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC61391EC3008600ABD3B2 /* UILabel+Category.m */; };
 		04BC613D1EC3037A00ABD3B2 /* DefineConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC613C1EC3037A00ABD3B2 /* DefineConstant.m */; };
@@ -55,8 +58,6 @@
 		3BFF4B971C99288800B4E4F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF4B951C99288800B4E4F7 /* LaunchScreen.storyboard */; };
 		3BFF4BA21C99288800B4E4F7 /* FRDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BA11C99288800B4E4F7 /* FRDemoTests.m */; };
 		3BFF4BAD1C99288800B4E4F7 /* FRDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BAC1C99288800B4E4F7 /* FRDemoUITests.m */; };
-		3BFF4BDD1C9928B500B4E4F7 /* FRFormData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BCF1C9928B500B4E4F7 /* FRFormData.m */; };
-		3BFF4BDE1C9928B500B4E4F7 /* FRNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF4BD11C9928B500B4E4F7 /* FRNetworking.m */; };
 		A2646B9FF70466DF810947CA /* Pods_FRDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B85375AE1DB9A590CF7F2FB3 /* Pods_FRDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +79,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		045D98741ED6E8570072174A /* FRFormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRFormData.h; sourceTree = "<group>"; };
+		045D98751ED6E8570072174A /* FRFormData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRFormData.m; sourceTree = "<group>"; };
+		045D98761ED6E8570072174A /* FRNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNetworking.h; sourceTree = "<group>"; };
+		045D98771ED6E8570072174A /* FRNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNetworking.m; sourceTree = "<group>"; };
+		045D98781ED6E8570072174A /* FRNetworkingCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNetworkingCache.h; sourceTree = "<group>"; };
+		045D98791ED6E8570072174A /* FRNetworkingCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNetworkingCache.m; sourceTree = "<group>"; };
 		04BC61351EC2FB8300ABD3B2 /* FRNoDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNoDataView.h; sourceTree = "<group>"; };
 		04BC61361EC2FB8300ABD3B2 /* FRNoDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNoDataView.m; sourceTree = "<group>"; };
 		04BC61381EC3008600ABD3B2 /* UILabel+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Category.h"; sourceTree = "<group>"; };
@@ -171,10 +178,6 @@
 		3BFF4BA81C99288800B4E4F7 /* FRDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FRDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BFF4BAC1C99288800B4E4F7 /* FRDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FRDemoUITests.m; sourceTree = "<group>"; };
 		3BFF4BAE1C99288800B4E4F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3BFF4BCE1C9928B500B4E4F7 /* FRFormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRFormData.h; sourceTree = "<group>"; };
-		3BFF4BCF1C9928B500B4E4F7 /* FRFormData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRFormData.m; sourceTree = "<group>"; };
-		3BFF4BD01C9928B500B4E4F7 /* FRNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNetworking.h; sourceTree = "<group>"; };
-		3BFF4BD11C9928B500B4E4F7 /* FRNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNetworking.m; sourceTree = "<group>"; };
 		3BFF4BD21C9928B500B4E4F7 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		3BFF4BD31C9928B500B4E4F7 /* SettingMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingMacro.h; sourceTree = "<group>"; };
 		4E8E1388BFE8A5C8736B9A45 /* Pods-FRDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FRDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FRDemo/Pods-FRDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -207,6 +210,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		045D98731ED6E8570072174A /* FRNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				045D98741ED6E8570072174A /* FRFormData.h */,
+				045D98751ED6E8570072174A /* FRFormData.m */,
+				045D98761ED6E8570072174A /* FRNetworking.h */,
+				045D98771ED6E8570072174A /* FRNetworking.m */,
+				045D98781ED6E8570072174A /* FRNetworkingCache.h */,
+				045D98791ED6E8570072174A /* FRNetworkingCache.m */,
+			);
+			path = FRNetworking;
+			sourceTree = "<group>";
+		};
 		04BC61341EC2FB6900ABD3B2 /* FRNoDataView */ = {
 			isa = PBXGroup;
 			children = (
@@ -411,7 +427,7 @@
 				3B78C9091D5D9C10004B75A7 /* FRCategory */,
 				3B6E99361D54384B0012BDF7 /* FRNavigationController */,
 				3B6E993C1D54384B0012BDF7 /* FRTabBarController */,
-				3BFF4BCD1C9928B500B4E4F7 /* FRNetworking */,
+				045D98731ED6E8570072174A /* FRNetworking */,
 				3BFF4B8A1C99288800B4E4F7 /* AppDelegate.h */,
 				3BFF4B8B1C99288800B4E4F7 /* AppDelegate.m */,
 				04BC613B1EC3037A00ABD3B2 /* DefineConstant.h */,
@@ -452,17 +468,6 @@
 				3BFF4BAE1C99288800B4E4F7 /* Info.plist */,
 			);
 			path = FRDemoUITests;
-			sourceTree = "<group>";
-		};
-		3BFF4BCD1C9928B500B4E4F7 /* FRNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				3BFF4BCE1C9928B500B4E4F7 /* FRFormData.h */,
-				3BFF4BCF1C9928B500B4E4F7 /* FRFormData.m */,
-				3BFF4BD01C9928B500B4E4F7 /* FRNetworking.h */,
-				3BFF4BD11C9928B500B4E4F7 /* FRNetworking.m */,
-			);
-			path = FRNetworking;
 			sourceTree = "<group>";
 		};
 		601092D76A8047E186BE257B /* Pods */ = {
@@ -673,8 +678,6 @@
 				3B78C93B1D5D9C11004B75A7 /* NSAttributedString+Category.m in Sources */,
 				3B78C9401D5D9C11004B75A7 /* UIBarButtonItem+Category.m in Sources */,
 				3B78C93C1D5D9C11004B75A7 /* NSDate+Category.m in Sources */,
-				3BFF4BDE1C9928B500B4E4F7 /* FRNetworking.m in Sources */,
-				3BFF4BDD1C9928B500B4E4F7 /* FRFormData.m in Sources */,
 				04BC61371EC2FB8300ABD3B2 /* FRNoDataView.m in Sources */,
 				04BC613D1EC3037A00ABD3B2 /* DefineConstant.m in Sources */,
 				3BBF0C041D6ED0DA001BDE8A /* MBProgressHUD.m in Sources */,
@@ -687,6 +690,7 @@
 				3B6E994A1D54384B0012BDF7 /* FRTabBarController.m in Sources */,
 				3BB4F16C1D5C806D0066AE69 /* FRPlist.m in Sources */,
 				3B78C93D1D5D9C11004B75A7 /* NSObject+Category.m in Sources */,
+				045D987B1ED6E8570072174A /* FRNetworking.m in Sources */,
 				3BB4F1691D5C7F740066AE69 /* PositionBtn.m in Sources */,
 				3B78C93E1D5D9C11004B75A7 /* NSString+Category.m in Sources */,
 				3B78C9331D5D9C11004B75A7 /* AppDelegate+Category.m in Sources */,
@@ -694,6 +698,7 @@
 				3BB4F1681D5C7F740066AE69 /* SearchViewController.m in Sources */,
 				3B6E99471D54384B0012BDF7 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				3BFF4B8C1C99288800B4E4F7 /* AppDelegate.m in Sources */,
+				045D987C1ED6E8570072174A /* FRNetworkingCache.m in Sources */,
 				3B6E99481D54384B0012BDF7 /* FRBadge.m in Sources */,
 				3B78C9451D5D9C11004B75A7 /* UIImage+Water.m in Sources */,
 				3B78C9361D5D9C11004B75A7 /* GTMBase64.m in Sources */,
@@ -708,6 +713,7 @@
 				3BCA98E01D54AC210081F484 /* PersonalIconViewController.m in Sources */,
 				3B4211B61D5C8DE600CB263B /* SVProgressHUDViewController.m in Sources */,
 				3B78C9411D5D9C11004B75A7 /* UIColor+Category.m in Sources */,
+				045D987A1ED6E8570072174A /* FRFormData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
