@@ -17,13 +17,14 @@
  *  活动指示器
  */
 + (MBProgressHUD *)showActivityIndicatorWithTitle:(NSString *)title detailsTitle:(NSString *)detailTitle contentColor:(UIColor *)color progressHUDMode:(MBProgressHUDMode)progressHUDMode inView:(UIView *)view {
-    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+//    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];//第一次有可能不会出现弹框
+    if (view == nil) view = [UIApplication sharedApplication].keyWindow;//据说之前有过AlertView会商城新的windowhttp://blog.csdn.net/hamasn/article/details/9367323
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
     hud.contentColor = color;
     hud.bezelView.color = [UIColor colorWithRed:192/255.0 green:192/255.0 blue:192/255.0 alpha:0.8];
-    hud.minSize = CGSizeMake(90.f, 90.f);
+    hud.minSize = CGSizeMake(90.f, 40.f);
     
     hud.label.text = title;
     
@@ -108,13 +109,14 @@
  */
 + (MBProgressHUD *)showTitle:(NSString *)text detailsLabel:(NSString *)detailTitle customView:(UIView *)customView contentColor:(UIColor *)color inView:(UIView *)view {
     
-    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+//    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    if (view == nil) view = [UIApplication sharedApplication].keyWindow;
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
     hud.contentColor = color;
     hud.bezelView.color = [UIColor colorWithRed:192/255.0 green:192/255.0 blue:192/255.0 alpha:0.8];
-    hud.minSize = CGSizeMake(90.f, 90.f);
+    hud.minSize = CGSizeMake(90.f, 40.f);
     
     if(text) hud.label.text = text;
     if(detailTitle) hud.detailsLabel.text = detailTitle;
@@ -146,11 +148,15 @@
     
     UIView *customView;
     if (icon.length > 0) {
-        NSBundle *bundle = [NSBundle bundleForClass:[MBProgressHUD class]];
-        NSURL *url = [bundle URLForResource:@"MBProgressHUD" withExtension:@"bundle"];
-        NSBundle *imageBundle = [NSBundle bundleWithURL:url];
-        NSString *path = [imageBundle pathForResource:icon ofType:@"png"];
-        UIImage *image = [[UIImage imageWithContentsOfFile:path] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIImage *image = [[UIImage imageNamed:icon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        if (!image) {
+            NSBundle *bundle = [NSBundle bundleForClass:[MBProgressHUD class]];
+            NSURL *url = [bundle URLForResource:@"MBProgressHUD" withExtension:@"bundle"];
+            NSBundle *imageBundle = [NSBundle bundleWithURL:url];
+            NSString *path = [imageBundle pathForResource:icon ofType:@"png"];
+            image = [[UIImage imageWithContentsOfFile:path] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        }
+
         
         customView = [[UIImageView alloc] initWithImage:image];
     }
@@ -164,11 +170,14 @@
     
     UIView *customView;
     if (icon.length > 0) {
-        NSBundle *bundle = [NSBundle bundleForClass:[MBProgressHUD class]];
-        NSURL *url = [bundle URLForResource:@"MBProgressHUD" withExtension:@"bundle"];
-        NSBundle *imageBundle = [NSBundle bundleWithURL:url];
-        NSString *path = [imageBundle pathForResource:icon ofType:@"png"];
-        UIImage *image = [[UIImage imageWithContentsOfFile:path] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIImage *image = [[UIImage imageNamed:icon] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        if (!image) {
+            NSBundle *bundle = [NSBundle bundleForClass:[MBProgressHUD class]];
+            NSURL *url = [bundle URLForResource:@"MBProgressHUD" withExtension:@"bundle"];
+            NSBundle *imageBundle = [NSBundle bundleWithURL:url];
+            NSString *path = [imageBundle pathForResource:icon ofType:@"png"];
+            image = [[UIImage imageWithContentsOfFile:path] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        }
         
         customView = [[UIImageView alloc] initWithImage:image];
         CABasicAnimation *anima = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
@@ -193,7 +202,7 @@
 + (MBProgressHUD *)showSuccess:(NSString *)success contentColor:(UIColor *)color inView:(UIView *)view {
     
     MBProgressHUD *hud = [self showTitle:nil detailsLabel:success icon:@"HUDsuccess" contentColor:color inView:view];
-    [hud hideAnimated:YES afterDelay:1.5];
+    [hud hideAnimated:YES afterDelay:1.8];
     return hud;
 }
 + (MBProgressHUD *)showSuccess:(NSString *)success inView:(UIView *)view {
@@ -210,7 +219,7 @@
 //失败
 + (MBProgressHUD *)showError:(NSString *)error contentColor:(UIColor *)color inView:(UIView *)view {
     MBProgressHUD *hud = [self showTitle:nil detailsLabel:error icon:@"HUDerror" contentColor:color inView:view];
-    [hud hideAnimated:YES afterDelay:1.5];
+    [hud hideAnimated:YES afterDelay:1.8];
     return hud;
 }
 + (MBProgressHUD *)showError:(NSString *)error inView:(UIView *)view {
@@ -227,7 +236,7 @@
 //警告
 + (MBProgressHUD *)showInfo:(NSString *)info contentColor:(UIColor *)color inView:(UIView *)view {
     MBProgressHUD *hud = [self showTitle:nil detailsLabel:info icon:@"HUDinfo" contentColor:color inView:view];
-    [hud hideAnimated:YES afterDelay:1.5];
+    [hud hideAnimated:YES afterDelay:1.8];
     return hud;
 }
 + (MBProgressHUD *)showInfo:(NSString *)info inView:(UIView *)view {
@@ -244,7 +253,7 @@
 //提醒
 + (MBProgressHUD *)showMessage:(NSString *)message contentColor:(UIColor *)color inView:(UIView *)view {
     MBProgressHUD *hud = [self showTitle:message detailsLabel:nil icon:nil contentColor:color inView:view];
-    [hud hideAnimated:YES afterDelay:1.5];
+    [hud hideAnimated:YES afterDelay:1.8];
     return hud;
 }
 + (MBProgressHUD *)showMessage:(NSString *)message inView:(UIView *)view {
@@ -262,7 +271,8 @@
 #pragma mark - 隐藏HUD
 + (void)hideHUDForView:(UIView *)view
 {
-    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+//    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    if (view == nil) view = [UIApplication sharedApplication].keyWindow;
     MBProgressHUD *hud = [self HUDForView:view];
     if (hud.customView) {
         [hud.customView.layer removeAnimationForKey:CricleAnimation];
