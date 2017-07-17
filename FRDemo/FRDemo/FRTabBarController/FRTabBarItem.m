@@ -108,17 +108,34 @@
         
         self.firstLoad = NO;
     }
-    // 设置提醒数字
-    self.badgeLabel.badgeValue = self.tabBarItem.badgeValue;
+    
+    if (self.tabBarItem.badgeValue == nil) return;
+    
+    if ([self.tabBarItem.badgeValue isEqualToString:@"0"]) {
+        self.badgeLabel.hidden = YES;
+    }else {
+        self.badgeLabel.hidden = NO;
+        // 设置提醒数字
+        self.badgeLabel.badgeValue = self.tabBarItem.badgeValue;
+        
+    }
+}
+
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    if (self.frame.size.width <= 0) return;
     
     // 设置提醒数字的位置
-    CGFloat badgeY = 5;
-    CGFloat badgeX = self.frame.size.width - self.badgeLabel.frame.size.width - 10;
     CGRect badgeF = self.badgeLabel.frame;
+    CGFloat badgeY = 5;
+    CGFloat badgeX = (self.frame.size.width - badgeF.size.width)* 0.5 + 13;
     badgeF.origin.x = badgeX;
     badgeF.origin.y = badgeY;
     self.badgeLabel.frame = badgeF;
 }
+
 /**
  *  压缩图片到指定尺寸
  */
