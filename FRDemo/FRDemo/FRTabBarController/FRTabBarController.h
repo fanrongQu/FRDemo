@@ -37,4 +37,11 @@
  */
 - (void)setTabBarItemNormalColor:(UIColor *)normalColor selectedColor:(UIColor *)selectedColor;
 
+/**
+ 设置默认选中控制器序号
+
+ @param selectedIndex 选中控制器序号
+ */
+- (void)selectedControllerWithIndex:(NSUInteger)selectedIndex;
+
 @end

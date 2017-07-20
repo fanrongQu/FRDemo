@@ -25,6 +25,8 @@
 
 - (void)addTabBarItemWithItem:(UITabBarItem *)tabBarItem;
 
+- (void)selectedTabBarItemWithIndex:(NSUInteger)selectedIndex;
+
 @property (nonatomic, weak) id<FRTabBarDelegate> delegate;
 
 @end

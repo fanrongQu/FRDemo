@@ -53,6 +53,11 @@
     self.customTabBar.selectedColor = selectedColor;
 }
 
+- (void)selectedControllerWithIndex:(NSUInteger)selectedIndex {
+    [self.customTabBar selectedTabBarItemWithIndex:selectedIndex];
+    self.selectedIndex = selectedIndex;
+}
+
 - (void)addChildNavigationController:(UINavigationController *)navigationController title:(NSString *)title image:(NSString *)image selectedImage:(NSString *)selectedImage {
     UIViewController *childViewController = navigationController.childViewControllers[0];
     //标题
@@ -91,6 +96,22 @@
             [child removeFromSuperview];
         }
     }
+}
+
+
+- (BOOL)shouldAutorotate
+{
+    return [self.selectedViewController shouldAutorotate];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return [self.selectedViewController supportedInterfaceOrientations];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return [self.selectedViewController preferredInterfaceOrientationForPresentation];
 }
 
 @end

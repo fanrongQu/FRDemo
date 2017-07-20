@@ -20,7 +20,7 @@
         self.font = [UIFont systemFontOfSize:10];
         self.textAlignment = NSTextAlignmentCenter;
         self.textColor = [UIColor whiteColor];
-        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor colorWithRed:241/255.0 green:94/255.0 blue:94/255.0 alpha:1.0];
     }
     return self;
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2016年 FanrongQu. All rights reserved.
 //
 
-#define FRTabBarItemImageRatio 0.6
+#define FRTabBarItemImageRatio 1
 
 #import "FRTabBarItem.h"
 #import "FRBadge.h"
@@ -25,7 +25,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.imageView.contentMode = UIViewContentModeCenter;
+        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.font = [UIFont systemFontOfSize:10];
         // 添加一个提醒数字按钮
@@ -48,6 +48,7 @@
     CGFloat imageW = contentRect.size.width;
     CGFloat imageH = contentRect.size.height * FRTabBarItemImageRatio;
     return CGRectMake(0, 5, imageW, imageH - 5);
+    return CGRectMake(0, 0, imageW, imageH);
 }
 
 // 内部文字的frame
@@ -102,8 +103,8 @@
         [self setTitle:self.tabBarItem.title forState:UIControlStateNormal];
         
         // 设置图片
-        [self setImage:[self compressImage:self.tabBarItem.image] forState:UIControlStateNormal];
-        [self setImage:[self compressImage:self.tabBarItem.selectedImage] forState:UIControlStateSelected];
+        [self setImage:self.tabBarItem.image forState:UIControlStateNormal];
+        [self setImage:self.tabBarItem.selectedImage forState:UIControlStateSelected];
         
         
         self.firstLoad = NO;
@@ -120,7 +121,6 @@
         
     }
 }
-
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -179,14 +179,16 @@
     
     CGContextDrawImage(context, drawRect, image.CGImage);
     
-    CGColorSpaceRelease(colorSpace);
-    
-    
     //第二步 取每个点的像素值
     
     unsigned char* data = CGBitmapContextGetData (context);
     
-    if (data == NULL) return nil;
+    
+    CGColorSpaceRelease(colorSpace);
+    
+    CGContextRelease(context);
+    
+    if (data == NULL) return [[UIColor alloc]init];
     
     NSCountedSet *cls=[NSCountedSet setWithCapacity:thumbSize.width*thumbSize.height];
     
@@ -212,8 +214,6 @@
         }
         
     }
-    
-    CGContextRelease(context);
     
     //第三步 找到出现次数最多的那个颜色
     
