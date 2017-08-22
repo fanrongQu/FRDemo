@@ -1,16 +1,36 @@
 //
-//  UIImage+Category.h
-//  FRCategory
+//  UIImage+FRAdd.h
+//  FRDemo
 //
-//  Created by 1860 on 16/8/12.
-//  Copyright © 2016年 FanrongQu. All rights reserved.
+//  Created by mac on 2017/8/22.
+//  Copyright © 2017年 QuFanrong. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (Category)
+/*
+ *  水印方向
+ */
+typedef NS_ENUM(NSInteger,ImageWaterDirect) {
+    
+    //左上
+    ImageWaterDirectTopLeft=0,
+    
+    //右上
+    ImageWaterDirectTopRight,
+    
+    //左下
+    ImageWaterDirectBottomLeft,
+    
+    //右下
+    ImageWaterDirectBottomRight,
+    
+    //正中
+    ImageWaterDirectCenter
+    
+};
 
-
+@interface UIImage (FRAdd)
 /*
  *  圆形图片
  */
@@ -47,12 +67,21 @@
  */
 +(UIImage *)resizeWithImageName:(NSString *)name leftCap:(CGFloat)leftCap topCap:(CGFloat)topCap;
 
-
-
 /**
  *  拉伸图片
  */
 +(UIImage *)resizeWithImageName:(NSString *)name;
+
+
+//固定图片的方向，不随着屏幕旋转而改变方向
+- (UIImage *)fixOrientation;
+
+
+#pragma mark - 水印
+-(UIImage *)waterWithText:(NSString *)text direction:(ImageWaterDirect)direction fontColor:(UIColor *)fontColor fontPoint:(CGFloat)fontPoint marginXY:(CGPoint)marginXY;
+
+
+-(UIImage *)waterWithWaterImage:(UIImage *)waterImage direction:(ImageWaterDirect)direction waterSize:(CGSize)waterSize  marginXY:(CGPoint)marginXY;
 
 
 /**

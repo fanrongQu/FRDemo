@@ -1,14 +1,14 @@
 //
-//  UIFont+Category.h
-//  FRCategory
+//  UIFont+FRAdd.h
+//  FRDemo
 //
-//  Created by 1860 on 16/8/12.
-//  Copyright © 2016年 FanrongQu. All rights reserved.
+//  Created by mac on 2017/8/22.
+//  Copyright © 2017年 QuFanrong. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface UIFont (Category)
+@interface UIFont (FRAdd)
 
 /**
  *  打印并显示所有字体
@@ -37,5 +37,11 @@
  */
 +(UIFont *)customFontNamedDroidSansFallbackWithFontOfSize:(CGFloat)size;
 
+
+- (UIFont *)fontOfSize:(CGFloat)size;
+
+- (UIFont *)mediumFontOfSize:(CGFloat)size;
+
+- (UIFont *)semiMediumFontOfSize:(CGFloat)size;
 
 @end

@@ -1,14 +1,14 @@
 //
-//  UIBarButtonItem+Category.m
-//  FRCategory
+//  UIBarButtonItem+FRAdd.m
+//  FRDemo
 //
-//  Created by 1860 on 16/8/12.
-//  Copyright © 2016年 FanrongQu. All rights reserved.
+//  Created by mac on 2017/8/22.
+//  Copyright © 2017年 QuFanrong. All rights reserved.
 //
 
-#import "UIBarButtonItem+Category.h"
+#import "UIBarButtonItem+FRAdd.h"
 
-@implementation UIBarButtonItem (Category)
+@implementation UIBarButtonItem (FRAdd)
 
 
 //快速创建一个显示图片的item
@@ -33,6 +33,7 @@
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     return [[UIBarButtonItem alloc]initWithCustomView:button];
 }
+
 
 
 @end

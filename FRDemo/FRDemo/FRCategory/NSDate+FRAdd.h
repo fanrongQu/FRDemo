@@ -1,16 +1,14 @@
 //
-//  NSDate+Category.h
-//  NetEase News
+//  NSDate+FRAdd.h
+//  FRDemo
 //
-//  Created by 1860 on 16/6/14.
-//  Copyright © 2016年 FanrongQu. All rights reserved.
+//  Created by mac on 2017/8/22.
+//  Copyright © 2017年 QuFanrong. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface NSDate (Category)
-
-
+@interface NSDate (FRAdd)
 /*
  *  时间戳
  */
@@ -68,11 +66,6 @@
 +(NSDate *)dateStartOfDay:(NSDate *)date;
 +(NSDate *)dateStartOfWeek;
 +(NSDate *)dateEndOfWeek;
-
-+ (NSString *)dateIntegerForDate:(NSDate *)date;
-
-+ (NSString *)dateWithFormatter:(int)timeValue AndDateFormate:(NSString *)dateFormatter;
-+ (NSString *)dateInteger:(NSString *)hour AndMinute:(NSString *)minute Istoday:(BOOL)istoday;
 
 +(NSString*)TimeformatFromSeconds:(NSInteger)seconds;//秒转换成时间格式
 +(NSString*)TimeformatFromDateWithDay:(NSInteger)day AndMinutes:(NSInteger)minutes AndSecond:(NSInteger)second;//传入天数 和 时间 转换成时间戳

@@ -1,15 +1,14 @@
 //
-//  NSString+Category.h
-//  FRCategory
+//  NSString+FRAdd.h
+//  FRDemo
 //
-//  Created by 1860 on 16/8/12.
-//  Copyright © 2016年 FanrongQu. All rights reserved.
+//  Created by mac on 2017/8/22.
+//  Copyright © 2017年 QuFanrong. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "GTMBase64.h"
+#import <Foundation/Foundation.h>
 
-@interface NSString (Category)
+@interface NSString (FRAdd)
 
 #pragma mark - 删除字符串中的指定字符
 /**
@@ -268,7 +267,6 @@
  *  @return 快速返回沙盒中，你指定的系统文件的中某个子文件的路径
  */
 + (NSString *)filePathForSystemFile:(NSSearchPathDirectory)directory withFileName:(NSString *)fileName;
-
 
 
 @end

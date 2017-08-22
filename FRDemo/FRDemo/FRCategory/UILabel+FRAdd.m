@@ -1,14 +1,14 @@
 //
-//  UILabel+Category.m
+//  UILabel+FRAdd.m
 //  FRDemo
 //
-//  Created by mac on 2017/5/10.
+//  Created by mac on 2017/8/22.
 //  Copyright © 2017年 QuFanrong. All rights reserved.
 //
 
-#import "UILabel+Category.h"
+#import "UILabel+FRAdd.h"
 
-@implementation UILabel (Category)
+@implementation UILabel (FRAdd)
 
 + (instancetype)lableWithParagraph:(NSString *)para numberOfLines:(NSInteger)lines font:(UIFont *)font textColor:(UIColor *)color lineSpacing:(CGFloat)lineSpace{
     
@@ -57,5 +57,6 @@
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [label.text length])];
     label.attributedText = attributedString;
 }
+
 
 @end

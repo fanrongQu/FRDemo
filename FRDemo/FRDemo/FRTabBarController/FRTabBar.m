@@ -61,10 +61,10 @@
 {
     //如果需要点击刷新则不加判断
     if (self.selectedItem != item) {
-        if (!kFRUserLogin && !([item isEqual:self.tabBarItems[0]] ||[item isEqual:self.tabBarItems[1]])) {
-            [kNSNotificationCenter postNotificationName:NOTIFY_TABBARCLICK_UNLODING object:[NSString stringWithFormat:@"%ld",self.selectedItem.tag]];
-            return;
-        }
+//        if (!kFRUserLogin && !([item isEqual:self.tabBarItems[0]] ||[item isEqual:self.tabBarItems[1]])) {
+//            [kNSNotificationCenter postNotificationName:NOTIFY_TABBARCLICK_UNLODING object:[NSString stringWithFormat:@"%ld",self.selectedItem.tag]];
+//            return;
+//        }
         // 1.通知代理
         if ([self.delegate respondsToSelector:@selector(tabBar:didSelectedButtonFrom:to:)]) {
             [self.delegate tabBar:self didSelectedButtonFrom:self.selectedItem.tag to:item.tag];

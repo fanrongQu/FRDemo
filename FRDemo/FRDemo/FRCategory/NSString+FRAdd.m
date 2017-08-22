@@ -1,14 +1,15 @@
 //
-//  NSString+Category.m
-//  FRCategory
+//  NSString+FRAdd.m
+//  FRDemo
 //
-//  Created by 1860 on 16/8/12.
-//  Copyright © 2016年 FanrongQu. All rights reserved.
+//  Created by mac on 2017/8/22.
+//  Copyright © 2017年 QuFanrong. All rights reserved.
 //
 
-#import "NSString+Category.h"
+#import "NSString+FRAdd.h"
+#import "GTMBase64.h"
 
-@implementation NSString (Category)
+@implementation NSString (FRAdd)
 
 +(NSString *)stringWithInterceptString:(NSString *)string
 {
@@ -220,7 +221,7 @@
     
     NSDate* date = [NSDate date];
     NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* comps = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)fromDate:date];
+    NSDateComponents* comps = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute |NSCalendarUnitSecond)fromDate:date];
     NSInteger year = [comps year];
     NSInteger month = [comps month];
     NSInteger day = [comps day];
@@ -292,7 +293,7 @@
     
     NSDate* date = [NSDate date];
     NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* comps = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)fromDate:date];
+    NSDateComponents* comps = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute |NSCalendarUnitSecond)fromDate:date];
     NSInteger year = [comps year];
     NSInteger month = [comps month];
     NSInteger day = [comps day];
@@ -682,6 +683,7 @@
 {
     return [[self pathForSystemFile:directory] stringByAppendingPathComponent:fileName];
 }
+
 
 
 @end

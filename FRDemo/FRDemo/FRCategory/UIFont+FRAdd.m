@@ -1,17 +1,19 @@
 //
-//  UIFont+Category.m
-//  FRCategory
+//  UIFont+FRAdd.m
+//  FRDemo
 //
-//  Created by 1860 on 16/8/12.
-//  Copyright © 2016年 FanrongQu. All rights reserved.
+//  Created by mac on 2017/8/22.
+//  Copyright © 2017年 QuFanrong. All rights reserved.
 //
 
-#import "UIFont+Category.h"
+#import "UIFont+FRAdd.h"
 
-@implementation UIFont (Category)
+#define IN_IPHONE_PLUS ([[UIScreen mainScreen] bounds].size.width >= 414)
 
+@implementation UIFont (FRAdd)
 
 #pragma mark  打印并显示所有字体
+
 +(void)showAllFonts{
     NSArray *familyNames = [UIFont familyNames];
     for( NSString *familyName in familyNames ){
@@ -22,7 +24,6 @@
         }
     }
 }
-
 
 #pragma mark  宋体
 +(UIFont *)songTypefaceFontOfSize:(CGFloat)size{
@@ -47,5 +48,18 @@
 +(UIFont *)customFontNamedDroidSansFallbackWithFontOfSize:(CGFloat)size{
     return [UIFont fontWithName:@"DroidSansFallback" size:size];
 }
+
+
+- (UIFont *)fontOfSize:(CGFloat)size {
+    return IN_IPHONE_PLUS?[UIFont systemFontOfSize:size]:[UIFont systemFontOfSize:size - 1];
+}
+
+- (UIFont *)mediumFontOfSize:(CGFloat)size {
+    return IN_IPHONE_PLUS?[UIFont systemFontOfSize:size weight:0.2]:[UIFont systemFontOfSize:size - 1 weight:0.2];
+}
+- (UIFont *)semiMediumFontOfSize:(CGFloat)size {
+    return IN_IPHONE_PLUS?[UIFont systemFontOfSize:size weight:0.12]:[UIFont systemFontOfSize:size - 1 weight:0.12];
+}
+
 
 @end

@@ -1,14 +1,14 @@
 //
-//  UIBarButtonItem+Category.h
-//  FRCategory
+//  UIBarButtonItem+FRAdd.h
+//  FRDemo
 //
-//  Created by 1860 on 16/8/12.
-//  Copyright © 2016年 FanrongQu. All rights reserved.
+//  Created by mac on 2017/8/22.
+//  Copyright © 2017年 QuFanrong. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface UIBarButtonItem (Category)
+@interface UIBarButtonItem (FRAdd)
 
 + (UIBarButtonItem *)ItemWithIcon:(NSString *)icon highIcon:(NSString *)highIcon target:(id)target action:(SEL)action;
 

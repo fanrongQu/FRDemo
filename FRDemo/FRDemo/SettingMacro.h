@@ -24,8 +24,6 @@
 #define kFontSize(size) [UIFont systemFontOfSize:(size)]
 /** 系统版本 */
 #define kSystemVersion [[[UIDevice currentDevice] systemVersion] floatValue]
-/** 颜色 */
-#define kUIColor_RGB(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)/1.0]
 
 #define kSubjectColor kUIColor_RGB(4, 107, 179, 1)
 
