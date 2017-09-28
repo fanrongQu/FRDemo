@@ -8,14 +8,8 @@
 
 
 #import "FRTabBarController.h"
-#import "FRTabBar.h"
 
 @interface FRTabBarController ()<FRTabBarDelegate>
-
-/**
- *  自定义的tabbar
- */
-@property (nonatomic, weak) FRTabBar *customTabBar;
 
 @end
 
@@ -35,8 +29,7 @@
  */
 - (void)setupTabbar
 {
-    FRTabBar *customTabBar = [[FRTabBar alloc] init];
-    customTabBar.frame = self.tabBar.bounds;
+    FRTabBar *customTabBar = [[FRTabBar alloc] initWithFrame:self.tabBar.bounds];
     customTabBar.delegate = self;
     [self.tabBar addSubview:customTabBar];
     self.customTabBar = customTabBar;
@@ -93,6 +86,17 @@
     // 删除系统自动生成的UITabBarButton
     for (UIView *child in self.tabBar.subviews) {
         if ([child isKindOfClass:[UIControl class]]) {
+            [child removeFromSuperview];
+        }
+    }
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    // 删除系统自动生成的UITabBarButton,解决会重叠显示item的问题
+    for (UIView *child in self.tabBar.subviews) {
+        if ([child isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
             [child removeFromSuperview];
         }
     }

@@ -35,15 +35,19 @@
         
         //设置frame
         CGRect frame = self.frame;
-        [self.layer setMasksToBounds:YES];
-        self.layer.cornerRadius = frame.size.height / 2;
         
         if (badgeValue.length > 1) {
             //文字尺寸
             NSDictionary *attributes = @{NSFontAttributeName : self.font};
             CGSize badgeSize = [badgeValue sizeWithAttributes:attributes];
             frame.size.width = badgeSize.width + 7;
+        }else if(badgeValue.length == 0) {
+            frame.size = CGSizeMake(6, 6);
         }
+        
+        self.layer.cornerRadius = frame.size.height / 2;
+        [self.layer setMasksToBounds:YES];
+        
         self.frame = frame;
     }else {
         self.hidden = YES;

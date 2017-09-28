@@ -39,13 +39,14 @@
     //设置整个项目item的主题样式
     UIBarButtonItem *item = [UIBarButtonItem appearance];
     //取消UIBarButtonItem的渲染效果
-    [item setTintColor:_tintColor?_tintColor:[UIColor blackColor]];
+    [item setTintColor:_tintColor?_tintColor:[UIColor whiteColor]];
+    
     //设置普通状态
     NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
     //item字体大小
-    textAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:14];
+    textAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:15];
     //item字体颜色
-    textAttrs[NSForegroundColorAttributeName] = _itemNormalColor?_itemNormalColor:[UIColor blackColor];
+    textAttrs[NSForegroundColorAttributeName] = _itemNormalColor?_itemNormalColor:[UIColor whiteColor];
     
     [item setTitleTextAttributes:textAttrs forState:UIControlStateNormal];
    
@@ -58,13 +59,10 @@
     UINavigationBar *navigationBar = [UINavigationBar appearance];
     //状态栏颜色
     navigationBar.barTintColor = _navigationBarColor?_navigationBarColor:[UIColor whiteColor];
-    //状态栏字体(白色)
-    //在info.plist中添加一个字段：view controller -base status bar 设置为NO
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
     //导航栏title颜色
     [navigationBar setTitleTextAttributes:
-     @{NSFontAttributeName:[UIFont systemFontOfSize:19],
-       NSForegroundColorAttributeName:_navigationBarTitleColor?_navigationBarTitleColor:[UIColor blackColor]}];
+     @{NSFontAttributeName:[UIFont systemFontOfSize:17],
+       NSForegroundColorAttributeName:_navigationBarTitleColor?_navigationBarTitleColor:[UIColor whiteColor]}];
 }
 
 /**
@@ -72,14 +70,31 @@
  *
  *  @param viewController push进来的控制器
  */
--(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     if (self.viewControllers.count > 0) {//这时push进来的控制器不是第一个控制器
         //自动隐藏tabBar
         viewController.hidesBottomBarWhenPushed = YES;
         
         //设置导航栏上面显示的内容样式
-        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"navigationbar_back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+//        UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//        space.width = -5;
+//        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigationbar_back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+//        viewController.navigationItem.leftBarButtonItems = @[space, backItem];
+        
+        UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 36, 44)];
+        [backBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+
+        UIImage *backImage = [UIImage imageNamed:@"navigationbar_back"];
+        if ([[UIBarButtonItem appearance].tintColor isEqual:[UIColor whiteColor]]) {
+            backImage = [UIImage imageNamed:@"navigationbar_white"];
+        }
+        [backImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [backBtn setTintColor:[UIBarButtonItem appearance].tintColor];
+        [backBtn setImage:backImage forState:UIControlStateNormal];
+        [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     }
     
     [super pushViewController:viewController animated:animated];
@@ -99,7 +114,7 @@
         _navigationBarTitleColor = navigationBarTitleColor;
         //导航栏title颜色
         [[UINavigationBar appearance] setTitleTextAttributes:
-         @{NSFontAttributeName:[UIFont systemFontOfSize:19],
+         @{NSFontAttributeName:[UIFont systemFontOfSize:17],
            NSForegroundColorAttributeName:navigationBarTitleColor}];
     }
 }
@@ -116,6 +131,8 @@
         _itemNormalColor = itemNormalColor;
         NSMutableDictionary *itemTextAttr = [NSMutableDictionary dictionary];
         itemTextAttr[NSForegroundColorAttributeName] = itemNormalColor;
+        //item字体大小
+        itemTextAttr[NSFontAttributeName] = [UIFont systemFontOfSize:15];
         [[UIBarButtonItem appearance] setTitleTextAttributes:itemTextAttr forState:UIControlStateNormal];
     }
 }
@@ -133,6 +150,8 @@
         _itemDisabledColor = itemDisabledColor;
         NSMutableDictionary *itemTextAttr = [NSMutableDictionary dictionary];
         itemTextAttr[NSForegroundColorAttributeName] = itemDisabledColor;
+        //item字体大小
+        itemTextAttr[NSFontAttributeName] = [UIFont systemFontOfSize:15];
         [[UIBarButtonItem appearance] setTitleTextAttributes:itemTextAttr forState:UIControlStateDisabled];
     }
 }
@@ -152,6 +171,17 @@
         self.itemDisabledColor = itemDisabledColor;
         self.tintColor = tintColor;
     }
+}
+
+
+- (BOOL)shouldAutorotate
+{
+    return [self.viewControllers.lastObject shouldAutorotate];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return [self.viewControllers.lastObject supportedInterfaceOrientations];
 }
 
 

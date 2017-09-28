@@ -129,8 +129,8 @@
     
     // 设置提醒数字的位置
     CGRect badgeF = self.badgeLabel.frame;
-    CGFloat badgeY = 5;
-    CGFloat badgeX = (self.frame.size.width - badgeF.size.width)* 0.5 + 13;
+    CGFloat badgeY = (25 - badgeF.size.height) * 0.5;
+    CGFloat badgeX = self.frame.size.width * 0.5 + 5;
     badgeF.origin.x = badgeX;
     badgeF.origin.y = badgeY;
     self.badgeLabel.frame = badgeF;

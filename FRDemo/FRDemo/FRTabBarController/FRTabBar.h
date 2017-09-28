@@ -23,6 +23,10 @@
 /**  选中状态item的颜色  */
 @property (nonatomic, strong) UIColor *selectedColor;
 
+@property(nonatomic, strong)UIImageView *imageView;
+
+@property (nonatomic, strong) NSMutableArray *tabBarItems;
+
 - (void)addTabBarItemWithItem:(UITabBarItem *)tabBarItem;
 
 - (void)selectedTabBarItemWithIndex:(NSUInteger)selectedIndex;

@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FRTabBar.h"
 
 @interface FRTabBarController : UITabBarController
+
+/**
+ *  自定义的tabbar
+ */
+@property (nonatomic, weak) FRTabBar *customTabBar;
 
 /**
  *  为tabBarController添加子控制器UIViewController

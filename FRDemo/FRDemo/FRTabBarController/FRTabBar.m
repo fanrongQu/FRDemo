@@ -10,12 +10,19 @@
 #import "FRTabBarItem.h"
 
 @interface FRTabBar ()
-@property (nonatomic, strong) NSMutableArray *tabBarItems;
+
 @property (nonatomic, weak) FRTabBarItem *selectedItem;
 
 @end
 
 @implementation FRTabBar
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self imageView];
+    }
+    return self;
+}
 
 - (NSMutableArray *)tabBarItems {
     if (_tabBarItems == nil) {
@@ -25,6 +32,7 @@
 }
 
 - (void)addTabBarItemWithItem:(UITabBarItem *)tabBarItem {
+    
     //创建按钮
     FRTabBarItem *item = [[FRTabBarItem alloc]init];
     [self addSubview:item];
@@ -61,10 +69,10 @@
 {
     //如果需要点击刷新则不加判断
     if (self.selectedItem != item) {
-//        if (!kFRUserLogin && !([item isEqual:self.tabBarItems[0]] ||[item isEqual:self.tabBarItems[1]])) {
-//            [kNSNotificationCenter postNotificationName:NOTIFY_TABBARCLICK_UNLODING object:[NSString stringWithFormat:@"%ld",self.selectedItem.tag]];
-//            return;
-//        }
+        if (!kFRUserLogin && !([item isEqual:self.tabBarItems[0]] ||[item isEqual:self.tabBarItems[1]])) {
+            [kNSNotificationCenter postNotificationName:NOTIFY_TABBARCLICK_UNLODING object:[NSString stringWithFormat:@"%ld",self.selectedItem.tag]];
+            return;
+        }
         // 1.通知代理
         if ([self.delegate respondsToSelector:@selector(tabBar:didSelectedButtonFrom:to:)]) {
             [self.delegate tabBar:self didSelectedButtonFrom:self.selectedItem.tag to:item.tag];
@@ -74,7 +82,7 @@
         item.selected = YES;
         self.selectedItem = item;
     }
-    [self imgAnimate:item];
+//    [self imgAnimate:item];
 }
 
 
@@ -88,7 +96,7 @@
     
     // 按钮的frame数据
     CGFloat buttonH = h;
-    CGFloat buttonW = w / self.subviews.count;
+    CGFloat buttonW = w / self.tabBarItems.count;
     CGFloat buttonY = 0;
     
     for (int index = 0; index<self.tabBarItems.count; index++) {
@@ -131,6 +139,14 @@
                }];
           }];
      }];
+}
+
+- (UIImageView *)imageView {
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        [self addSubview:_imageView];
+    }
+    return _imageView;
 }
 
 

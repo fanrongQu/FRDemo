@@ -15,12 +15,20 @@
     
     CGSize imageSize = self.imageView.intrinsicContentSize;
     CGSize titleSize = self.titleLabel.intrinsicContentSize;
+    CGSize selfSize = self.bounds.size;
     CGFloat halfMargin = margin*0.5;
+    //解决文字没显示完调整布局图片发生的偏移
+    CGFloat widthErr = (imageSize.width + titleSize.width - selfSize.width);
+    if (widthErr < -10) {
+        widthErr = 0;
+    }else {
+        widthErr += widthErr;
+    }
     
     switch (style) {
         case UIButtonEdgeInsetsStyleTop:
-            self.imageEdgeInsets = UIEdgeInsetsMake(-titleSize.height*0.5 - halfMargin, titleSize.width*0.5, titleSize.height*0.5 + halfMargin, -titleSize.width*0.5);
-            self.titleEdgeInsets = UIEdgeInsetsMake(imageSize.height*0.5 + halfMargin, -imageSize.width*0.5, -imageSize.height*0.5 - halfMargin, imageSize.width*0.5);
+            self.imageEdgeInsets = UIEdgeInsetsMake(-titleSize.height*0.5 - halfMargin, titleSize.width*0.5 + widthErr, titleSize.height*0.5 + halfMargin, -titleSize.width*0.5 + widthErr);
+            self.titleEdgeInsets = UIEdgeInsetsMake(imageSize.height*0.5 + halfMargin, -imageSize.width, -imageSize.height*0.5 - halfMargin, 0);
             break;
             
         case UIButtonEdgeInsetsStyleLeft:
@@ -29,8 +37,8 @@
             break;
             
         case UIButtonEdgeInsetsStyleBottom:
-            self.imageEdgeInsets = UIEdgeInsetsMake(titleSize.height*0.5 + halfMargin, titleSize.width*0.5, -titleSize.height*0.5 - halfMargin, -titleSize.width*0.5);
-            self.titleEdgeInsets = UIEdgeInsetsMake(-imageSize.height*0.5 - halfMargin, -imageSize.width*0.5, imageSize.height*0.5 + halfMargin, imageSize.width*0.5);
+            self.imageEdgeInsets = UIEdgeInsetsMake(titleSize.height*0.5 + halfMargin, titleSize.width*0.5 + widthErr, -titleSize.height*0.5 - halfMargin, -titleSize.width*0.5 + widthErr);
+            self.titleEdgeInsets = UIEdgeInsetsMake(-imageSize.height*0.5 - halfMargin, -imageSize.width, imageSize.height*0.5 + halfMargin, 0);
             
             break;
             
