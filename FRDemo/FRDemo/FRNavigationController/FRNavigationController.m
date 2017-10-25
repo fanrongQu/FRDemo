@@ -39,14 +39,14 @@
     //设置整个项目item的主题样式
     UIBarButtonItem *item = [UIBarButtonItem appearance];
     //取消UIBarButtonItem的渲染效果
-    [item setTintColor:_tintColor?_tintColor:[UIColor whiteColor]];
+    [item setTintColor:_tintColor?_tintColor:[UIColor blackColor]];
     
     //设置普通状态
     NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
     //item字体大小
     textAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:15];
     //item字体颜色
-    textAttrs[NSForegroundColorAttributeName] = _itemNormalColor?_itemNormalColor:[UIColor whiteColor];
+    textAttrs[NSForegroundColorAttributeName] = _itemNormalColor?_itemNormalColor:[UIColor blackColor];
     
     [item setTitleTextAttributes:textAttrs forState:UIControlStateNormal];
    
@@ -62,7 +62,7 @@
     //导航栏title颜色
     [navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:[UIFont systemFontOfSize:17],
-       NSForegroundColorAttributeName:_navigationBarTitleColor?_navigationBarTitleColor:[UIColor whiteColor]}];
+       NSForegroundColorAttributeName:_navigationBarTitleColor?_navigationBarTitleColor:[UIColor blackColor]}];
 }
 
 /**
@@ -75,26 +75,13 @@
     if (self.viewControllers.count > 0) {//这时push进来的控制器不是第一个控制器
         //自动隐藏tabBar
         viewController.hidesBottomBarWhenPushed = YES;
-        
-        //设置导航栏上面显示的内容样式
-//        UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-//        space.width = -5;
-//        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigationbar_back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-//        viewController.navigationItem.leftBarButtonItems = @[space, backItem];
-        
-        UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 36, 44)];
-        [backBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-
+       
         UIImage *backImage = [UIImage imageNamed:@"navigationbar_back"];
         if ([[UIBarButtonItem appearance].tintColor isEqual:[UIColor whiteColor]]) {
             backImage = [UIImage imageNamed:@"navigationbar_white"];
         }
-        [backImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [backBtn setTintColor:[UIBarButtonItem appearance].tintColor];
-        [backBtn setImage:backImage forState:UIControlStateNormal];
-        [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-
-        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+        UIBarButtonItem *backBtnItem = [UIBarButtonItem itemWithImage:backImage target:self action:@selector(back)];
+        viewController.navigationItem.leftBarButtonItem = backBtnItem;
     }
     
     [super pushViewController:viewController animated:animated];

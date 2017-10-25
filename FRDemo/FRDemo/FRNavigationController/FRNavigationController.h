@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UINavigationController+FDFullscreenPopGesture.h"
+#import "UIBarButtonItem+FRAdd.h"
 
 @interface FRNavigationController : UINavigationController
 
