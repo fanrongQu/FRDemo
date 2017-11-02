@@ -17,34 +17,34 @@
     CGSize titleSize = self.titleLabel.intrinsicContentSize;
     CGSize selfSize = self.bounds.size;
     CGFloat halfMargin = margin*0.5;
+    //如果没有文字/图片的时候不做处理
+    if (imageSize.width == 0 || titleSize.width == 0) return;
+    
     //解决文字没显示完调整布局图片发生的偏移
     CGFloat widthErr = (imageSize.width + titleSize.width - selfSize.width);
     if (widthErr < -10) {
         widthErr = 0;
-    }else {
-        widthErr += widthErr;
     }
     
     switch (style) {
         case UIButtonEdgeInsetsStyleTop:
-            self.imageEdgeInsets = UIEdgeInsetsMake(-titleSize.height*0.5 - halfMargin, titleSize.width*0.5 + widthErr, titleSize.height*0.5 + halfMargin, -titleSize.width*0.5 + widthErr);
+            self.imageEdgeInsets = UIEdgeInsetsMake(-titleSize.height*0.5 - halfMargin, (titleSize.width - widthErr) * 0.5, titleSize.height*0.5 + halfMargin, -(titleSize.width - widthErr) * 0.5);
             self.titleEdgeInsets = UIEdgeInsetsMake(imageSize.height*0.5 + halfMargin, -imageSize.width, -imageSize.height*0.5 - halfMargin, 0);
             break;
             
         case UIButtonEdgeInsetsStyleLeft:
-            self.imageEdgeInsets = UIEdgeInsetsMake(0, -halfMargin, 0, halfMargin);
-            self.titleEdgeInsets = UIEdgeInsetsMake(0, halfMargin, 0, -halfMargin);
+            self.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+            self.titleEdgeInsets = UIEdgeInsetsMake(0, margin, 0, 0);
             break;
             
         case UIButtonEdgeInsetsStyleBottom:
-            self.imageEdgeInsets = UIEdgeInsetsMake(titleSize.height*0.5 + halfMargin, titleSize.width*0.5 + widthErr, -titleSize.height*0.5 - halfMargin, -titleSize.width*0.5 + widthErr);
+            self.imageEdgeInsets = UIEdgeInsetsMake(titleSize.height*0.5 + halfMargin, (titleSize.width - widthErr) * 0.5, -titleSize.height*0.5 - halfMargin, -(titleSize.width - widthErr) * 0.5);
             self.titleEdgeInsets = UIEdgeInsetsMake(-imageSize.height*0.5 - halfMargin, -imageSize.width, imageSize.height*0.5 + halfMargin, 0);
-            
             break;
             
         case UIButtonEdgeInsetsStyleRight:
-            self.titleEdgeInsets = UIEdgeInsetsMake(0, -imageSize.width - halfMargin, 0, imageSize.width + halfMargin);
-            self.imageEdgeInsets = UIEdgeInsetsMake(0, titleSize.width + halfMargin, 0, -titleSize.width - halfMargin);
+            self.titleEdgeInsets = UIEdgeInsetsMake(0, -imageSize.width, 0, imageSize.width + margin);
+            self.imageEdgeInsets = UIEdgeInsetsMake(0, titleSize.width - widthErr, 0, -titleSize.width + widthErr);
             break;
             
         default:
