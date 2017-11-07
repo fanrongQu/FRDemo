@@ -22,13 +22,13 @@
     
     //解决文字没显示完调整布局图片发生的偏移
     CGFloat widthErr = (imageSize.width + titleSize.width - selfSize.width);
-    if (widthErr < -10) {
+    if (widthErr < - margin - 3) {
         widthErr = 0;
     }
-    
+
     switch (style) {
         case UIButtonEdgeInsetsStyleTop:
-            self.imageEdgeInsets = UIEdgeInsetsMake(-titleSize.height*0.5 - halfMargin, (titleSize.width - widthErr) * 0.5, titleSize.height*0.5 + halfMargin, -(titleSize.width - widthErr) * 0.5);
+            self.imageEdgeInsets = UIEdgeInsetsMake(-titleSize.height*0.5 - halfMargin, titleSize.width * 0.5 + widthErr, titleSize.height*0.5 + halfMargin, -titleSize.width * 0.5 - widthErr);
             self.titleEdgeInsets = UIEdgeInsetsMake(imageSize.height*0.5 + halfMargin, -imageSize.width, -imageSize.height*0.5 - halfMargin, 0);
             break;
             
@@ -38,7 +38,7 @@
             break;
             
         case UIButtonEdgeInsetsStyleBottom:
-            self.imageEdgeInsets = UIEdgeInsetsMake(titleSize.height*0.5 + halfMargin, (titleSize.width - widthErr) * 0.5, -titleSize.height*0.5 - halfMargin, -(titleSize.width - widthErr) * 0.5);
+            self.imageEdgeInsets = UIEdgeInsetsMake(titleSize.height*0.5 + halfMargin, titleSize.width * 0.5 + widthErr, -titleSize.height*0.5 - halfMargin, -titleSize.width * 0.5 - widthErr);
             self.titleEdgeInsets = UIEdgeInsetsMake(-imageSize.height*0.5 - halfMargin, -imageSize.width, imageSize.height*0.5 + halfMargin, 0);
             break;
             
