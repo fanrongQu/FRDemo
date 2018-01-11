@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #ifndef sx_defaultFixSpace
-#define sx_defaultFixSpace 8
+#define sx_defaultFixSpace 5
 #endif
 
 @interface UIImagePickerController (FRFixSpace)

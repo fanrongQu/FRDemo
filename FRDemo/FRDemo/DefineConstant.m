@@ -93,6 +93,76 @@ NSArray *EncodeArrayFromDic(NSDictionary *dic, NSString *key)
     return nil;
 }
 
+#pragma mark 从数组到数组
+NSArray *EncodeArrayFromArray(NSArray *array, NSInteger integer)
+{
+    @try {
+        id temp = array[integer];
+        if ([temp isKindOfClass:[NSArray class]]){
+            return temp;
+        }
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    return nil;
+}
+
+#pragma mark 从数组到字典
+NSDictionary *EncodeDictFromArray(NSArray *array, NSInteger integer)
+{
+    @try {
+        id temp = array[integer];
+        if ([temp isKindOfClass:[NSDictionary class]]){
+            return temp;
+        }
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    return nil;
+}
+
+#pragma mark 从数组到字符串
+NSString *EncodeStringFromArray(NSArray *array, NSInteger integer)
+{
+    @try {
+        id temp = array[integer];
+        if ([temp isKindOfClass:[NSString class]])
+        {
+            return [NSString stringWithFormat:@"%@",temp];
+        }
+        else if ([temp isKindOfClass:[NSNumber class]])
+        {
+            return [NSString stringWithFormat:@"%@",[temp stringValue]];
+        }
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    return nil;
+}
+
+#pragma mark 从数组到Number
+NSNumber *EncodeNumberFromArray(NSArray *array, NSInteger integer)
+{
+    @try {
+        id temp = array[integer];
+        
+        if ([temp isKindOfClass:[NSString class]])
+        {
+            return [NSNumber numberWithDouble:[temp doubleValue]];
+        }
+        else if ([temp isKindOfClass:[NSNumber class]])
+        {
+            return temp;
+        }
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    return nil;
+}
 
 
 @end

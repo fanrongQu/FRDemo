@@ -1,10 +1,10 @@
 //
 //  FRBadge.m
-//  爱鲜蜂
+//  FRTabBarController
 //
 //  Created by 1860 on 16/4/1.
 //  Copyright © 2016年 FanrongQu. All rights reserved.
-//
+// 
 
 #import "FRBadge.h"
 
@@ -35,12 +35,16 @@
         
         //设置frame
         CGRect frame = self.frame;
+        frame.size.height = 16;
         
-        if (badgeValue.length > 1) {
+        if (badgeValue.length > 0) {
+            frame.size = CGSizeMake(16, 16);
+        }else if (badgeValue.length > 0) {
             //文字尺寸
             NSDictionary *attributes = @{NSFontAttributeName : self.font};
             CGSize badgeSize = [badgeValue sizeWithAttributes:attributes];
-            frame.size.width = badgeSize.width + 7;
+            frame.size.height = 16;
+            frame.size.width = MAX(badgeSize.width + 7, 16);
         }else if(badgeValue.length == 0) {
             frame.size = CGSizeMake(6, 6);
         }

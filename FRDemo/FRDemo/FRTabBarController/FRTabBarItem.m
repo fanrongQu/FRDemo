@@ -1,15 +1,14 @@
 //
 //  FRTabBarItem.m
-//  爱鲜蜂
+//  FRTabBarController
 //
 //  Created by 1860 on 16/4/1.
 //  Copyright © 2016年 FanrongQu. All rights reserved.
 //
 
-#define FRTabBarItemImageRatio 1
-
 #import "FRTabBarItem.h"
 #import "FRBadge.h"
+#import "UIButton+FRAdd.h"
 
 @interface FRTabBarItem ()
 
@@ -34,6 +33,7 @@
         [self addSubview:badgeLabel];
         self.badgeLabel = badgeLabel;
         
+        [self setButtonEdgeInsetsStyle:UIButtonEdgeInsetsStyleTop margin:3.f];
         self.firstLoad = YES;
     }
     return self;
@@ -43,22 +43,6 @@
     
 }
 
-// 内部图片的frame
-- (CGRect)imageRectForContentRect:(CGRect)contentRect {
-    CGFloat imageW = contentRect.size.width;
-    CGFloat imageH = contentRect.size.height * FRTabBarItemImageRatio;
-    return CGRectMake(0, 5, imageW, imageH - 5);
-    return CGRectMake(0, 0, imageW, imageH);
-}
-
-// 内部文字的frame
-- (CGRect)titleRectForContentRect:(CGRect)contentRect
-{
-    CGFloat titleY = contentRect.size.height * FRTabBarItemImageRatio;
-    CGFloat titleW = contentRect.size.width;
-    CGFloat titleH = contentRect.size.height - titleY - 2;
-    return CGRectMake(0, titleY, titleW, titleH);
-}
 
 // 设置tabBarItem
 - (void)setTabBarItem:(UITabBarItem *)tabBarItem {
@@ -106,7 +90,6 @@
         [self setImage:self.tabBarItem.image forState:UIControlStateNormal];
         [self setImage:self.tabBarItem.selectedImage forState:UIControlStateSelected];
         
-        
         self.firstLoad = NO;
     }
     
@@ -118,7 +101,6 @@
         self.badgeLabel.hidden = NO;
         // 设置提醒数字
         self.badgeLabel.badgeValue = self.tabBarItem.badgeValue;
-        
     }
 }
 

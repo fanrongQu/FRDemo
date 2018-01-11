@@ -6,7 +6,6 @@
 //
 
 
-
 #import "FRNavigationController.h"
 
 @interface FRNavigationController ()
@@ -75,13 +74,29 @@
     if (self.viewControllers.count > 0) {//这时push进来的控制器不是第一个控制器
         //自动隐藏tabBar
         viewController.hidesBottomBarWhenPushed = YES;
-       
-        UIImage *backImage = [UIImage imageNamed:@"navigationbar_back"];
-        if ([[UIBarButtonItem appearance].tintColor isEqual:[UIColor whiteColor]]) {
-            backImage = [UIImage imageNamed:@"navigationbar_white"];
+        
+        NSBundle *mainBundle = [NSBundle bundleForClass:[FRNavigationController class]];
+        NSBundle *resourcesBundle = [NSBundle bundleWithPath:[mainBundle pathForResource:@"FRNavigationController" ofType:@"bundle"]];
+        
+        if (resourcesBundle == nil) {
+            resourcesBundle = mainBundle;
         }
-        UIBarButtonItem *backBtnItem = [UIBarButtonItem itemWithImage:backImage target:self action:@selector(back)];
-        viewController.navigationItem.leftBarButtonItem = backBtnItem;
+    
+        UIImage *backImage = [UIImage imageNamed:@"navigationbar_back" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        [button addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        
+        [button setImage:backImage forState:UIControlStateNormal];
+        
+        [button sizeToFit];
+        if (button.bounds.size.width < 40) {
+            CGFloat width = 40 / button.bounds.size.height * button.bounds.size.width;
+            button.bounds = CGRectMake(0, 0, width, 40);
+        }
+        button.tintColor = [UIBarButtonItem appearance].tintColor;
+        
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     }
     
     [super pushViewController:viewController animated:animated];
@@ -161,13 +176,11 @@
 }
 
 
-- (BOOL)shouldAutorotate
-{
+- (BOOL)shouldAutorotate{
     return [self.viewControllers.lastObject shouldAutorotate];
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
     return [self.viewControllers.lastObject supportedInterfaceOrientations];
 }
 

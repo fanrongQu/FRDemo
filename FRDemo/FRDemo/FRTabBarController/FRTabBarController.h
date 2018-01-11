@@ -1,6 +1,6 @@
 //
 //  FRTabBarController.h
-//  FRTabBarController-Demo
+//  FRTabBarController
 //
 //  Created by 1860 on 16/4/1.
 //  Copyright © 2016年 FanrongQu. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  FRTabBarController.m
-//  RTabBarController-Demo
+//  RTabBarController
 //
 //  Created by 1860 on 16/4/1.
 //  Copyright © 2016年 FanrongQu. All rights reserved.
@@ -9,7 +9,7 @@
 
 #import "FRTabBarController.h"
 
-@interface FRTabBarController ()<FRTabBarDelegate>
+@interface FRTabBarController ()<FRTabBarDataSource,FRTabBarDelegate>
 
 @end
 
@@ -30,15 +30,10 @@
 - (void)setupTabbar
 {
     FRTabBar *customTabBar = [[FRTabBar alloc] initWithFrame:self.tabBar.bounds];
+    customTabBar.dataSource = self;
     customTabBar.delegate = self;
     [self.tabBar addSubview:customTabBar];
     self.customTabBar = customTabBar;
-}
-
-#pragma mark - FRTabBar Delegate
-- (void)tabBar:(FRTabBar *)tabBar didSelectedButtonFrom:(NSInteger)from to:(NSInteger)to
-{
-    self.selectedIndex = to;
 }
 
 - (void)setTabBarItemNormalColor:(UIColor *)normalColor selectedColor:(UIColor *)selectedColor {
@@ -79,6 +74,15 @@
     [self.customTabBar addTabBarItemWithItem:childViewController.tabBarItem];
 }
 
+#pragma mark - FRTabBar dataSource
+- (BOOL)tabBarItemCanSelectedBarItem:(NSInteger)integer {
+    return YES;
+}
+#pragma mark - FRTabBar Delegate
+- (void)tabBar:(FRTabBar *)tabBar didSelectedButtonFrom:(NSInteger)from to:(NSInteger)to {
+    self.selectedIndex = to;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -103,18 +107,15 @@
 }
 
 
-- (BOOL)shouldAutorotate
-{
+- (BOOL)shouldAutorotate{
     return [self.selectedViewController shouldAutorotate];
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
     return [self.selectedViewController supportedInterfaceOrientations];
 }
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
     return [self.selectedViewController preferredInterfaceOrientationForPresentation];
 }
 

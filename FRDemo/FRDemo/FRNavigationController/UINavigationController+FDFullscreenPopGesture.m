@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #import "UINavigationController+FDFullscreenPopGesture.h"
-#import <objc/runtime.h>
+#import "NSObject+FRRuntime.h"
 
 @interface _FDFullscreenPopGestureRecognizerDelegate : NSObject <UIGestureRecognizerDelegate>
 
@@ -81,20 +81,9 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class class = [self class];
         
-        SEL originalSelector = @selector(viewWillAppear:);
-        SEL swizzledSelector = @selector(fd_viewWillAppear:);
-        
-        Method originalMethod = class_getInstanceMethod(class, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-        
-        BOOL success = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
-        if (success) {
-            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
+        [self swizzleInstanceMethodWithOriginSel:@selector(viewWillAppear:)
+                                     swizzledSel:@selector(fd_viewWillAppear:)];
     });
 }
 
@@ -127,20 +116,9 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
     // Inject "-pushViewController:animated:"
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class class = [self class];
         
-        SEL originalSelector = @selector(pushViewController:animated:);
-        SEL swizzledSelector = @selector(fd_pushViewController:animated:);
-        
-        Method originalMethod = class_getInstanceMethod(class, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-        
-        BOOL success = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
-        if (success) {
-            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
+        [self swizzleInstanceMethodWithOriginSel:@selector(pushViewController:animated:)
+                                     swizzledSel:@selector(fd_pushViewController:animated:)];
     });
 }
 

@@ -47,4 +47,38 @@ extern NSDictionary *EncodeDicFromDic(NSDictionary *dic, NSString *key);
  */
 extern NSArray *EncodeArrayFromDic(NSDictionary *dic, NSString *key);
 
+/**
+ 从数组中获取数组对象
+ 
+ @param array 数组
+ @param integer 数组的序号
+ @return 对应的对象
+ */
+NSArray *EncodeArrayFromArray(NSArray *array, NSInteger integer);
+
+/**
+ 从数组中获取Dictionary对象
+ 
+ @param array 数组
+ @param integer 数组的序号
+ @return 对应的对象
+ */
+NSDictionary *EncodeDictFromArray(NSArray *array, NSInteger integer);
+/**
+ 从数组中获取String对象
+ 
+ @param array 数组
+ @param integer 数组的序号
+ @return 对应的对象
+ */
+NSString *EncodeStringFromArray(NSArray *array, NSInteger integer);
+/**
+ 从数组中获取Number对象
+ 
+ @param array 数组
+ @param integer 数组的序号
+ @return 对应的对象
+ */
+NSNumber *EncodeNumberFromArray(NSArray *array, NSInteger integer);
+
 @end
