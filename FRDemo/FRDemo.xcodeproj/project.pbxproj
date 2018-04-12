@@ -7,20 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04157623200713DC008266B3 /* FRTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415761A200713DC008266B3 /* FRTabBarItem.m */; };
-		04157624200713DC008266B3 /* FRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415761E200713DC008266B3 /* FRTabBar.m */; };
-		04157625200713DC008266B3 /* FRBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415761F200713DC008266B3 /* FRBadge.m */; };
-		04157626200713DC008266B3 /* UIButton+FRAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 04157621200713DC008266B3 /* UIButton+FRAdd.m */; };
-		04157627200713DC008266B3 /* FRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04157622200713DC008266B3 /* FRTabBarController.m */; };
-		041576352007140D008266B3 /* UIBarButtonItem+FRAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415762D2007140D008266B3 /* UIBarButtonItem+FRAdd.m */; };
-		041576362007140D008266B3 /* FRNavigationController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0415762E2007140D008266B3 /* FRNavigationController.bundle */; };
-		041576372007140D008266B3 /* UINavigationItem+FRFixSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 041576302007140D008266B3 /* UINavigationItem+FRFixSpace.m */; };
-		041576382007140D008266B3 /* FRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041576322007140D008266B3 /* FRNavigationController.m */; };
-		041576392007140D008266B3 /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 041576332007140D008266B3 /* UINavigationController+FDFullscreenPopGesture.m */; };
-		0415763A2007140D008266B3 /* NSObject+FRRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 041576342007140D008266B3 /* NSObject+FRRuntime.m */; };
-		045D987A1ED6E8570072174A /* FRFormData.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D98751ED6E8570072174A /* FRFormData.m */; };
-		045D987B1ED6E8570072174A /* FRNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D98771ED6E8570072174A /* FRNetworking.m */; };
-		045D987C1ED6E8570072174A /* FRNetworkingCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D98791ED6E8570072174A /* FRNetworkingCache.m */; };
 		04BC61371EC2FB8300ABD3B2 /* FRNoDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC61361EC2FB8300ABD3B2 /* FRNoDataView.m */; };
 		04BC613D1EC3037A00ABD3B2 /* DefineConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC613C1EC3037A00ABD3B2 /* DefineConstant.m */; };
 		04FCB4711F4C1046000540A4 /* UIButton+FRAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FCB4701F4C1046000540A4 /* UIButton+FRAdd.m */; };
@@ -81,34 +67,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04157619200713DC008266B3 /* FRTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRTabBar.h; sourceTree = "<group>"; };
-		0415761A200713DC008266B3 /* FRTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTabBarItem.m; sourceTree = "<group>"; };
-		0415761B200713DC008266B3 /* FRBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRBadge.h; sourceTree = "<group>"; };
-		0415761C200713DC008266B3 /* FRTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRTabBarController.h; sourceTree = "<group>"; };
-		0415761D200713DC008266B3 /* UIButton+FRAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+FRAdd.h"; sourceTree = "<group>"; };
-		0415761E200713DC008266B3 /* FRTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTabBar.m; sourceTree = "<group>"; };
-		0415761F200713DC008266B3 /* FRBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRBadge.m; sourceTree = "<group>"; };
-		04157620200713DC008266B3 /* FRTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRTabBarItem.h; sourceTree = "<group>"; };
-		04157621200713DC008266B3 /* UIButton+FRAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+FRAdd.m"; sourceTree = "<group>"; };
-		04157622200713DC008266B3 /* FRTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRTabBarController.m; sourceTree = "<group>"; };
-		041576292007140D008266B3 /* UINavigationItem+FRFixSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+FRFixSpace.h"; sourceTree = "<group>"; };
-		0415762A2007140D008266B3 /* UIKit+FRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIKit+FRNavigationController.h"; sourceTree = "<group>"; };
-		0415762B2007140D008266B3 /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
-		0415762C2007140D008266B3 /* FRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNavigationController.h; sourceTree = "<group>"; };
-		0415762D2007140D008266B3 /* UIBarButtonItem+FRAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+FRAdd.m"; sourceTree = "<group>"; };
-		0415762E2007140D008266B3 /* FRNavigationController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FRNavigationController.bundle; sourceTree = "<group>"; };
-		0415762F2007140D008266B3 /* NSObject+FRRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+FRRuntime.h"; sourceTree = "<group>"; };
-		041576302007140D008266B3 /* UINavigationItem+FRFixSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+FRFixSpace.m"; sourceTree = "<group>"; };
-		041576312007140D008266B3 /* UIBarButtonItem+FRAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+FRAdd.h"; sourceTree = "<group>"; };
-		041576322007140D008266B3 /* FRNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNavigationController.m; sourceTree = "<group>"; };
-		041576332007140D008266B3 /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
-		041576342007140D008266B3 /* NSObject+FRRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+FRRuntime.m"; sourceTree = "<group>"; };
-		045D98741ED6E8570072174A /* FRFormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRFormData.h; sourceTree = "<group>"; };
-		045D98751ED6E8570072174A /* FRFormData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRFormData.m; sourceTree = "<group>"; };
-		045D98761ED6E8570072174A /* FRNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNetworking.h; sourceTree = "<group>"; };
-		045D98771ED6E8570072174A /* FRNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNetworking.m; sourceTree = "<group>"; };
-		045D98781ED6E8570072174A /* FRNetworkingCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNetworkingCache.h; sourceTree = "<group>"; };
-		045D98791ED6E8570072174A /* FRNetworkingCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNetworkingCache.m; sourceTree = "<group>"; };
 		04BC61351EC2FB8300ABD3B2 /* FRNoDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRNoDataView.h; sourceTree = "<group>"; };
 		04BC61361EC2FB8300ABD3B2 /* FRNoDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRNoDataView.m; sourceTree = "<group>"; };
 		04BC613B1EC3037A00ABD3B2 /* DefineConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefineConstant.h; sourceTree = "<group>"; };
@@ -217,55 +175,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04157618200713DC008266B3 /* FRTabBarController */ = {
-			isa = PBXGroup;
-			children = (
-				04157619200713DC008266B3 /* FRTabBar.h */,
-				0415761A200713DC008266B3 /* FRTabBarItem.m */,
-				0415761B200713DC008266B3 /* FRBadge.h */,
-				0415761C200713DC008266B3 /* FRTabBarController.h */,
-				0415761D200713DC008266B3 /* UIButton+FRAdd.h */,
-				0415761E200713DC008266B3 /* FRTabBar.m */,
-				0415761F200713DC008266B3 /* FRBadge.m */,
-				04157620200713DC008266B3 /* FRTabBarItem.h */,
-				04157621200713DC008266B3 /* UIButton+FRAdd.m */,
-				04157622200713DC008266B3 /* FRTabBarController.m */,
-			);
-			path = FRTabBarController;
-			sourceTree = "<group>";
-		};
-		041576282007140D008266B3 /* FRNavigationController */ = {
-			isa = PBXGroup;
-			children = (
-				041576292007140D008266B3 /* UINavigationItem+FRFixSpace.h */,
-				0415762A2007140D008266B3 /* UIKit+FRNavigationController.h */,
-				0415762B2007140D008266B3 /* UINavigationController+FDFullscreenPopGesture.h */,
-				0415762C2007140D008266B3 /* FRNavigationController.h */,
-				0415762D2007140D008266B3 /* UIBarButtonItem+FRAdd.m */,
-				0415762E2007140D008266B3 /* FRNavigationController.bundle */,
-				0415762F2007140D008266B3 /* NSObject+FRRuntime.h */,
-				041576302007140D008266B3 /* UINavigationItem+FRFixSpace.m */,
-				041576312007140D008266B3 /* UIBarButtonItem+FRAdd.h */,
-				041576322007140D008266B3 /* FRNavigationController.m */,
-				041576332007140D008266B3 /* UINavigationController+FDFullscreenPopGesture.m */,
-				041576342007140D008266B3 /* NSObject+FRRuntime.m */,
-			);
-			path = FRNavigationController;
-			sourceTree = "<group>";
-		};
-		045D98731ED6E8570072174A /* FRNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				045D98741ED6E8570072174A /* FRFormData.h */,
-				045D98751ED6E8570072174A /* FRFormData.m */,
-				045D98761ED6E8570072174A /* FRNetworking.h */,
-				045D98771ED6E8570072174A /* FRNetworking.m */,
-				045D98781ED6E8570072174A /* FRNetworkingCache.h */,
-				045D98791ED6E8570072174A /* FRNetworkingCache.m */,
-			);
-			path = FRNetworking;
-			sourceTree = "<group>";
-		};
 		04BC61341EC2FB6900ABD3B2 /* FRNoDataView */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,9 +346,6 @@
 			isa = PBXGroup;
 			children = (
 				3B78C9091D5D9C10004B75A7 /* FRCategory */,
-				04157618200713DC008266B3 /* FRTabBarController */,
-				041576282007140D008266B3 /* FRNavigationController */,
-				045D98731ED6E8570072174A /* FRNetworking */,
 				3BFF4B8A1C99288800B4E4F7 /* AppDelegate.h */,
 				3BFF4B8B1C99288800B4E4F7 /* AppDelegate.m */,
 				04BC613B1EC3037A00ABD3B2 /* DefineConstant.h */,
@@ -606,7 +512,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BFF4B971C99288800B4E4F7 /* LaunchScreen.storyboard in Resources */,
-				041576362007140D008266B3 /* FRNavigationController.bundle in Resources */,
 				3B4211B81D5C8DEC00CB263B /* SVProgressHUDViewController.xib in Resources */,
 				3BFF4B941C99288800B4E4F7 /* Assets.xcassets in Resources */,
 				3BBF0C031D6ED0DA001BDE8A /* MBProgressHUD.bundle in Resources */,
@@ -692,16 +597,11 @@
 				3BBF0C041D6ED0DA001BDE8A /* MBProgressHUD.m in Sources */,
 				3BBF0C021D6ED0DA001BDE8A /* MBProgressHUD+Category.m in Sources */,
 				04FCB4831F4C23A5000540A4 /* NSAttributedString+FRAdd.m in Sources */,
-				04157627200713DC008266B3 /* FRTabBarController.m in Sources */,
 				3BB4F1671D5C7F740066AE69 /* AllianceViewController.m in Sources */,
-				0415763A2007140D008266B3 /* NSObject+FRRuntime.m in Sources */,
 				04FCB47A1F4C1D3D000540A4 /* UIImage+FRAdd.m in Sources */,
 				04FCB4861F4C241C000540A4 /* UILabel+FRAdd.m in Sources */,
 				3BB4F16C1D5C806D0066AE69 /* FRPlist.m in Sources */,
-				041576392007140D008266B3 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				3B78C93D1D5D9C11004B75A7 /* NSObject+Category.m in Sources */,
-				041576382007140D008266B3 /* FRNavigationController.m in Sources */,
-				045D987B1ED6E8570072174A /* FRNetworking.m in Sources */,
 				3BB4F1691D5C7F740066AE69 /* PositionBtn.m in Sources */,
 				3B78C9331D5D9C11004B75A7 /* AppDelegate+Category.m in Sources */,
 				04FCB48C1F4C25DA000540A4 /* UIFont+FRAdd.m in Sources */,
@@ -709,23 +609,15 @@
 				04FCB4801F4C2361000540A4 /* UIBarButtonItem+FRAdd.m in Sources */,
 				04FCB4711F4C1046000540A4 /* UIButton+FRAdd.m in Sources */,
 				3BFF4B8C1C99288800B4E4F7 /* AppDelegate.m in Sources */,
-				045D987C1ED6E8570072174A /* FRNetworkingCache.m in Sources */,
-				04157626200713DC008266B3 /* UIButton+FRAdd.m in Sources */,
 				3B78C9361D5D9C11004B75A7 /* GTMBase64.m in Sources */,
 				3BCA98E11D54AC210081F484 /* RootTableViewController.m in Sources */,
 				3B78C93F1D5D9C11004B75A7 /* NSString+Hash.m in Sources */,
 				04FCB4741F4C109C000540A4 /* CALayer+FRAdd.m in Sources */,
-				041576372007140D008266B3 /* UINavigationItem+FRFixSpace.m in Sources */,
 				3BFF4B891C99288800B4E4F7 /* main.m in Sources */,
-				04157623200713DC008266B3 /* FRTabBarItem.m in Sources */,
 				3BCA98E01D54AC210081F484 /* PersonalIconViewController.m in Sources */,
 				3B4211B61D5C8DE600CB263B /* SVProgressHUDViewController.m in Sources */,
-				04157624200713DC008266B3 /* FRTabBar.m in Sources */,
 				04FCB4891F4C2466000540A4 /* UIColor+FRAdd.m in Sources */,
-				041576352007140D008266B3 /* UIBarButtonItem+FRAdd.m in Sources */,
-				04157625200713DC008266B3 /* FRBadge.m in Sources */,
 				04FCB4771F4C1455000540A4 /* UIView+FRAdd.m in Sources */,
-				045D987A1ED6E8570072174A /* FRFormData.m in Sources */,
 				04FCB4921F4C28DE000540A4 /* NSArray+FRAdd.m in Sources */,
 				04FCB47D1F4C2230000540A4 /* NSString+FRAdd.m in Sources */,
 			);
